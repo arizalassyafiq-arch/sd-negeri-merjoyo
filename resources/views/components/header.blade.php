@@ -1,4 +1,4 @@
- <header class="relative pt-40 pb-40 overflow-hidden min-h-[90vh] flex items-center">
+ <div class="relative pt-40 pb-40 overflow-hidden min-h-[90vh] flex items-center">
      <div class="custom-curve-bg"></div>
      <div class="absolute bottom-0 left-0 w-full overflow-hidden">
          <svg class="relative block w-full h-20 md:h-37.5" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
@@ -85,4 +85,4 @@
              </div>
          </div>
      </div>
- </header>
+ </div>

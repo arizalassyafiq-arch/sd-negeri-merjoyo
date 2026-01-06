@@ -22,9 +22,9 @@
                     SDN Merjoyo
                 </div>
                 <p class="text-sm opacity-80 text-justify">
-                    Jalan Merjoyo No. 123, <br />
-                    Kecamatan Lowokwaru, <br />
-                    Kota Malang, Jawa Timur
+                    Woromarto, Kec. <br>
+                    Purwoasri, Kabupaten <br>
+                    Kediri, Jawa Timur 64154
                 </p>
             </div>
             <div>

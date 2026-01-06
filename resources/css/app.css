@@ -1,11 +1,112 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@source "../../resources/**/*.blade.php";
+@source "../../resources/**/*.js";
+@source "../../resources/**/*.vue";
 
+@variant dark (&:where(.dark, .dark *));
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-primary: #4ade80;
+    --color-secondary: #22c55e;
+    --color-background-light: #ffffff;
+    --color-background-dark: #111827;
+    --color-surface-light: #f3f4f6;
+    --color-surface-dark: #1f2937;
+
+    /* Text Colors */
+    --color-text-primary-light: #1f2937;
+    --color-text-primary-dark: #f9fafb;
+    --color-text-secondary-light: #4b5563;
+    --color-text-secondary-dark: #d1d5db;
+
+    /* 2. FONTS */
+    --font-display: "Poppins", sans-serif;
+    --font-body: "Poppins", sans-serif;
+
+    /* 3. BACKGROUND IMAGES */
+    --background-image-chat-pattern: radial-gradient(
+        #cbd5e1 1px,
+        transparent 1px
+    );
+    --background-image-chat-pattern-dark: radial-gradient(
+        #374151 1px,
+        transparent 1px
+    );
+
+    /* 4. ANIMATIONS */
+    --animate-blob: blob 7s infinite;
+    --animate-pulse-expand: pulse-expand 4s infinite ease-out;
+
+    /* 5. KEYFRAMES */
+    @keyframes blob {
+        0% {
+            transform: translate(0px, 0px) scale(1);
+        }
+        33% {
+            transform: translate(30px, -50px) scale(1.1);
+        }
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+        100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+    }
+
+    @keyframes pulse-expand {
+        0% {
+            transform: scale(0.6);
+            opacity: 0;
+        }
+        50% {
+            opacity: 0.6;
+        }
+        100% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+    }
+}
+
+/* 6. CUSTOM UTILITIES */
+@layer utilities {
+    .custom-curve-bg {
+        background-color: #4ade80;
+        background-image: radial-gradient(
+                at 0% 0%,
+                hsla(141, 72%, 60%, 1) 0,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 50% 0%,
+                hsla(152, 81%, 43%, 1) 0,
+                transparent 50%
+            ),
+            radial-gradient(
+                at 100% 0%,
+                hsla(180, 100%, 40%, 1) 0,
+                transparent 50%
+            );
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        height: 100%;
+    }
+
+    .bg-pattern-dots {
+        background-size: 20px 20px;
+    }
+
+    .chat-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.5);
+        border-radius: 20px;
+    }
 }
