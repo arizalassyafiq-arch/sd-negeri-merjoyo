@@ -412,7 +412,7 @@
             </div>
         </div>
     </footer>
-    <div aria-modal="true" class="fixed inset-0 z-[100] hidden" id="chatModal" role="dialog">
+    <div aria-modal="true" class="fixed inset-0 z-100 hidden" id="chatModal" role="dialog">
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity opacity-0" id="chatBackdrop"
             onclick="toggleChat()"></div>
         <div class="absolute bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[500px] h-[85vh] sm:h-[650px] bg-white dark:bg-surface-dark sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 transform translate-y-full sm:translate-y-0 sm:scale-95 opacity-0"
