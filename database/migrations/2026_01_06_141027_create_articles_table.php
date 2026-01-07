@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('excerpt', 255)->nullable();
             $table->longText('content');
             $table->string('image_url')->nullable();
-            $table->timestamp('published_at')->nullable();
+            // $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

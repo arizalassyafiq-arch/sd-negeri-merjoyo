@@ -1,4 +1,3 @@
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.3/dist/cdn.min.js"></script>
 <nav x-data="{
     mobileMenuOpen: false,
     path: window.location.pathname,

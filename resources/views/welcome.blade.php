@@ -47,7 +47,7 @@
                             <div
                                 class="bg-white dark:bg-surface-dark p-4 rounded-3xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
                                 <img alt="Kepala Sekolah" class="rounded-2xl w-full h-64 object-cover mb-4"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPp5IppDO5tMbR2IxnaTSkKirvig_A4lKIH1QJVQUPaRubatVtG2zfo0XiQnFzmsmtP8KWG4jTDisXcZ3BDI6v87IxXFgljM_vsvpfU99RJ5ENiK7Xt1DH0C4aPTWzTFS8oq0m7orA_wzG1N_xzG-EYp5iG3DIVOCjl8hhW-2h_q9Pcd2qe9mEXRDSJWNuTbUhHfohcvr62ZrkUfbAAk8TwBQWuPxriWs4_z8S7PNb1oxgu1Rnkq8tdum-II66lnZosfHJjoHk5zQI" />
+                                    src="img/school.png" />
                                 <div class="flex items-center gap-4">
                                     <div class="bg-primary/20 p-3 rounded-full text-primary">
                                         <span class="material-icons">school</span>

@@ -1,40 +1,42 @@
 @import "tailwindcss";
 
-/* Login */
+/* Plugins */
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
+/* Sources */
 @source "../../resources/**/*.blade.php";
 @source "../../resources/**/*.js";
-@source "../../resources/**/*.vue";
 
+/* Dark Mode Variant */
 @variant dark (&:where(.dark, .dark *));
+
 @theme {
-    --color-primary: #4ade80;
-    --color-secondary: #22c55e;
-    --color-background-light: #ffffff;
-    --color-background-dark: #111827;
-    --color-surface-light: #f3f4f6;
-    --color-surface-dark: #1f2937;
+    /* --- 1. COLOR PALETTE (Unified) --- */
+    /* Primary Brand Colors (Menggunakan Emerald sebagai standar utama agar konsisten) */
+    --color-primary: #10b981; /* Emerald 500 */
+    --color-primary-hover: #059669; /* Emerald 600 */
+    --color-secondary: #34d399; /* Emerald 400 */
+
+    /* Login Specific Colors (Jika ingin beda, beri nama spesifik) */
+    --color-login-primary: #05c763;
+    --color-login-dark: #04964a;
+
+    /* Backgrounds */
+    --color-background-light: #f8fafc; /* Slate 50 */
+    --color-background-dark: #111827; /* Gray 900 */
+
+    /* Surfaces (Card/Panel) */
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #1f2937; /* Gray 800 */
 
     /* Text Colors */
-    --color-text-primary-light: #1f2937;
-    --color-text-primary-dark: #f9fafb;
-    --color-text-secondary-light: #4b5563;
-    --color-text-secondary-dark: #d1d5db;
+    --color-text-main-light: #1f2937;
+    --color-text-main-dark: #f9fafb;
+    --color-text-muted-light: #6b7280;
+    --color-text-muted-dark: #9ca3af;
 
-    /* Color login */
-    /* 1. COLORS - Diambil dari Desain Login Page Anda */
-    --color-primary: #05c763;
-    --color-primary-dark: #04964a;
-
-    --color-background-light: #f8fafc;
-    --color-background-dark: #111827;
-
-    --color-surface-light: #ffffff;
-    --color-surface-dark: #1f2937;
-
-    /* Text Colors standar */
+    /* Standard Grays */
     --color-gray-50: #f9fafb;
     --color-gray-100: #f3f4f6;
     --color-gray-200: #e5e7eb;
@@ -46,48 +48,23 @@
     --color-gray-800: #1f2937;
     --color-gray-900: #111827;
 
-    /* --- 1. KULO SEHAT COLOR PALETTE --- */
-    --color-primary: #10b981; /* Emerald 500 */
-    --color-secondary: #0f172a; /* Slate 900 */
-
-    --color-background-light: #f0fdf4; /* Light Green Tint */
-    --color-background-dark: #111827; /* Gray 900 */
-
     /* --- 2. FONTS --- */
-    --font-display: "Poppins", sans-serif;
+    /* Prioritaskan Plus Jakarta Sans untuk modern look, fallback ke Poppins */
+    --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
+    --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
     --font-body: "Poppins", sans-serif;
 
-    /* --- 3. CUSTOM ANIMATIONS --- */
+    /* --- 3. BORDER RADIUS --- */
+    --radius-large: 2rem;
+
+    /* --- 4. ANIMATIONS --- */
     --animate-float: float 6s ease-in-out infinite;
     --animate-bounce-slow: bounce-slow 4s ease-in-out infinite;
     --animate-bounce-slow-delay: bounce-slow 5s ease-in-out infinite 1s;
-
-    /* 3. ANIMATIONS */
-    --animate-blob: blob 7s infinite;
-
-    /* 2. FONTS */
-    --font-display: "Poppins", sans-serif;
-    --font-body: "Poppins", sans-serif;
-    /* 2. FONTS  LOGIN */
-    /* Menggunakan Plus Jakarta Sans sesuai desain asli */
-    --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
-    --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
-
-    /* 3. BACKGROUND IMAGES */
-    --background-image-chat-pattern: radial-gradient(
-        #cbd5e1 1px,
-        transparent 1px
-    );
-    --background-image-chat-pattern-dark: radial-gradient(
-        #374151 1px,
-        transparent 1px
-    );
-
-    /* 4. ANIMATIONS */
     --animate-blob: blob 7s infinite;
     --animate-pulse-expand: pulse-expand 4s infinite ease-out;
 
-    /* --- 4. KEYFRAMES --- */
+    /* --- 5. KEYFRAMES --- */
     @keyframes float {
         0%,
         100% {
@@ -97,7 +74,6 @@
             transform: translateY(-15px);
         }
     }
-
     @keyframes bounce-slow {
         0%,
         100% {
@@ -107,8 +83,6 @@
             transform: translateY(-10px);
         }
     }
-
-    /* 5. KEYFRAMES */
     @keyframes blob {
         0% {
             transform: translate(0px, 0px) scale(1);
@@ -123,7 +97,6 @@
             transform: translate(0px, 0px) scale(1);
         }
     }
-
     @keyframes pulse-expand {
         0% {
             transform: scale(0.6);
@@ -137,10 +110,21 @@
             opacity: 0;
         }
     }
+
+    /* --- 6. IMAGES & PATTERNS --- */
+    --background-image-chat-pattern: radial-gradient(
+        #cbd5e1 1px,
+        transparent 1px
+    );
+    --background-image-chat-pattern-dark: radial-gradient(
+        #374151 1px,
+        transparent 1px
+    );
 }
 
+/* --- UTILITIES LAYER (Digabung jadi satu agar rapi) --- */
 @layer utilities {
-    /* Helper untuk gradient background body */
+    /* 1. Gradient Backgrounds */
     .bg-kulo-gradient {
         background-image: linear-gradient(
             to bottom right,
@@ -157,7 +141,8 @@
             #111827
         );
     }
-    /* Utility untuk membuat masker gradien di bagian bawah gambar */
+
+    /* 2. Masks & Clip Paths */
     .mask-gradient-b {
         mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
         -webkit-mask-image: linear-gradient(
@@ -166,10 +151,19 @@
             transparent 100%
         );
     }
-}
+    .mask-image-gradient {
+        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            black 80%,
+            transparent 100%
+        );
+    }
+    .wave-clip-path {
+        clip-path: path("M0,0 C150,250 50,600 300,1000 L1000,1000 L1000,0 Z");
+    }
 
-/* 6. CUSTOM UTILITIES */
-@layer utilities {
+    /* 3. Custom Backgrounds (Home Hero) */
     .custom-curve-bg {
         background-color: #4ade80;
         background-image: radial-gradient(
@@ -192,67 +186,47 @@
         z-index: 0;
         height: 100%;
     }
-
     .bg-pattern-dots {
         background-size: 20px 20px;
     }
 
+    /* 4. Custom Card (Modern Style) */
+    .card-modern {
+        background-color: var(--color-surface-light);
+        border-radius: 1.5rem;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .dark .card-modern {
+        background-color: var(--color-surface-dark);
+    }
+    .card-modern:hover {
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+            0 8px 10px -6px rgb(0 0 0 / 0.1);
+        transform: translateY(-2px);
+    }
+
+    /* 5. Scrollbar Helpers */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar,
     .chat-scroll::-webkit-scrollbar {
         width: 6px;
     }
 
+    .custom-scrollbar::-webkit-scrollbar-track,
     .chat-scroll::-webkit-scrollbar-track {
         background: transparent;
     }
 
+    .custom-scrollbar::-webkit-scrollbar-thumb,
     .chat-scroll::-webkit-scrollbar-thumb {
         background-color: rgba(156, 163, 175, 0.5);
         border-radius: 20px;
-    }
-}
-
-/* 4. CUSTOM UTILITIES */
-@layer utilities {
-    /* Masking Gradient untuk Robot */
-    .mask-image-gradient {
-        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            black 80%,
-            transparent 100%
-        );
-    }
-
-    /* Wave Clip Path untuk Background Hijau */
-    .wave-clip-path {
-        clip-path: path("M0,0 C150,250 50,600 300,1000 L1000,1000 L1000,0 Z");
-    }
-
-    /* Custom Scrollbar (Opsional) */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background-color: rgba(156, 163, 175, 0.5);
-        border-radius: 20px;
-    }
-}
-
-/* 5. KEYFRAMES */
-@keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
     }
 }

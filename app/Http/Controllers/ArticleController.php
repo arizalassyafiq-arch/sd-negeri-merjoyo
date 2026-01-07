@@ -19,6 +19,8 @@ class ArticleController extends Controller
             ->limit(6)
             ->get();
 
+        
+
         return view('pages.artikel-page', compact('articles', 'recommended'));
     }
 
