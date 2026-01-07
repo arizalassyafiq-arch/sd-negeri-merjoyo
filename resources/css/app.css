@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Login */
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
 @source "../../resources/**/*.blade.php";
 @source "../../resources/**/*.js";
 @source "../../resources/**/*.vue";
@@ -19,9 +23,55 @@
     --color-text-secondary-light: #4b5563;
     --color-text-secondary-dark: #d1d5db;
 
+    /* Color login */
+    /* 1. COLORS - Diambil dari Desain Login Page Anda */
+    --color-primary: #05c763;
+    --color-primary-dark: #04964a;
+
+    --color-background-light: #f8fafc;
+    --color-background-dark: #111827;
+
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #1f2937;
+
+    /* Text Colors standar */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+
+    /* --- 1. KULO SEHAT COLOR PALETTE --- */
+    --color-primary: #10b981; /* Emerald 500 */
+    --color-secondary: #0f172a; /* Slate 900 */
+
+    --color-background-light: #f0fdf4; /* Light Green Tint */
+    --color-background-dark: #111827; /* Gray 900 */
+
+    /* --- 2. FONTS --- */
+    --font-display: "Poppins", sans-serif;
+    --font-body: "Poppins", sans-serif;
+
+    /* --- 3. CUSTOM ANIMATIONS --- */
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-bounce-slow: bounce-slow 4s ease-in-out infinite;
+    --animate-bounce-slow-delay: bounce-slow 5s ease-in-out infinite 1s;
+
+    /* 3. ANIMATIONS */
+    --animate-blob: blob 7s infinite;
+
     /* 2. FONTS */
     --font-display: "Poppins", sans-serif;
     --font-body: "Poppins", sans-serif;
+    /* 2. FONTS  LOGIN */
+    /* Menggunakan Plus Jakarta Sans sesuai desain asli */
+    --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
+    --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
 
     /* 3. BACKGROUND IMAGES */
     --background-image-chat-pattern: radial-gradient(
@@ -36,6 +86,27 @@
     /* 4. ANIMATIONS */
     --animate-blob: blob 7s infinite;
     --animate-pulse-expand: pulse-expand 4s infinite ease-out;
+
+    /* --- 4. KEYFRAMES --- */
+    @keyframes float {
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    @keyframes bounce-slow {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
 
     /* 5. KEYFRAMES */
     @keyframes blob {
@@ -65,6 +136,35 @@
             transform: scale(1.4);
             opacity: 0;
         }
+    }
+}
+
+@layer utilities {
+    /* Helper untuk gradient background body */
+    .bg-kulo-gradient {
+        background-image: linear-gradient(
+            to bottom right,
+            #86efac,
+            #4ade80,
+            #5eead4
+        );
+    }
+    .dark .bg-kulo-gradient {
+        background-image: linear-gradient(
+            to bottom right,
+            #111827,
+            #064e3b,
+            #111827
+        );
+    }
+    /* Utility untuk membuat masker gradien di bagian bawah gambar */
+    .mask-gradient-b {
+        mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            black 60%,
+            transparent 100%
+        );
     }
 }
 
@@ -108,5 +208,51 @@
     .chat-scroll::-webkit-scrollbar-thumb {
         background-color: rgba(156, 163, 175, 0.5);
         border-radius: 20px;
+    }
+}
+
+/* 4. CUSTOM UTILITIES */
+@layer utilities {
+    /* Masking Gradient untuk Robot */
+    .mask-image-gradient {
+        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            black 80%,
+            transparent 100%
+        );
+    }
+
+    /* Wave Clip Path untuk Background Hijau */
+    .wave-clip-path {
+        clip-path: path("M0,0 C150,250 50,600 300,1000 L1000,1000 L1000,0 Z");
+    }
+
+    /* Custom Scrollbar (Opsional) */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.5);
+        border-radius: 20px;
+    }
+}
+
+/* 5. KEYFRAMES */
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+        transform: translate(0px, 0px) scale(1);
     }
 }

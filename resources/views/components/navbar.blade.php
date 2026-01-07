@@ -85,7 +85,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                             class="material-icons text-[20px]">light_mode</span>
                     </button>
 
-                    <a href="#"
+                    <a href="/login"
                         class="bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
                         Login
                     </a>
