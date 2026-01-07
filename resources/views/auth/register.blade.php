@@ -21,7 +21,7 @@
                 <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
                     Akses Mudah, <br />
                     Informasi Akurat untuk <br />
-                    <span class="text-primary drop-shadow-sm">Masa Depan Anak Anda</span>
+                    <span class="text-green-800 drop-shadow-sm">Masa Depan Anak Anda</span>
                 </h1>
                 <p class="text-gray-800 dark:text-gray-200 text-lg max-w-lg mx-auto lg:mx-0 font-medium">
                     Bergabunglah dengan komunitas orang tua kami. Dapatkan akses ke informasi sekolah, artikel

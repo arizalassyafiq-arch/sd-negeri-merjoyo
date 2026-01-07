@@ -27,20 +27,26 @@
                 <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
                     <div class="space-y-4">
                         @forelse ($articles as $article)
-                            <article class="flex flex-col md:flex-row gap-4 rounded-2xl p-4 bg-white dark:bg-surface-dark border border-green-100 dark:border-gray-700 shadow-sm hover:shadow-md transition">
-                                <div class="md:w-48 h-32 md:h-28 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0 flex items-center justify-center">
+                            <article
+                                class="flex flex-col md:flex-row gap-4 rounded-2xl p-4 bg-white dark:bg-surface-dark border border-green-100 dark:border-gray-700 shadow-sm hover:shadow-md transition">
+                                <div
+                                    class="md:w-48 h-32 md:h-28 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0 flex items-center justify-center">
                                     @if ($article->image_url)
-                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-full object-cover" />
+                                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
+                                            class="w-full h-full object-cover" />
                                     @else
-                                        <span class="material-icons text-4xl text-gray-300 dark:text-gray-500">photo</span>
+                                        <span
+                                            class="material-icons text-4xl text-gray-300 dark:text-gray-500">photo</span>
                                     @endif
                                 </div>
                                 <div class="flex-1 flex flex-col justify-between">
                                     <div>
                                         <p class="text-[11px] text-gray-500 dark:text-gray-200 font-medium mb-1">
-                                            {{ ($article->published_at ?? $article->created_at)->format('D, d M Y H:i') }} WIB
+                                            {{ ($article->published_at ?? $article->created_at)->format('D, d M Y H:i') }}
+                                            WIB
                                         </p>
-                                        <h2 class="text-base md:text-lg font-bold text-gray-800 dark:text-gray-100 leading-tight">
+                                        <h2
+                                            class="text-base md:text-lg font-bold text-gray-800 dark:text-gray-100 leading-tight">
                                             {{ $article->title }}
                                         </h2>
                                         <p class="text-xs text-gray-600 dark:text-gray-200 mt-2 line-clamp-2">
@@ -56,7 +62,8 @@
                                 </div>
                             </article>
                         @empty
-                            <div class="border-2 border-dashed border-green-300 rounded-xl p-8 text-center text-gray-700 dark:text-gray-100 text-sm">
+                            <div
+                                class="border-2 border-dashed border-green-300 rounded-xl p-8 text-center text-gray-700 dark:text-gray-100 text-sm">
                                 Belum ada artikel. Klik "Kelola Artikel" untuk menambahkan konten baru.
                             </div>
                         @endforelse
@@ -69,8 +76,11 @@
                     </div>
 
                     <aside class="space-y-4">
-                        <div class="bg-white dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-green-100 dark:border-gray-700">
-                            <h3 class="font-bold text-gray-800 dark:text-gray-100 mb-4 text-sm border-b border-gray-200 dark:border-gray-700 pb-2">Disarankan untuk Anda</h3>
+                        <div
+                            class="bg-white dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-green-100 dark:border-gray-700">
+                            <h3
+                                class="font-bold text-gray-800 dark:text-gray-100 mb-4 text-sm border-b border-gray-200 dark:border-gray-700 pb-2">
+                                Disarankan untuk Anda</h3>
                             <ul class="space-y-3 text-xs text-gray-700 dark:text-gray-100">
                                 @forelse ($recommended as $item)
                                     <li class="flex items-start gap-3">
