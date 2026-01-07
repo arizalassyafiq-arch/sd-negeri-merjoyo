@@ -12,6 +12,7 @@
         } else {
             document.documentElement.classList.remove('dark');
         }
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { isDark: this.isDark } }));
     },
 
     isActive(route) {
@@ -23,6 +24,7 @@
         return this.path.startsWith(route);
     }
 }" x-init="$watch('isDark', val => val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark'));
+window.addEventListener('theme-changed', e => { isDark = e.detail.isDark; });
 if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full z-50 top-4 sm:top-6 px-4 sm:px-8">
 
     <div
