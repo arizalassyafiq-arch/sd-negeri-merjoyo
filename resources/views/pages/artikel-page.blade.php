@@ -1,6 +1,7 @@
 <x-main-layout>
     <div class="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto mt-10">
 
+        {{-- Header Section --}}
         <section class="mb-12 text-center md:text-left">
             <div
                 class="bg-linear-to-r from-green-400 to-primary rounded-[2rem] p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
@@ -23,7 +24,7 @@
                                 class="w-full bg-transparent border-none focus:ring-0 text-gray-700 dark:text-gray-200 placeholder-gray-400 ml-2 py-3 text-sm focus:outline-none"
                                 placeholder="Cari artikel..." type="text" />
                         </div>
-                        <button type="submit" onclick="alert('Fitur pencarian belum tersedia. sabar cok')"
+                        <button type="submit"
                             class="bg-primary hover:bg-green-600 text-white font-medium px-8 py-3 rounded-xl transition-colors shadow-md">
                             Cari
                         </button>
@@ -38,6 +39,7 @@
             </div>
         </section>
 
+        {{-- Category Pills --}}
         <section class="mb-10 overflow-x-auto pb-4 scrollbar-hide">
             <div class="flex space-x-3 min-w-max">
                 <a href="{{ route('artikel.index') }}"
@@ -61,23 +63,19 @@
                     Artikel Terbaru
                 </h2>
 
+                {{-- Featured Article (First Item) --}}
                 @php $firstArticle = $articles->first(); @endphp
                 <div class="card-modern overflow-hidden shadow-lg grid md:grid-cols-2 group mb-12">
 
                     <div
                         class="relative overflow-hidden h-64 md:h-auto bg-green-50 dark:bg-gray-800 flex items-center justify-center">
-                        @if ($firstArticle->image_url)
-                            <img src="{{ $firstArticle->image_url }}" alt="{{ $firstArticle->title }}"
-                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                            <div
-                                class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
-                                <span
-                                    class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
-                                    {{ substr($firstArticle->title, 0, 2) }}
-                                </span>
-                            </div>
+                        @if ($firstArticle->image_path)
+                            {{-- LOGIC GAMBAR UTAMA DIPERBAIKI DISINI --}}
+                            <img src="{{ asset('storage/' . $firstArticle->image_path) }}"
+                                alt="{{ $firstArticle->title }}"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                         @else
+                            {{-- Fallback Initials --}}
                             <span class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
                                 {{ substr($firstArticle->title, 0, 2) }}
                             </span>
@@ -118,23 +116,18 @@
                     </h2>
                 </div>
 
+                {{-- Grid Articles --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach ($articles->skip(1) as $article)
                         <article class="card-modern flex flex-col h-full group overflow-hidden">
 
                             <div
                                 class="relative h-48 overflow-hidden bg-green-50 dark:bg-gray-800 flex items-center justify-center">
-                                @if ($article->image_url)
-                                    <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
-                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                                    <div
-                                        class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
-                                        <span
-                                            class="text-4xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
-                                            {{ substr($article->title, 0, 2) }}
-                                        </span>
-                                    </div>
+                                @if ($article->image_path)
+                                    {{-- LOGIC GAMBAR GRID DIPERBAIKI DISINI --}}
+                                    <img src="{{ asset('storage/' . $article->image_path) }}"
+                                        alt="{{ $article->title }}"
+                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                                 @else
                                     <span
                                         class="text-4xl font-bold text-green-600 dark:text-green-400 select-none uppercase transform group-hover:scale-110 transition-transform duration-500">

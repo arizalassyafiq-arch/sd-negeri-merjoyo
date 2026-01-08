@@ -21,10 +21,12 @@
                     class="flex flex-wrap items-center gap-6 text-sm text-text-muted-light dark:text-text-muted-dark mb-8 border-b border-gray-100 dark:border-gray-700 pb-8">
                     <div class="flex items-center gap-2">
                         <div
-                            class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
-                            A
+                            class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs uppercase">
+                            {{ substr($article->author->name ?? 'A', 0, 1) }}
                         </div>
-                        <span class="font-medium">Admin Sekolah</span>
+                        <span class="font-medium">
+                            {{ $article->author->name ?? 'Admin Sekolah' }}
+                        </span>
                     </div>
                     <div class="flex items-center gap-1">
                         <span class="material-icons text-base">calendar_today</span>
@@ -40,19 +42,13 @@
 
                 <div
                     class="relative w-full h-64 md:h-100 rounded-2xl overflow-hidden mb-10 shadow-md bg-green-50 dark:bg-gray-800 flex items-center justify-center">
-                    @if ($article->image_url)
-                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
-                            class="w-full h-full object-cover"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
 
-                        {{-- Fallback jika gambar error --}}
-                        <div class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
-                            <span class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
-                                {{ substr($article->title, 0, 2) }}
-                            </span>
-                        </div>
+                    @if ($article->image_path)
+                        {{-- LOGIC GAMBAR DETAIL DIPERBAIKI --}}
+                        <img src="{{ asset('storage/' . $article->image_path) }}" alt="{{ $article->title }}"
+                            class="w-full h-full object-cover" />
                     @else
-                        {{-- Fallback jika tidak ada URL --}}
+                        {{-- Fallback Initials --}}
                         <span class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
                             {{ substr($article->title, 0, 2) }}
                         </span>
@@ -61,7 +57,9 @@
 
                 <div
                     class="prose prose-lg prose-green max-w-none dark:prose-invert text-text-main-light dark:text-text-main-dark leading-relaxed">
-                    {!! $article->content !!}
+                    {{-- Render HTML Konten (pastikan input aman) --}}
+                    {!! nl2br(e($article->content)) !!}
+                    {{-- Catatan: Jika pakai Summernote/WYSIWYG, gunakan {!! $article->content !!} saja --}}
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-100 dark:border-gray-700">
@@ -98,21 +96,12 @@
 
                                 <div
                                     class="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative bg-green-50 dark:bg-gray-800 flex items-center justify-center">
-                                    @if ($item->image_url)
-                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}"
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-
-                                        {{-- Fallback Error --}}
-                                        <div
-                                            class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
-                                            <span
-                                                class="text-xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
-                                                {{ substr($item->title, 0, 2) }}
-                                            </span>
-                                        </div>
+                                    @if ($item->image_path)
+                                        {{-- LOGIC GAMBAR SIDEBAR DIPERBAIKI --}}
+                                        <img src="{{ asset('storage/' . $item->image_path) }}"
+                                            alt="{{ $item->title }}"
+                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                                     @else
-                                        {{-- Fallback No URL --}}
                                         <span
                                             class="text-xl font-bold text-green-600 dark:text-green-400 select-none uppercase group-hover:scale-110 transition-transform duration-300">
                                             {{ substr($item->title, 0, 2) }}
@@ -145,6 +134,7 @@
                     </div>
                 </div>
 
+                {{-- Promo Card --}}
                 <div class="relative rounded-2xl overflow-hidden shadow-lg group">
                     <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&q=80"
                         class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
