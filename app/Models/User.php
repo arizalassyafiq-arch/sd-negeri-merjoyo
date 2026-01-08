@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'status'
     ];
 
     /**
@@ -44,5 +46,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    // Relasi: User sebagai Guru membuat Learning Goals
+    public function learningGoals()
+    {
+        return $this->hasMany(LearningGoal::class, 'created_by');
+    }
+
+    // Relasi: User sebagai Penulis Artikel
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'author_id');
+    }
+
+    // Relasi: User sebagai Wali (punya banyak siswa)
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'guardian_id');
     }
 }
