@@ -62,7 +62,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                         Artikel
                     </a>
 
-                    <a href="#"
+                    <a href="/search"
                         class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
                         Cari Siswa
                     </a>

@@ -7,6 +7,8 @@
 /* Sources */
 @source "../../resources/**/*.blade.php";
 @source "../../resources/**/*.js";
+@source "../../resources/**/*.css";
+@source "../../resources/**/*.html";
 
 /* Dark Mode Variant */
 @variant dark (&:where(.dark, .dark *));
@@ -47,6 +49,45 @@
     --color-gray-700: #374151;
     --color-gray-800: #1f2937;
     --color-gray-900: #111827;
+
+    /* --- TAMBAHAN DARI HALAMAN PENCARIAN --- */
+    --color-emerald-50: #ecfdf5;
+    --color-emerald-100: #d1fae5;
+    --color-emerald-200: #a7f3d0;
+    --color-emerald-300: #6ee7b7;
+    --color-emerald-400: #34d399;
+    --color-emerald-500: #10b981;
+    --color-emerald-600: #059669;
+    --color-emerald-700: #047857;
+    --color-emerald-800: #065f46;
+    --color-emerald-900: #064e3b;
+
+    /* Custom Gradients */
+    --background-image-hero-gradient: linear-gradient(
+        135deg,
+        #00efbc 0%,
+        #00ce9f 100%
+    );
+    --background-image-hero-gradient-dark: linear-gradient(
+        135deg,
+        #064e3b 0%,
+        #065f46 100%
+    );
+
+    /* Animations */
+    --animate-fade-in-up: fade-in-up 0.8s ease-out forwards;
+
+    @keyframes fade-in-up {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    /* search end */
 
     /* --- 2. FONTS --- */
     /* Prioritaskan Plus Jakarta Sans untuk modern look, fallback ke Poppins */
@@ -124,6 +165,62 @@
 
 /* --- UTILITIES LAYER (Digabung jadi satu agar rapi) --- */
 @layer utilities {
+    .material-symbols-outlined {
+        font-family: "Material Symbols Outlined";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+
+        /* Fitur khusus Material Symbols (Variable Font) */
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .material-icons-round {
+        font-family: "Material Icons Round";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px; /* Ukuran default */
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+
+        /* Agar tajam di semua browser */
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "liga";
+    }
+
+    /* Tambahan untuk Material Icons biasa (jika dipakai) */
+    .material-icons {
+        font-family: "Material Icons";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px; /* Ukuran default */
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "liga";
+    }
     /* 1. Gradient Backgrounds */
     .bg-kulo-gradient {
         background-image: linear-gradient(

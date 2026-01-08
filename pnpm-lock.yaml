@@ -7,6 +7,22 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@fontsource/material-icons':
+        specifier: ^5.2.7
+        version: 5.2.7
+      '@fontsource/material-icons-round':
+        specifier: ^5.2.6
+        version: 5.2.6
+      '@fontsource/material-symbols-outlined':
+        specifier: ^5.2.30
+        version: 5.2.30
+      '@fontsource/poppins':
+        specifier: ^5.2.7
+        version: 5.2.7
+      alpinejs:
+        specifier: ^3.15.3
+        version: 3.15.3
     devDependencies:
       '@tailwindcss/forms':
         specifier: ^0.5.11
@@ -190,6 +206,18 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/material-icons-round@5.2.6':
+    resolution: {integrity: sha512-Ol5AsuryxVqldywNiQ4rTruST37jDS09AkndGsM6sSj87FZB+2n5LAF2TzJcgqlXI2NnGNsOP3+FPtkPXHOy/A==}
+
+  '@fontsource/material-icons@5.2.7':
+    resolution: {integrity: sha512-crPmK0L34lPGmS5GSGLasKpRGQzl95SxMsLM+QhBHPgR9uxSsyI5CUTb0cgoMpjtR+Bf1bC9QOe6pavoybbBwg==}
+
+  '@fontsource/material-symbols-outlined@5.2.30':
+    resolution: {integrity: sha512-GOiapDM2PAKQfDM3pgxK0/DzW8RZBYPMyknFCc2mayiZ5KKXamz9zMqrnGy5S3iuwzyVukqdXbAKLWClPbJmuw==}
+
+  '@fontsource/poppins@5.2.7':
+    resolution: {integrity: sha512-6uQyPmseo4FgI97WIhA4yWRlNaoLk4vSDK/PyRwdqqZb5zAEuc+Kunt8JTMcsHYUEGYBtN15SNkMajMdqUSUmg==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -434,6 +462,15 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+
+  '@vue/reactivity@3.1.5':
+    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
+
+  '@vue/shared@3.1.5':
+    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
+
+  alpinejs@3.15.3:
+    resolution: {integrity: sha512-fSI6F5213FdpMC4IWaup92KhuH3jBX0VVqajRJ6cOTCy1cL6888KyXdGO+seAAkn+g6fnrxBqQEx6gRpQ5EZoQ==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -918,6 +955,14 @@ snapshots:
   '@esbuild/win32-x64@0.27.2':
     optional: true
 
+  '@fontsource/material-icons-round@5.2.6': {}
+
+  '@fontsource/material-icons@5.2.7': {}
+
+  '@fontsource/material-symbols-outlined@5.2.30': {}
+
+  '@fontsource/poppins@5.2.7': {}
+
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -1091,6 +1136,16 @@ snapshots:
       vite: 7.3.0(jiti@2.6.1)(lightningcss@1.30.2)
 
   '@types/estree@1.0.8': {}
+
+  '@vue/reactivity@3.1.5':
+    dependencies:
+      '@vue/shared': 3.1.5
+
+  '@vue/shared@3.1.5': {}
+
+  alpinejs@3.15.3:
+    dependencies:
+      '@vue/reactivity': 3.1.5
 
   ansi-regex@5.0.1: {}
 

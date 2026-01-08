@@ -38,9 +38,25 @@
                     </div>
                 </div>
 
-                <div class="relative w-full h-64 md:h-100 rounded-2xl overflow-hidden mb-10 shadow-md">
-                    <img src="{{ $article->image_url ?? 'https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=600&fit=crop&q=80' }}"
-                        alt="{{ $article->title }}" class="w-full h-full object-cover" />
+                <div
+                    class="relative w-full h-64 md:h-100 rounded-2xl overflow-hidden mb-10 shadow-md bg-green-50 dark:bg-gray-800 flex items-center justify-center">
+                    @if ($article->image_url)
+                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}"
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+
+                        {{-- Fallback jika gambar error --}}
+                        <div class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
+                            <span class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
+                                {{ substr($article->title, 0, 2) }}
+                            </span>
+                        </div>
+                    @else
+                        {{-- Fallback jika tidak ada URL --}}
+                        <span class="text-6xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
+                            {{ substr($article->title, 0, 2) }}
+                        </span>
+                    @endif
                 </div>
 
                 <div
@@ -79,10 +95,29 @@
                     <div class="space-y-5">
                         @forelse ($recent as $item)
                             <a href="{{ route('artikel.show', $item->slug) }}" class="group flex gap-4 items-start">
-                                <div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative">
-                                    <img src="{{ $item->image_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($item->title) . '&background=random' }}"
-                                        alt="{{ $item->title }}"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+
+                                <div
+                                    class="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative bg-green-50 dark:bg-gray-800 flex items-center justify-center">
+                                    @if ($item->image_url)
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->title }}"
+                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+
+                                        {{-- Fallback Error --}}
+                                        <div
+                                            class="absolute inset-0 hidden items-center justify-center bg-green-100 dark:bg-gray-700">
+                                            <span
+                                                class="text-xl font-bold text-green-600 dark:text-green-400 select-none uppercase">
+                                                {{ substr($item->title, 0, 2) }}
+                                            </span>
+                                        </div>
+                                    @else
+                                        {{-- Fallback No URL --}}
+                                        <span
+                                            class="text-xl font-bold text-green-600 dark:text-green-400 select-none uppercase group-hover:scale-110 transition-transform duration-300">
+                                            {{ substr($item->title, 0, 2) }}
+                                        </span>
+                                    @endif
                                 </div>
 
                                 <div>

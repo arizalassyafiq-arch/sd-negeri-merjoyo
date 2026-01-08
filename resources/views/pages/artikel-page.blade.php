@@ -23,7 +23,7 @@
                                 class="w-full bg-transparent border-none focus:ring-0 text-gray-700 dark:text-gray-200 placeholder-gray-400 ml-2 py-3 text-sm focus:outline-none"
                                 placeholder="Cari artikel..." type="text" />
                         </div>
-                        <button type="submit"
+                        <button type="submit" onclick="alert('Fitur pencarian belum tersedia. sabar cok')"
                             class="bg-primary hover:bg-green-600 text-white font-medium px-8 py-3 rounded-xl transition-colors shadow-md">
                             Cari
                         </button>
