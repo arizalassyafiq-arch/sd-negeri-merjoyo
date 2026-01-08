@@ -10,8 +10,6 @@
 @source "../../resources/**/*.css";
 @source "../../resources/**/*.html";
 
-
-
 /* Dark Mode Variant */
 @variant dark (&:where(.dark, .dark *));
 
@@ -93,9 +91,9 @@
 
     /* --- 2. FONTS --- */
     /* Prioritaskan Plus Jakarta Sans untuk modern look, fallback ke Poppins */
+    --font-body: "Poppins", sans-serif;
     --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
     --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
-    --font-body: "Poppins", sans-serif;
 
     /* --- 3. BORDER RADIUS --- */
     --radius-large: 2rem;
