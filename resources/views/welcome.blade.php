@@ -53,8 +53,8 @@
                                         <span class="material-icons">school</span>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-text-primary-light dark:text-text-primary-dark">Bpk.
-                                            H. Suwandi, M.Pd</h3>
+                                        <h3 class="font-bold text-text-primary-light dark:text-text-primary-dark">Rr.
+                                            Emi Nurjannah Prasetyaningsih</h3>
                                         <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
                                             Kepala Sekolah SDN Merjoyo</p>
                                     </div>
@@ -70,7 +70,7 @@
                                     <p
                                         class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-medium">
                                         Akreditasi</p>
-                                    <p class="font-bold text-text-primary-light dark:text-text-primary-dark">A (Unggul)
+                                    <p class="font-bold text-text-primary-light dark:text-text-primary-dark">B (Baik)
                                     </p>
                                 </div>
                             </div>

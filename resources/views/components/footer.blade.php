@@ -48,12 +48,18 @@
                     <li class="flex items-center gap-2"><span class="material-icons text-sm">phone</span> (0341)
                         555-6789</li>
                     <li class="flex items-center gap-2"><span class="material-icons text-sm">email</span>
-                        info@sdnmerjoyo.sch.id</li>
+                        sdnmerjoyo@gmail.com</li>
                     <div class="flex gap-4 mt-4">
-                        <a class="hover:text-white transition-colors" href="#"><i
-                                class="material-icons">facebook</i></a>
-                        <a class="hover:text-white transition-colors" href="#"><i
-                                class="material-icons">camera_alt</i></a>
+                        <a class="hover:text-white transition-colors"
+                            href="https://www.facebook.com/share/1D9KtqQiRJ/"><i class="material-icons">facebook</i></a>
+                        <a class="hover:text-white transition-colors"
+                            href="https://www.instagram.com/sdn.merjoyo?igsh=MWxlcHFmcjNuanQxNQ==">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="currentColor" style="display:inline-block; vertical-align:middle;">
+                                <path
+                                    d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M18,7A1,1 0 0,0 17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7Z" />
+                            </svg>
+                        </a>
                     </div>
                 </ul>
             </div>
