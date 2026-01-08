@@ -20,11 +20,18 @@ Route::view('/register', 'auth.register')->name('register');
 // Pastikan ini ada di dalam group middleware auth dan role admin jika ada
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('artikel', ArticleController::class);
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard.dashboard');
+    })->name('dashboard');
 });
 
 
 // Halaman Daftar Artikel
+
+
 Route::get('/artikel', [PublicArticleController::class, 'index'])->name('artikel.index');
+
+
 
 // Halaman Detail Artikel (Pastikan ditaruh di bawah agar tidak konflik dengan route lain)
 Route::get('/artikel/{slug}', [PublicArticleController::class, 'show'])->name('artikel.show');

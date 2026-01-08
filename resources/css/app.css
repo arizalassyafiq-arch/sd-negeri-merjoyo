@@ -95,6 +95,22 @@
     --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
     --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
 
+    /* =========================================
+       NEW: ADMIN THEME (EduAdmin - Blue/Lexend)
+       Prefix: --color-admin-* dan --font-admin
+       ========================================= */
+
+    /* Admin Brand Colors (Blue) */
+    --color-admin-primary: #135bec;
+    --color-admin-primary-hover: #0f4bc2;
+
+    /* Admin Backgrounds */
+    --color-admin-bg-light: #f6f6f8;
+    --color-admin-bg-dark: #101622;
+
+    /* Admin Font */
+    --font-admin: "Lexend", sans-serif;
+
     /* --- 3. BORDER RADIUS --- */
     --radius-large: 2rem;
 
@@ -161,6 +177,19 @@
         #374151 1px,
         transparent 1px
     );
+}
+
+/* --- UTILITIES LAYER --- */
+@layer utilities {
+    /* ... (Utilities lama biarkan saja) ... */
+
+    /* Helper khusus Admin Sidebar agar icon rapi */
+    .admin-icon {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+    .admin-icon-filled {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
 }
 
 /* --- UTILITIES LAYER (Digabung jadi satu agar rapi) --- */

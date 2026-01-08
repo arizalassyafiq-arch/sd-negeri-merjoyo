@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/lexend':
+        specifier: ^5.2.11
+        version: 5.2.11
       '@fontsource/material-icons':
         specifier: ^5.2.7
         version: 5.2.7
@@ -206,6 +209,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/lexend@5.2.11':
+    resolution: {integrity: sha512-bShbQr2g2sWl7GJNyIxdllZST1faVbebXN6H7AEEDCRms/g4orDLxWnmTVodOtiErdZVUJURq4jpafZ34nIkTw==}
 
   '@fontsource/material-icons-round@5.2.6':
     resolution: {integrity: sha512-Ol5AsuryxVqldywNiQ4rTruST37jDS09AkndGsM6sSj87FZB+2n5LAF2TzJcgqlXI2NnGNsOP3+FPtkPXHOy/A==}
@@ -954,6 +960,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.2':
     optional: true
+
+  '@fontsource/lexend@5.2.11': {}
 
   '@fontsource/material-icons-round@5.2.6': {}
 

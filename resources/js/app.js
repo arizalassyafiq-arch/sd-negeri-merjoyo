@@ -2,6 +2,7 @@ import "./bootstrap";
 
 // --- TAMBAHKAN INI DI SINI (Paling Atas) ---
 import "@fontsource/poppins";
+import "@fontsource/lexend";
 import "@fontsource/material-icons";
 import "@fontsource/material-icons-round";
 import "@fontsource/material-symbols-outlined";

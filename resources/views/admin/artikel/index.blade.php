@@ -1,5 +1,6 @@
-<x-main-layout>
-    <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-900 min-h-screen mt-10">
+<x-admin-layout>
+    <x-slot:title>Dashboard Overview</x-slot>
+    <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
                 <div>
@@ -98,4 +99,4 @@
             @endif
         </div>
     </section>
-</x-main-layout>
+</x-admin-layout>
