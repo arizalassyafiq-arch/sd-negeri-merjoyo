@@ -1,4 +1,6 @@
-<x-main-layout>
+<x-admin-layout>
+    <x-slot:title>Create Artikel</x-slot>
+
     <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
@@ -84,4 +86,4 @@
             </div>
         </div>
     </section>
-</x-main-layout>
+</x-admin-layout>

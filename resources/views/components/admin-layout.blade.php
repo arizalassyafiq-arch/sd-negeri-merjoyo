@@ -49,17 +49,31 @@
                         <span class="text-sm font-medium">User Management</span>
                     </a>
 
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">school</span>
+                        <span class="text-sm font-medium">Student Directory</span>
+                    </a>
+
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.artikel.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                         href="{{ route('admin.artikel.index') }}">
                         <span
                             class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors {{ request()->routeIs('admin.artikel.*') ? 'admin-icon-filled' : '' }}">article</span>
                         <span class="text-sm font-medium">Article CMS</span>
                     </a>
+
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('#') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors {{ request()->routeIs('admin.artikel.*') ? 'admin-icon-filled' : '' }}">book_2</span>
+                        <span class="text-sm font-medium">Academic Management</span>
+                    </a>
                 </div>
             </nav>
 
             <div class="mt-auto border-t border-slate-100 dark:border-slate-800 p-4">
-                <form method="POST" action="#">
+                <form method="" action="/">
                     @csrf
                     <button type="submit"
                         class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors group">
