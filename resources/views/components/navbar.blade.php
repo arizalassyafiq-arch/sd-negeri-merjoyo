@@ -128,7 +128,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                     Artikel
                 </a>
 
-                <a href="#"
+                <a href="/search"
                     class="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium text-sm transition-colors">
                     Cari Siswa
                 </a>
@@ -144,7 +144,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                 </button>
 
                 <div class="pt-2 mt-2 border-t border-gray-100 dark:border-gray-700">
-                    <a href="#"
+                    <a href="/login"
                         class="block w-full text-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold shadow-md">
                         Login Siswa
                     </a>
