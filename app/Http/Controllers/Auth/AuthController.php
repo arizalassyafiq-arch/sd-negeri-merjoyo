@@ -74,7 +74,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
@@ -89,7 +89,6 @@ class AuthController extends Controller
     {
         // $role = auth()->user()->role;
         $role = Auth::user()->role;
-
 
         if ($role === 'admin') {
             return redirect('/admin/dashboard');

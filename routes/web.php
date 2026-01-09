@@ -5,9 +5,10 @@ use Illuminate\Support\Facades\Route;
 // end
 
 //public
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PublicArticleController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\UserApprovalController;
+use App\Http\Controllers\Admin\ArticleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,13 +28,30 @@ Route::get('/search', function () {
     return view('pages.search.index');
 });
 
+
+Route::get('/dashboard', [AuthController::class, 'dashboard'])
+    ->middleware('auth')
+    ->name('dashboard');
+
 // Pastikan ini ada di dalam group middleware auth dan role admin jika ada
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('artikel', ArticleController::class);
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard.dashboard');
-    })->name('dashboard');
-});
+Route::prefix('admin')->name('admin.')->middleware(['auth']) // nanti bisa tambah role:admin
+    ->group(function () {
+        // Artikel
+        Route::resource('artikel', ArticleController::class);
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard.dashboard');
+        })->name('dashboard');
+
+        // === APPROVAL WALI ===
+        Route::get('/wali', [UserApprovalController::class, 'index'])
+            ->name('wali.index');
+
+        Route::patch('/wali/{user}/approve', [UserApprovalController::class, 'approve'])
+            ->name('wali.approve');
+
+        Route::patch('/wali/{user}/reject', [UserApprovalController::class, 'reject'])
+            ->name('wali.reject');
+    });
 
 
 Route::get('/artikel', [PublicArticleController::class, 'index'])->name('artikel.index');
