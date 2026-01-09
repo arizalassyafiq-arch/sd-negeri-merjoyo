@@ -33,7 +33,8 @@
                 class="bg-white/80 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-white/50 dark:border-gray-700">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Masuk ke Akun Anda</h2>
 
-                <form action="/" class="space-y-5">
+                <form method="POST" action="/login" class="space-y-5">
+                    @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                             for="email">Alamat Email</label>
@@ -44,7 +45,7 @@
                             </span>
                             <input
                                 class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
-                                id="email" placeholder="orangtua@contoh.com" type="email" />
+                                id="email" placeholder="orangtua@contoh.com" name="email" type="email" />
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                             </span>
                             <input
                                 class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
-                                id="password" placeholder="••••••••" type="password" />
+                                id="password" placeholder="••••••••" type="password" name="password" />
                         </div>
                     </div>
 

@@ -61,9 +61,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
 
-            // $user = Auth::user();
-            $user = auth()->user();
-
+            $user = Auth::user();
 
             // Cek status user
             if ($user->status !== 'active') {
@@ -76,7 +74,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/dashboard');
+            return redirect('/');
         }
 
         return back()->withErrors([
@@ -89,7 +87,9 @@ class AuthController extends Controller
     // =====================
     public function dashboard()
     {
-        $role = auth()->user()->role;
+        // $role = auth()->user()->role;
+        $role = Auth::user()->role;
+
 
         if ($role === 'admin') {
             return redirect('/admin/dashboard');

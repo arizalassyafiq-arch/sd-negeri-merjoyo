@@ -4,7 +4,6 @@
 use Illuminate\Support\Facades\Route;
 // end
 
-
 //public
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
@@ -27,7 +26,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('/search', function () {
     return view('pages.search.index');
 });
-
 
 // Pastikan ini ada di dalam group middleware auth dan role admin jika ada
 Route::prefix('admin')->name('admin.')->group(function () {

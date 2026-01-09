@@ -27,12 +27,6 @@
                         Selamat datang di SDN Merjoyo. Website ini menyajikan artikel seputar kegiatan sekolah serta
                         pemantauan pencapaian siswa.
                     </p>
-                    <div class="pt-4 flex flex-wrap gap-4">
-                        <button
-                            class="bg-gray-800 hover:bg-gray-900 text-white dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 font-semibold py-3 px-8 rounded-lg shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl">
-                            Login Siswa
-                        </button>
-                    </div>
                 </div>
 
                 <div class="relative flex justify-center lg:justify-end">
