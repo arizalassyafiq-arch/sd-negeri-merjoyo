@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
         <div
             class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200/60 dark:border-slate-700">
@@ -36,8 +36,20 @@
                 </div>
             </div>
             <h3 class="text-slate-500 text-sm font-medium">Artikel Terbit</h3>
-            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">42</p>
+            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">{{ $totalArtikel }}</p>
             <p class="text-xs text-slate-400 mt-2">Blog & Berita</p>
+        </div>
+
+        <div
+            class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200/60 dark:border-slate-700">
+            <div class="flex items-start justify-between mb-4">
+                <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg text-green-600">
+                    <span class="material-symbols-outlined text-2xl">group</span>
+                </div>
+            </div>
+            <h3 class="text-slate-500 text-sm font-medium">Total Orang Tua</h3>
+            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">{{ $totalOrangTua }}</p>
+            <p class="text-xs text-slate-400 mt-2">Semua Pengguna</p>
         </div>
 
         <div
@@ -50,8 +62,8 @@
                     <span class="material-symbols-outlined text-2xl">pending_actions</span>
                 </div>
             </div>
-            <h3 class="text-slate-500 text-sm font-medium relative z-10">Pending Users</h3>
-            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1 relative z-10">3</p>
+            <h3 class="text-slate-500 text-sm font-medium relative z-10">Pending Pengguna</h3>
+            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1 relative z-10">{{ $totalPending }}</p>
             <p class="text-xs text-orange-600 mt-2 font-medium relative z-10">Butuh Verifikasi</p>
         </div>
     </div>
