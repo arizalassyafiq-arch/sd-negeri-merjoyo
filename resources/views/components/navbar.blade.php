@@ -96,7 +96,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                                     class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-700 dark:text-emerald-300 font-bold text-xs">
                                     {{ substr(Auth::user()->name, 0, 2) }}
                                 </div>
-                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200 max-w-[100px] truncate">
+                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200 max-w-125 truncate">
                                     {{ Auth::user()->name }}
                                 </span>
                                 <span class="material-icons text-gray-400 text-sm">expand_more</span>
