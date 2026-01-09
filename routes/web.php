@@ -1,20 +1,32 @@
 <?php
 
-
+// admin
 use Illuminate\Support\Facades\Route;
+// end
+
+
+//public
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PublicArticleController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+// ===== AUTH =====
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/register', [AuthController::class, 'showRegister']);
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+// ===== END AUTH ===== 
 
 Route::get('/search', function () {
-    return view('pages.search-page');
+    return view('pages.search.index');
 });
-
-Route::view('/login', 'auth.login')->name('login');
-Route::view('/register', 'auth.register')->name('register');
 
 
 // Pastikan ini ada di dalam group middleware auth dan role admin jika ada
@@ -26,19 +38,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-// Halaman Daftar Artikel
-
-
 Route::get('/artikel', [PublicArticleController::class, 'index'])->name('artikel.index');
 
-
-
-// Halaman Detail Artikel (Pastikan ditaruh di bawah agar tidak konflik dengan route lain)
 Route::get('/artikel/{slug}', [PublicArticleController::class, 'show'])->name('artikel.show');
 
-// Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
-// Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel.show');
 
-// Route::prefix('admin')->name('admin.')->group(function () {
-//     Route::resource('artikel', AdminArticleController::class)->except(['show']);
-// });
+// Route::view('/login', 'auth.login')->name('login');
+// Route::view('/register', 'auth.register')->name('register');

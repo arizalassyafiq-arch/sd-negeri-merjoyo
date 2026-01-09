@@ -41,7 +41,7 @@ class PublicArticleController extends Controller
             ->withQueryString(); // Agar parameter search tidak hilang saat ganti halaman
 
         // Return ke view public (pastikan nama folder/file view sesuai)
-        return view('pages.artikel-page', compact('articles'));
+        return view('pages.artikel.index', compact('articles'));
     }
 
     /**
@@ -62,6 +62,6 @@ class PublicArticleController extends Controller
             ->limit(5)
             ->get();
 
-        return view('pages.artikel-detail', compact('article', 'recent'));
+        return view('pages.artikel.detail', compact('article', 'recent'));
     }
 }
