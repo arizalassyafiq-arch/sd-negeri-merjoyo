@@ -98,7 +98,7 @@ class AuthController extends Controller
             return redirect('/guru/dashboard');
         }
 
-        return redirect('/wali/dashboard');
+        return redirect('/');
     }
 
     // =====================

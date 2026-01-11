@@ -22,7 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'status'
+        'avatar',
+        'status',
+        'last_login_at', // Tambahkan ini
     ];
 
     /**
@@ -45,6 +47,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
         ];
     }
 
@@ -65,5 +68,19 @@ class User extends Authenticatable
     public function students()
     {
         return $this->hasMany(Student::class, 'guardian_id');
+    }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Event 'deleting' dipicu tepat sebelum data dihapus dari DB
+        static::deleting(function ($user) {
+            if ($user->avatar) {
+                // Hapus file dari folder storage/app/public
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            }
+        });
     }
 }

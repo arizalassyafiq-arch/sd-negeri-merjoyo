@@ -92,9 +92,19 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" @click.away="open = false"
                                 class="flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-700 dark:text-emerald-300 font-bold text-xs">
-                                    {{ substr(Auth::user()->name, 0, 2) }}
+                                <div class="relative group">
+                                    @if (Auth::user()->avatar)
+                                        {{-- Jika User memiliki foto profil --}}
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                            alt="{{ Auth::user()->name }}"
+                                            class="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+                                    @else
+                                        {{-- Jika tidak ada foto, tampilkan inisial (Fallback) --}}
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-admin-primary text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+                                            {{ substr(Auth::user()->name, 0, 1) }}
+                                        </div>
+                                    @endif
                                 </div>
                                 <span class="text-sm font-semibold text-gray-700 dark:text-gray-200 max-w-125 truncate">
                                     {{ Auth::user()->name }}
@@ -110,7 +120,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                                 x-transition:leave-end="transform opacity-0 scale-95" style="display: none;"
                                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 z-50">
 
-                                <a href="/dashboard"
+                                <a href="{{ route('profile.edit') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-600">
                                     Lihat Profile
                                 </a>
@@ -193,9 +203,9 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                                     </p>
                                 </div>
                             </div>
-                            <a href="/dashboard"
+                            <a href="{{ route('profile.edit') }}"
                                 class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg text-sm font-semibold mb-2 transition-colors">
-                                Dashboard
+                                Lihat Profile
                             </a>
                             <form action="/logout" method="POST">
                                 @csrf

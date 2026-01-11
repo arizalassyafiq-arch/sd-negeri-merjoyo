@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{{ $title ?? 'EduAdmin Dashboard' }}</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
         rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -203,22 +203,33 @@
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" @click.away="open = false"
                             class="flex items-center gap-2 md:gap-3 p-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                            <div
-                                class="w-8 h-8 rounded-full bg-admin-primary text-white flex items-center justify-center font-bold text-xs uppercase">
-                                {{ substr(Auth::user()->name, 0, 1) }}
+                            <div class="relative group">
+                                @if (Auth::user()->avatar)
+                                    {{-- Jika User memiliki foto profil --}}
+                                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                        alt="{{ Auth::user()->name }}"
+                                        class="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+                                @else
+                                    {{-- Jika tidak ada foto, tampilkan inisial (Fallback) --}}
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-admin-primary text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+                                        {{ substr(Auth::user()->name, 0, 1) }}
+                                    </div>
+                                @endif
                             </div>
                             <div class="hidden sm:block text-left leading-tight">
                                 <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
                                     {{ Auth::user()->name }}</p>
                                 <p class="text-[10px] text-slate-500 uppercase">{{ Auth::user()->role }}</p>
                             </div>
-                            <span class="material-symbols-outlined text-slate-400 text-xl transition-transform"
+                            <span
+                                class="material-symbols-outlined text-slate-400 text-xl transition-transform cursor-pointer"
                                 :class="open ? 'rotate-180' : ''">expand_more</span>
                         </button>
 
                         <div x-show="open" x-transition
                             class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden z-50 py-1">
-                            <a href="{{ route('admin.dashboard') }}"
+                            <a href="{{ route('profile.edit') }}"
                                 class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">
                                 <span class="material-symbols-outlined text-[20px]">person</span> Profil Saya
                             </a>

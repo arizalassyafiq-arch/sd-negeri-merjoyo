@@ -94,6 +94,8 @@
     --font-body: "Poppins", sans-serif;
     --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
     --font-display: "Plus Jakarta Sans", "Poppins", sans-serif;
+    /* Font Khusus Admin (Sesuai Layout Anda) */
+    --font-admin: "Lexend", "Inter", sans-serif;
 
     /* =========================================
        NEW: ADMIN THEME (EduAdmin - Blue/Lexend)
