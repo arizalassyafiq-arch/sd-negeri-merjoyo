@@ -215,10 +215,11 @@
     }
 
     .material-icons-round {
+        /* PERBAIKAN: Nama font harus persis 'Material Icons Round' */
         font-family: "Material Icons Round";
         font-weight: normal;
         font-style: normal;
-        font-size: 24px; /* Ukuran default */
+        font-size: 24px;
         display: inline-block;
         line-height: 1;
         text-transform: none;
@@ -226,8 +227,6 @@
         word-wrap: normal;
         white-space: nowrap;
         direction: ltr;
-
-        /* Agar tajam di semua browser */
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         -moz-osx-font-smoothing: grayscale;

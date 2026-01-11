@@ -83,24 +83,33 @@ class ProfileController extends Controller
     }
 
     // Method baru untuk Update Password
+    // Method baru untuk Update Password
     public function updatePassword(Request $request)
     {
         // Menggunakan bag 'updatePassword' agar error terpisah
         $validated = $request->validateWithBag('updatePassword', [
-            'current_password' => ['required', 'current_password'], // Validasi pass saat ini benar
+            'current_password' => ['required', 'current_password'],
             'password' => [
                 'required',
                 'confirmed',
                 Password::min(8) // Minimal 8 karakter
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
+                    ->letters()      // Harus ada huruf
+                    ->mixedCase()    // Harus ada huruf besar & kecil
+                    ->numbers()      // Harus ada angka
+                // ->symbols()   // (Opsional) Jika ingin mewajibkan simbol
             ],
         ], [
-            // Custom pesan jika diperlukan
-            'current_password.current_password' => 'Password saat ini salah.',
-            'password.min' => 'Password baru harus minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.'
+            // --- PESAN KUSTOM ---
+            'current_password.current_password' => 'Password saat ini tidak sesuai.',
+
+            'password.required'  => 'Password baru wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min'       => 'Password baru harus minimal 8 karakter.',
+
+            // Pesan spesifik untuk aturan Password::defaults()
+            'password.letters' => 'Password harus mengandung setidaknya satu huruf.',
+            'password.mixed'   => 'Password harus mengandung kombinasi huruf besar dan kecil.',
+            'password.numbers' => 'Password harus mengandung setidaknya satu angka.',
         ]);
 
         $user = Auth::user();
