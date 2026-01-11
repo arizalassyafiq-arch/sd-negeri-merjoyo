@@ -175,7 +175,7 @@
                 {{-- Kolom Kanan: Info Tambahan --}}
                 <div class="space-y-6">
                     <div
-                        class="bg-gradient-to-br from-primary to-emerald-600 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+                        class="bg-linear-to-br from-primary to-emerald-600 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl">
                         </div>
                         <h4 class="font-bold text-lg mb-2">Status Akun</h4>
@@ -224,7 +224,7 @@
             {{-- MODAL KONFIRMASI (Sama dengan Admin tapi Styling disesuaikan Layout Wali) --}}
             <template x-teleport="body">
                 <div x-show="showConfirmProfile"
-                    class="fixed inset-0 z-[999] flex items-center justify-center overflow-hidden px-4" x-cloak>
+                    class="fixed inset-0 z-999 flex items-center justify-center overflow-hidden px-4" x-cloak>
                     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
                         @click="showConfirmProfile = false"></div>
 
@@ -252,7 +252,7 @@
 
             <template x-teleport="body">
                 <div x-show="showConfirmPassword"
-                    class="fixed inset-0 z-[999] flex items-center justify-center overflow-hidden px-4" x-cloak>
+                    class="fixed inset-0 z-999 flex items-center justify-center overflow-hidden px-4" x-cloak>
                     <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
                         @click="showConfirmPassword = false"></div>
 
