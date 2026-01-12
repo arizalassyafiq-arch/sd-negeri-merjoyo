@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         // Total siswa aktif
-        // $totalSiswa = Student::count();
+        $totalSiswa = Student::count();
 
         // Total artikel yang sudah publish
         $totalArtikel = Article::whereNotNull('published_at')->count();
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $totalPending = User::where('status', 'pending')->count();
 
         return view('admin.dashboard.index', compact(
-            // 'totalSiswa',
+            'totalSiswa',
             'totalArtikel',
             'totalOrangTua',
             'totalPending'

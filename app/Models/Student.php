@@ -12,10 +12,13 @@ class Student extends Model
         'name',
         'gender',
         'class_name',
+        'birth_place',
         'birth_date',
         'address',
         'guardian_id',
-        'status'
+        'status',
+        'father_name',
+        'mother_name'
     ];
 
     protected $casts = [

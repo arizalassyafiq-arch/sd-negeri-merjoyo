@@ -58,7 +58,7 @@
                                 <span class="material-icons-round text-lg">email</span>
                             </span>
                             <input
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
+                                class="block w-full pl-10 pr-3 py-3 border border-white dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
                                 id="email" placeholder="orangtua@contoh.com" type="email" name="email" />
                         </div>
                     </div>
@@ -75,6 +75,46 @@
                                 class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
                                 id="password" placeholder="••••••••" type="password" name="password" />
                         </div>
+                    </div>
+
+                    <div class="pt-4 pb-2 border-b border-gray-200 dark:border-gray-700 mb-2 mt-2">
+                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">Verifikasi Data Siswa</h3>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            for="child_nis">NIS / NISN Siswa</label>
+                        <div class="relative">
+                            <span
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <span class="material-icons-round text-lg">badge</span>
+                            </span>
+                            <input
+                                class="block w-full pl-10 pr-3 py-3 border-0 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm @error('child_nis') border-red-500 @enderror"
+                                id="child_nis" placeholder="Nomor Induk Siswa" type="text" name="child_nis"
+                                value="{{ old('child_nis') }}" required />
+                        </div>
+                        @error('child_nis')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                            for="child_birth_date">Tanggal Lahir Siswa</label>
+                        <div class="relative">
+                            <span
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <span class="material-icons-round text-lg">calendar_today</span>
+                            </span>
+                            <input
+                                class="block w-full pl-10 pr-3 py-3 border-0 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm [scheme:light] dark:[scheme:dark] @error('child_birth_date') border-red-500 @enderror"
+                                id="child_birth_date" type="date" name="child_birth_date"
+                                value="{{ old('child_birth_date') }}" required />
+                        </div>
+                        @error('child_birth_date')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button

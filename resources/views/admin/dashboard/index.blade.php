@@ -24,7 +24,7 @@
                 </span>
             </div>
             <h3 class="text-slate-500 text-sm font-medium">Total Siswa</h3>
-            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">1,240</p>
+            <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">{{ $totalSiswa }}</p>
             <p class="text-xs text-slate-400 mt-2">Data semester ini</p>
         </div>
 

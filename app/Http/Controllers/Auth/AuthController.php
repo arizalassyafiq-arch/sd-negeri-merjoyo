@@ -4,54 +4,81 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Student; // Pastikan Model Student di-import
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    // =====================
-    // SHOW LOGIN
-    // =====================
+    // ... method showLogin, showRegister, dll tetap sama ...
+
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // =====================
-    // SHOW REGISTER (WALI)
-    // =====================
     public function showRegister()
     {
         return view('auth.register');
     }
 
     // =====================
-    // REGISTER (ONLY WALI)
+    // REGISTER (MODIFIED)
     // =====================
     public function register(Request $request)
     {
+        // 1. Validasi Input
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'name'             => 'required|string|max:255',
+            'email'            => 'required|email|unique:users,email',
+            'password'         => 'required|min:6',
+            // Field Tambahan untuk Klaim Anak
+            'child_nis'        => 'required|string|exists:students,nis', // Cek NIS ada di tabel students
+            'child_birth_date' => 'required|date',
+        ], [
+            'child_nis.exists' => 'NIS/NISN siswa tidak ditemukan di sistem sekolah.',
         ]);
 
-        User::create([
+        // 2. Cek Logika Kecocokan Data Siswa (Security Check)
+        $student = Student::where('nis', $request->child_nis)
+            ->whereDate('birth_date', $request->child_birth_date)
+            ->first();
+
+        // Jika kombinasi NIS dan Tanggal Lahir tidak cocok
+        if (!$student) {
+            throw ValidationException::withMessages([
+                'child_birth_date' => 'Tanggal lahir tidak cocok dengan data NIS tersebut.',
+            ]);
+        }
+
+        // 3. Cek apakah siswa sudah punya wali?
+        if ($student->guardian_id) {
+            throw ValidationException::withMessages([
+                'child_nis' => 'Siswa ini sudah memiliki akun wali yang terdaftar. Hubungi sekolah.',
+            ]);
+        }
+
+        // 4. Buat Akun Wali (Status Pending)
+        $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'wali',
-            'status'   => 'pending', // WAJIB pending
+            'status'   => 'pending',
+        ]);
+
+        // 5. PENTING: Hubungkan User baru ke Siswa
+        $student->update([
+            'guardian_id' => $user->id
         ]);
 
         return redirect('/login')
-            ->with('success', 'Akun berhasil dibuat. Menunggu persetujuan sekolah.');
+            ->with('success', 'Registrasi Berhasil! Data anak telah ditautkan. Mohon tunggu verifikasi Admin.');
     }
 
-    // =====================
-    // LOGIN (ALL ROLE)
-    // =====================
+    // ... sisa method login, dashboard, logout tetap sama ...
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -82,28 +109,22 @@ class AuthController extends Controller
         ]);
     }
 
-    // =====================
-    // DASHBOARD REDIRECT
-    // =====================
     public function dashboard()
     {
-        // $role = auth()->user()->role;
         $role = Auth::user()->role;
 
         if ($role === 'admin') {
             return redirect('/admin/dashboard');
         }
 
+        // Note: Guru mungkin butuh dashboard sendiri, sesuaikan route-nya
         if ($role === 'guru') {
             return redirect('/guru/dashboard');
         }
 
-        return redirect('/');
+        return view('dashboard'); // Default dashboard user/wali
     }
 
-    // =====================
-    // LOGOUT
-    // =====================
     public function logout(Request $request)
     {
         Auth::logout();
