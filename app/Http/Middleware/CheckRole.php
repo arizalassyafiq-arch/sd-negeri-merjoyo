@@ -20,7 +20,6 @@ class CheckRole
             return redirect('/login');
         }
 
-
         if (Auth::user()->role !== $role) {
             abort(403, 'AKSES DITOLAK: Anda bukan ' . ucfirst($role));
         }

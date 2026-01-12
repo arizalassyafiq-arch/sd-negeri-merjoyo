@@ -78,7 +78,6 @@ class User extends Authenticatable
         // Event 'deleting' dipicu tepat sebelum data dihapus dari DB
         static::deleting(function ($user) {
             if ($user->avatar) {
-                // Hapus file dari folder storage/app/public
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
             }
         });
