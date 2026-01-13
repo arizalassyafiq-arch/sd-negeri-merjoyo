@@ -110,6 +110,12 @@
     --color-admin-bg-light: #f6f6f8;
     --color-admin-bg-dark: #101622;
 
+    /* Extra Admin Dark Palette (Academic view) */
+    --color-sidebar-bg: #0b1222;
+    --color-main-bg: #0a0f1d;
+    --color-card-bg: #121926;
+    --color-border-color: #1e293b;
+
     /* Admin Font */
     --font-admin: "Lexend", sans-serif;
 

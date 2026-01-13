@@ -2,6 +2,12 @@
     <x-slot:title>Student Directory</x-slot>
 
     <div class="flex flex-col gap-6">
+        @php
+            $role = auth()->user()->role;
+            $canManageStudents = $role === 'admin';
+            $indexRouteName = $role === 'guru' ? 'guru.students.index' : 'admin.students.index';
+        @endphp
+
         @if (session('status'))
             <div class="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
                 {{ session('status') }}
@@ -15,22 +21,24 @@
                     Total {{ number_format($totalStudents) }} Siswa Terdaftar
                 </p>
             </div>
-            <a href="{{ route('admin.students.create') }}"
-                class="inline-flex items-center gap-2 bg-admin-primary hover:bg-admin-primary-hover text-white px-6 py-3 rounded-2xl font-semibold shadow-lg shadow-blue-500/20 transition active:scale-95">
-                <span class="material-symbols-outlined text-lg">add</span>
-                Tambah Siswa Baru
-            </a>
+            @if ($canManageStudents)
+                <a href="{{ route('admin.students.create') }}"
+                    class="inline-flex items-center gap-2 bg-admin-primary hover:bg-admin-primary-hover text-white px-6 py-3 rounded-2xl font-semibold shadow-lg shadow-blue-500/20 transition active:scale-95">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    Tambah Siswa Baru
+                </a>
+            @endif
         </div>
 
         {{-- Filter Kelas --}}
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-2xl p-2 border border-slate-200/60 dark:border-slate-800 shadow-sm flex flex-wrap gap-2">
-            <a href="{{ route('admin.students.index') }}"
+            <a href="{{ route($indexRouteName) }}"
                 class="px-5 py-2 rounded-2xl text-sm font-medium transition-all {{ request('class') ? 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' : 'bg-admin-primary text-white shadow-md shadow-blue-500/20' }}">
                 Semua Kelas
             </a>
             @foreach ($classOptions as $classOption)
-                <a href="{{ route('admin.students.index', ['class' => $classOption]) }}"
+                <a href="{{ route($indexRouteName, ['class' => $classOption]) }}"
                     class="px-5 py-2 rounded-2xl text-sm font-medium transition-all {{ request('class') === $classOption ? 'bg-admin-primary text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' }}">
                     {{ $classOption }}
                 </a>
@@ -55,9 +63,11 @@
                             </th>
                             <th class="px-6 py-5 text-xs font-semibold text-slate-400 uppercase tracking-widest">Status
                             </th>
-                            <th
-                                class="px-6 py-5 text-xs font-semibold text-slate-400 uppercase tracking-widest text-right">
-                                Aksi</th>
+                            @if ($canManageStudents)
+                                <th
+                                    class="px-6 py-5 text-xs font-semibold text-slate-400 uppercase tracking-widest text-right">
+                                    Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100/80 dark:divide-slate-800">
@@ -113,30 +123,33 @@
                                         {{ $labels[$student->status] }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-5">
-                                    <div class="flex items-center justify-end gap-2">
-                                        {{-- TOMBOL EDIT --}}
-                                        <a href="{{ route('admin.students.edit', $student->id) }}"
-                                            class="p-2 rounded-xl text-slate-400 hover:text-admin-primary hover:bg-admin-primary/10 transition-all">
-                                            <span class="material-symbols-outlined text-lg">edit</span>
-                                        </a>
+                                @if ($canManageStudents)
+                                    <td class="px-6 py-5">
+                                        <div class="flex items-center justify-end gap-2">
+                                            {{-- TOMBOL EDIT --}}
+                                            <a href="{{ route('admin.students.edit', $student->id) }}"
+                                                class="p-2 rounded-xl text-slate-400 hover:text-admin-primary hover:bg-admin-primary/10 transition-all">
+                                                <span class="material-symbols-outlined text-lg">edit</span>
+                                            </a>
 
-                                        {{-- TOMBOL DELETE --}}
-                                        <form method="POST" action="{{ route('admin.students.destroy', $student) }}"
-                                            onsubmit="return confirm('Hapus data siswa ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-all">
-                                                <span class="material-symbols-outlined text-lg">delete</span>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
+                                            {{-- TOMBOL DELETE --}}
+                                            <form method="POST" action="{{ route('admin.students.destroy', $student) }}"
+                                                onsubmit="return confirm('Hapus data siswa ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-all">
+                                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-16 text-center text-slate-500 dark:text-slate-400">
+                                <td colspan="{{ $canManageStudents ? 6 : 5 }}"
+                                    class="px-6 py-16 text-center text-slate-500 dark:text-slate-400">
                                     Belum ada data siswa.
                                 </td>
                             </tr>

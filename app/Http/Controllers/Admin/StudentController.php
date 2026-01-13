@@ -82,6 +82,8 @@ class StudentController extends Controller
             'address' => 'required|string',
             'guardian_id' => 'nullable|exists:users,id',
             'status' => 'required|in:active,lulus,drop_out,pindah',
+            'father_name' => 'required|string|max:255',
+            'mother_name' => 'required|string|max:255',
         ]);
 
         $student->update($validated);

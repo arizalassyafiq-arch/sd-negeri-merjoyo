@@ -11,6 +11,10 @@ class LearningGoal extends Model
 
     protected $fillable = ['title', 'description', 'class_name', 'created_by'];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
