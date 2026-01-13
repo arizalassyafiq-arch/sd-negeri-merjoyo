@@ -1,3 +1,6 @@
+@php
+    $routePrefix = auth()->user()->role === 'guru' ? 'guru.artikel.' : 'admin.artikel.';
+@endphp
 <x-admin-layout>
     <x-slot:title>Edit data</x-slot>
     <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -24,7 +27,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.artikel.update', $article->id) }}" method="POST"
+                <form action="{{ route($routePrefix . 'update', $article) }}" method="POST"
                     enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
@@ -86,7 +89,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
-                        <a href="{{ route('admin.artikel.index') }}"
+                        <a href="{{ route($routePrefix . 'index') }}"
                             class="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition">
                             Batal
                         </a>

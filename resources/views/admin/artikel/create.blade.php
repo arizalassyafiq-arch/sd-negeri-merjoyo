@@ -1,3 +1,6 @@
+@php
+    $routePrefix = auth()->user()->role === 'guru' ? 'guru.artikel.' : 'admin.artikel.';
+@endphp
 <x-admin-layout>
     <x-slot:title>Create Artikel</x-slot>
 
@@ -8,7 +11,7 @@
 
                 <div class="flex items-center justify-between mb-6">
                     <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Tambah Artikel Baru</h1>
-                    <a href="{{ route('admin.artikel.index') }}"
+                    <a href="{{ route($routePrefix . 'index') }}"
                         class="text-sm text-green-600 hover:text-green-700 font-semibold flex items-center gap-1">
                         <span class="material-icons text-sm">arrow_back</span> Kembali
                     </a>
@@ -26,7 +29,7 @@
                 @endif
 
                 {{-- PENTING: Tambahkan enctype="multipart/form-data" --}}
-                <form action="{{ route('admin.artikel.store') }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ route($routePrefix . 'store') }}" method="POST" enctype="multipart/form-data"
                     class="space-y-6">
                     @csrf
 
@@ -73,7 +76,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
-                        <a href="{{ route('admin.artikel.index') }}"
+                        <a href="{{ route($routePrefix . 'index') }}"
                             class="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition">
                             Batal
                         </a>

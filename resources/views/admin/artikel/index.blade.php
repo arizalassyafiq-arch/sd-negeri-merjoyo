@@ -1,3 +1,7 @@
+@php
+    // Tentukan prefix route berdasarkan role user yg login
+    $routePrefix = auth()->user()->role === 'guru' ? 'guru.artikel.' : 'admin.artikel.';
+@endphp
 <x-admin-layout>
     <x-slot:title>Dashboard Overview</x-slot>
     <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -7,7 +11,7 @@
                     <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Kelola Artikel</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Tambah, edit, dan hapus artikel sekolah.</p>
                 </div>
-                <a href="{{ route('admin.artikel.create') }}"
+                <a href="{{ route($routePrefix . 'create') }}"
                     class="inline-flex items-center justify-center rounded-full bg-green-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-green-700 transition">
                     <span class="material-icons text-sm mr-2">add</span> Tambah Artikel
                 </a>
@@ -59,13 +63,13 @@
                                                 <span class="material-icons text-sm">visibility</span>
                                             </a> --}}
 
-                                            <a href="{{ route('admin.artikel.edit', $article->id) }}"
+                                            <a href="{{ route($routePrefix . 'edit', $article) }}"
                                                 class="p-2 rounded-full text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition"
                                                 title="Edit">
                                                 <span class="material-icons text-sm">edit</span>
                                             </a>
 
-                                            <form action="{{ route('admin.artikel.destroy', $article->id) }}"
+                                            <form action="{{ route($routePrefix . 'destroy', $article) }}"
                                                 method="POST"
                                                 onsubmit="return confirm('Yakin ingin menghapus artikel ini?');">
                                                 @csrf

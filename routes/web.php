@@ -120,6 +120,7 @@ Route::prefix('guru')
         // Dashboard Guru
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        Route::resource('artikel', ArticleController::class);
         // --- AKADEMIK GURU ---
         // Kita tulis ulang disini agar jelas. 
         // URL: /guru/academic/...

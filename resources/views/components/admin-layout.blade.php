@@ -157,8 +157,8 @@
                     @endif
 
                     @if ($role === 'guru')
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.artikel.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
-                            href="{{ route('admin.artikel.index') }}">
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('guru.artikel.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
+                            href="{{ route('guru.artikel.index') }}">
                             <span class="material-symbols-outlined text-[22px]">article</span>
                             <span class="text-sm font-medium">Article CMS</span>
                         </a>
