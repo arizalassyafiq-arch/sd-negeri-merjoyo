@@ -25,8 +25,9 @@ class ProfileController extends Controller
         if ($user->role === 'admin') {
             // Tampilan Layout Dashboard (Sidebar)
             return view('pages.profile.index', compact('user'));
+        } else if ($user->role === 'guru') {
+            return view('pages.profile.index', compact('user'));
         } else {
-            // Tampilan Layout Public (Navbar Biasa untuk Wali/Guru)
             return view('pages.profile.wali', compact('user'));
         }
     }

@@ -1,106 +1,138 @@
 <?php
 
-use App\Http\Controllers\AcademicManagementController;
-use App\Http\Controllers\Admin\ArticleController;
-use App\Http\Controllers\Admin\StudentController;
-use App\Http\Controllers\Admin\UserApprovalController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\PublicArticleController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AcademicManagementController;
+use App\Http\Controllers\Admin\UserApprovalController;
 
-// ==========================================
-// PUBLIC ROUTES (Bisa diakses siapa saja)
-// ==========================================
+/*
+|--------------------------------------------------------------------------
+| 1. PUBLIC ROUTES (Bisa diakses tanpa login)
+|--------------------------------------------------------------------------
+*/
 
 Route::view('/', 'dashboard')->name('home');
+Route::get('/search', fn() => view('pages.search.index'));
 
-// Search Page
-Route::get('/search', fn () => view('pages.search.index'));
-
-// Artikel Public
+// Artikel
 Route::get('/artikel', [PublicArticleController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [PublicArticleController::class, 'show'])->name('artikel.show');
 
+/*
+|--------------------------------------------------------------------------
+| 2. GUEST ROUTES (Hanya untuk yang BELUM login)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister']);
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
-// ==========================================
-// GUEST ROUTES (Hanya untuk yang belum login)
-// ==========================================
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister']);
-Route::post('/register', [AuthController::class, 'register']);
-
-
-// ==========================================
-// AUTH ROUTES (Harus Login: Admin, Guru, Wali)
-// ==========================================
+/*
+|--------------------------------------------------------------------------
+| 3. AUTHENTICATED SHARED ROUTES (Semua User Login)
+|--------------------------------------------------------------------------
+| Admin, Super Admin, Guru, Wali, Siswa masuk sini.
+| URL tidak ada embel-embel 'admin' atau 'guru'.
+*/
 Route::middleware('auth')->group(function () {
-
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Dashboard Redirect (Mengarahkan sesuai role)
+    // Dashboard Smart Redirect (Controller yang menentukan arah)
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
-    // Profile Settings
+    // Profile Settings (Sama untuk semua role)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
+/*
+|--------------------------------------------------------------------------
+| 4. ADMIN & SUPER ADMIN ROUTES
+|--------------------------------------------------------------------------
+| URL: localhost:8000/admin/....
+| Middleware: Mengecek apakah user adalah 'admin' ATAU 'super_admin'
+*/
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'checkRole:admin,guru'])
+    ->group(function () {
 
-// ==========================================
-// ADMIN & GURU ACADEMIC ROUTES (Shared)
-// ==========================================
-$academicRoutes = function () {
-    Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
-    Route::get('/students/{student}', [AcademicManagementController::class, 'show'])->name('students.show');
-    Route::post('/students/{student}/attendance', [AcademicManagementController::class, 'storeAttendance'])
-        ->name('students.attendance.store');
-    Route::post('/students/{student}/goals', [AcademicManagementController::class, 'storeGoal'])
-        ->name('students.goals.store');
-    Route::post('/students/{student}/outcomes', [AcademicManagementController::class, 'storeOutcome'])
-        ->name('students.outcomes.store');
-    Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])
-        ->name('students.notes.store');
-};
+        // Dashboard Admin
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// ==========================================
-// ADMIN ROUTES (Khusus Role Admin)
-// ==========================================
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin'])->group(function () use ($academicRoutes) {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::prefix('academic')->name('academic.')->group($academicRoutes);
+        Route::resource('teachers', TeacherController::class);
+        // --- MANAJEMEN SISWA (Full Akses CRUD) ---
+        // URL: /admin/students
+        Route::resource('students', StudentController::class);
 
-    // 1. MANAGEMENT SISWA (CRUD LENGKAP)
-    // Ini otomatis membuat route: index, create, store, edit, update, destroy
-    // URL: /admin/students
-    // Route Name: admin.students.index, admin.students.create, dst.
-    Route::resource('students', StudentController::class)->except(['show']);
+        // --- AKADEMIK (Nilai, Absensi, dll) ---
+        // URL: /admin/academic/...
+        Route::prefix('academic')->name('academic.')->group(function () {
+            Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
+            Route::get('/students/{student}', [AcademicManagementController::class, 'show'])->name('students.show');
 
-    // 2. MANAGEMENT ARTIKEL
-    Route::resource('artikel', ArticleController::class);
+            // Aksi-aksi Form
+            Route::post('/students/{student}/attendance', [AcademicManagementController::class, 'storeAttendance'])->name('students.attendance.store');
+            Route::post('/students/{student}/goals', [AcademicManagementController::class, 'storeGoal'])->name('students.goals.store');
+            Route::post('/students/{student}/outcomes', [AcademicManagementController::class, 'storeOutcome'])->name('students.outcomes.store');
+            Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])->name('students.notes.store');
+        });
 
-    // 3. APPROVAL WALI MURID
-    Route::prefix('wali')->name('wali.')->group(function () {
-        Route::get('/', [UserApprovalController::class, 'index'])->name('index'); // Pending list
-        Route::get('/active', [UserApprovalController::class, 'active'])->name('active'); // Active list
-        Route::get('/rejected', [UserApprovalController::class, 'rejected'])->name('rejected'); // Rejected list
 
-        // Actions (Tombol Approve/Reject)
-        Route::patch('/{user}/approve', [UserApprovalController::class, 'approve'])->name('approve');
-        Route::patch('/{user}/reject', [UserApprovalController::class, 'reject'])->name('reject');
-        Route::delete('/{user}', [UserApprovalController::class, 'destroy'])->name('destroy');
+        // --- MANAJEMEN ARTIKEL ---
+        Route::resource('artikel', ArticleController::class);
+
+        // --- APPROVAL WALI MURID ---
+        Route::prefix('wali')->name('wali.')->group(function () {
+            Route::get('/', [UserApprovalController::class, 'index'])->name('index');
+            Route::get('/active', [UserApprovalController::class, 'active'])->name('active');
+            Route::get('/rejected', [UserApprovalController::class, 'rejected'])->name('rejected');
+
+            Route::patch('/{user}/approve', [UserApprovalController::class, 'approve'])->name('approve');
+            Route::patch('/{user}/reject', [UserApprovalController::class, 'reject'])->name('reject');
+            Route::delete('/{user}', [UserApprovalController::class, 'destroy'])->name('destroy');
+        });
     });
-});
 
-// ==========================================
-// GURU ROUTES (Khusus Role Guru)
-// ==========================================
-Route::prefix('guru')->name('guru.')->middleware(['auth', 'checkRole:guru'])->group(function () use ($academicRoutes) {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::prefix('academic')->name('academic.')->group($academicRoutes);
-    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
-});
+/*
+|--------------------------------------------------------------------------
+| 5. GURU ROUTES
+|--------------------------------------------------------------------------
+| URL: localhost:8000/guru/....
+| Middleware: Hanya 'guru'
+*/
+Route::prefix('guru')
+    ->name('guru.')
+    ->middleware(['auth', 'checkRole:guru'])
+    ->group(function () {
+
+        // Dashboard Guru
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        // --- AKADEMIK GURU ---
+        // Kita tulis ulang disini agar jelas. 
+        // URL: /guru/academic/...
+        Route::prefix('academic')->name('academic.')->group(function () {
+            Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
+
+            // Guru HANYA bisa melihat detail, tidak bisa Delete siswa (karena tidak ada resource student)
+            Route::get('/students/{student}', [AcademicManagementController::class, 'show'])->name('students.show');
+
+            // Guru bisa input nilai & absen (Sama fungsinya dengan admin)
+            Route::post('/students/{student}/attendance', [AcademicManagementController::class, 'storeAttendance'])->name('students.attendance.store');
+            Route::post('/students/{student}/goals', [AcademicManagementController::class, 'storeGoal'])->name('students.goals.store');
+            Route::post('/students/{student}/outcomes', [AcademicManagementController::class, 'storeOutcome'])->name('students.outcomes.store');
+            Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])->name('students.notes.store');
+        });
+    });

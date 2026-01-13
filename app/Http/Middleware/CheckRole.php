@@ -14,14 +14,15 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!Auth::check()) {
             return redirect('/login');
         }
 
-        if (Auth::user()->role !== $role) {
-            abort(403, 'AKSES DITOLAK: Anda bukan ' . ucfirst($role));
+        // Mengecek apakah role user ada di dalam daftar $roles yang dikirim dari route
+        if (!in_array(Auth::user()->role, $roles)) {
+            abort(403, 'AKSES DITOLAK: Anda tidak memiliki izin untuk halaman ini.');
         }
 
         return $next($request);

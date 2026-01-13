@@ -127,7 +127,7 @@
                             </div>
                         </div>
 
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.students.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                             href="{{ route('admin.students.index') }}">
                             <span
                                 class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">school</span>
@@ -147,14 +147,16 @@
                                 class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">book_2</span>
                             <span class="text-sm font-medium">Academic Management</span>
                         </a>
+
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.teachers.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
+                            href="{{ route('admin.teachers.index') }}">
+                            <span
+                                class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">person_add</span>
+                            <span class="text-sm font-medium">Tambah Data Guru</span>
+                        </a>
                     @endif
 
                     @if ($role === 'guru')
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('guru.students.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
-                            href="{{ route('guru.students.index') }}">
-                            <span class="material-symbols-outlined text-[22px]">school</span>
-                            <span class="text-sm font-medium">Student Directory</span>
-                        </a>
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.artikel.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                             href="{{ route('admin.artikel.index') }}">
                             <span class="material-symbols-outlined text-[22px]">article</span>
