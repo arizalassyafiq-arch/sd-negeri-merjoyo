@@ -63,7 +63,7 @@
                             Profil Pengajar
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-1">
+                            {{-- <div class="space-y-1">
                                 <label class="text-xs font-bold text-slate-500 uppercase">NIP</label>
                                 <input type="text" name="nip" value="{{ old('nip', $teacher->nip) }}"
                                     class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-slate-400"
@@ -79,7 +79,7 @@
                                 @error('phone')
                                     <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="md:col-span-2 space-y-1">
                                 <label class="text-xs font-bold text-slate-500 uppercase">Mata Pelajaran Utama</label>
                                 <select name="subject"

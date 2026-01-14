@@ -33,9 +33,9 @@ class TeacherController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email', // Cek unik di tabel users
-            'nip' => 'required|string|unique:teachers,nip', // Cek unik di tabel teachers
+            // 'nip' => 'required|string|unique:teachers,nip', // Cek unik di tabel teachers
             'subject' => 'required|string',
-            'phone' => 'nullable|string',
+            // 'phone' => 'nullable|string',
         ]);
 
         // 2. Gunakan DB Transaction (Agar data masuk ke 2 tabel sekaligus dengan aman)
@@ -55,9 +55,9 @@ class TeacherController extends Controller
             // B. Buat Profil Detail di tabel 'teachers'
             Teacher::create([
                 'user_id' => $user->id, // Ambil ID dari user yang baru dibuat
-                'nip' => $request->nip,
+                // 'nip' => $request->nip,
                 'subject' => $request->subject,
-                'phone' => $request->phone,
+                // 'phone' => $request->phone,
             ]);
         });
 
@@ -77,7 +77,7 @@ class TeacherController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users')->ignore($teacher->user_id)],
-            'nip' => ['required', Rule::unique('teachers')->ignore($teacher->id)],
+            // 'nip' => ['required', Rule::unique('teachers')->ignore($teacher->id)],
             'subject' => 'required',
         ]);
 
@@ -90,9 +90,9 @@ class TeacherController extends Controller
 
             // Update tabel Teachers
             $teacher->update([
-                'nip' => $request->nip,
+                // 'nip' => $request->nip,
                 'subject' => $request->subject,
-                'phone' => $request->phone,
+                // 'phone' => $request->phone,
             ]);
         });
 

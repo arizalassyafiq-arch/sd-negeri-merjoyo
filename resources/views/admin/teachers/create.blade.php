@@ -80,7 +80,7 @@
                             Profil Pengajar
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-1">
+                            {{-- <div class="space-y-1">
                                 <label class="text-xs font-bold text-slate-500 uppercase">Nomor Induk Pegawai
                                     (NIP)</label>
                                 <input type="text" name="nip" value="{{ old('nip') }}"
@@ -99,7 +99,7 @@
                                 @error('phone')
                                     <p class="text-xs text-rose-500 mt-1">{{ $message }}</p>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="md:col-span-2 space-y-1">
                                 <label class="text-xs font-bold text-slate-500 uppercase">Mata Pelajaran Utama</label>
                                 <select name="subject"

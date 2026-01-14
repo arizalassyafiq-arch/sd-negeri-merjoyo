@@ -41,8 +41,8 @@
                             class="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-700">
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Profil Guru
                             </th>
-                            <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">NIP /
-                                Kontak</th>
+                            {{-- <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">NIP /
+                                Kontak</th> --}}
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Mata
                                 Pelajaran</th>
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">
@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <div class="flex flex-col gap-1">
                                         <div class="flex items-center gap-2">
                                             <span
@@ -83,7 +83,7 @@
                                             <span class="text-xs text-slate-500">{{ $teacher->phone ?? '-' }}</span>
                                         </div>
                                     </div>
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4">
                                     <span
                                         class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/30">
