@@ -35,7 +35,7 @@ class AuthController extends Controller
             'email'            => 'required|email|unique:users,email',
             'password'         => 'required|min:6',
             // Field Tambahan untuk Klaim Anak
-            'child_nis'        => 'required|string|exists:students,nis', // Cek NIS ada di tabel students
+            'child_nis'        => 'required|string|exists:students,nisn|numeric|digits:10', // Cek NISN ada di tabel students
             'child_birth_date' => 'required|date',
         ], [
             'child_nis.exists' => 'NIS/NISN siswa tidak ditemukan di sistem sekolah.',
@@ -95,7 +95,7 @@ class AuthController extends Controller
                 Auth::logout();
 
                 return back()->withErrors([
-                    'email' => 'Akun belum aktif atau ditolak oleh sekolah.',
+                    'email' => 'Akun belum aktif.',
                 ]);
             }
 
@@ -117,12 +117,11 @@ class AuthController extends Controller
             return redirect('/admin/dashboard');
         }
 
-        // Note: Guru mungkin butuh dashboard sendiri, sesuaikan route-nya
         if ($role === 'guru') {
             return redirect('/guru/dashboard');
         }
 
-        return view('dashboard'); // Default dashboard user/wali
+        return view('dashboard');
     }
 
     public function logout(Request $request)

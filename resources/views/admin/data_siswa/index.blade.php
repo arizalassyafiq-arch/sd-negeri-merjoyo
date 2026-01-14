@@ -89,8 +89,8 @@
                                 </td>
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col text-sm">
-                                        <span class="text-slate-600 dark:text-slate-300">NIS:
-                                            {{ $student->nis }}</span>
+                                        <span class="text-slate-600 dark:text-slate-300">NISN:
+                                            {{ $student->nisn }}</span>
                                         <span class="text-xs text-slate-500">NIK: {{ $student->nik }}</span>
                                     </div>
                                 </td>
@@ -133,7 +133,8 @@
                                             </a>
 
                                             {{-- TOMBOL DELETE --}}
-                                            <form method="POST" action="{{ route('admin.students.destroy', $student) }}"
+                                            <form method="POST"
+                                                action="{{ route('admin.students.destroy', $student) }}"
                                                 onsubmit="return confirm('Hapus data siswa ini?');">
                                                 @csrf
                                                 @method('DELETE')

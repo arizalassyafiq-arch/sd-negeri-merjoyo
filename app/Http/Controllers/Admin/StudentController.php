@@ -43,7 +43,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'nik' => 'required|numeric|digits:16|unique:students,nik',
-            'nis' => 'required|string|unique:students,nis', // NIS Wajib untuk login Ortu
+            'nisn' => 'required|string|unique:students,nisn', // NISN Wajib untuk login Ortu
             'gender' => 'required|in:L,P',
             'class_name' => 'required|string',
             'birth_place' => 'required|string',
@@ -74,7 +74,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'nik' => ['required', 'numeric', 'digits:16', Rule::unique('students')->ignore($student->id)],
-            'nis' => ['required', 'string', Rule::unique('students')->ignore($student->id)],
+            'nisn' => ['required', 'string', Rule::unique('students')->ignore($student->id)],
             'gender' => 'required|in:L,P',
             'class_name' => 'required|string',
             'birth_place' => 'required|string',

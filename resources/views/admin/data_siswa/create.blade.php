@@ -43,11 +43,11 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-400 uppercase mb-2 block">NIS</label>
-                        <input type="text" name="nis" value="{{ old('nis') }}"
+                        <label class="text-xs font-bold text-slate-400 uppercase mb-2 block">NISN</label>
+                        <input type="text" name="nisn" value="{{ old('nisn') }}"
                             class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-3 outline-none"
-                            placeholder="Nomor Induk Siswa">
-                        @error('nis')
+                            placeholder="Nomor Induk Siswa Nasional">
+                        @error('nisn')
                             <span class="text-rose-400 text-xs">{{ $message }}</span>
                         @enderror
                     </div>

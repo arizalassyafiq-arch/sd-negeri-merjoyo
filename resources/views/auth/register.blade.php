@@ -83,7 +83,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                            for="child_nis">NIS / NISN Siswa</label>
+                            for="child_nis">NISN Siswa</label>
                         <div class="relative">
                             <span
                                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
@@ -91,8 +91,10 @@
                             </span>
                             <input
                                 class="block w-full pl-10 pr-3 py-3 border-0 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm @error('child_nis') border-red-500 @enderror"
-                                id="child_nis" placeholder="Nomor Induk Siswa" type="text" name="child_nis"
-                                value="{{ old('child_nis') }}" required />
+                                id="child_nis" placeholder="Nomor Induk Siswa Nasional" type="text" name="child_nis"
+                                maxlength="10" pattern="[0-9]{10}" inputmode="numeric" value="{{ old('child_nis') }}"
+                                required />
+
                         </div>
                         @error('child_nis')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

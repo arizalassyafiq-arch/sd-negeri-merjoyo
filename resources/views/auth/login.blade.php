@@ -33,6 +33,42 @@
                 class="bg-white/80 dark:bg-gray-800/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-white/50 dark:border-gray-700">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Masuk ke Akun Anda</h2>
 
+                {{-- 1. Alert Sukses (Muncul setelah Register) --}}
+                @if (session('success'))
+                    <div
+                        class="mb-6 p-4 rounded-xl bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 animate-fade-in-down">
+                        <div class="flex items-start gap-3">
+                            <div class="shrink-0">
+                                <span
+                                    class="material-icons-round text-green-600 dark:text-green-400">check_circle</span>
+                            </div>
+                            <div class="text-sm font-medium text-green-800 dark:text-green-200">
+                                {{ session('success') }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- 2. Alert Error (Muncul jika Login Gagal / Akun Belum Aktif) --}}
+                @if ($errors->any())
+                    <div
+                        class="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 animate-fade-in-down">
+                        <div class="flex items-start gap-3">
+                            <div class="shrink-0">
+                                <span class="material-icons-round text-red-600 dark:text-red-400">error</span>
+                            </div>
+                            <div class="text-sm text-red-800 dark:text-red-200">
+                                <ul class="list-disc list-inside">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                {{-- BATAS AKHIR PENAMBAHAN --}}
+
                 <form method="POST" action="/login" class="space-y-5">
                     @csrf
                     <div>
