@@ -17,9 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             // Data khusus guru yang tidak ada di tabel users
-            $table->string('nip')->unique()->nullable();
             $table->string('subject')->nullable(); // Mata Pelajaran
-            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
