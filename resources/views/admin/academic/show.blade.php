@@ -5,10 +5,14 @@
         $role = auth()->user()->role;
         $indexRouteName = $role === 'guru' ? 'guru.academic.index' : 'admin.academic.index';
         $canEdit = $role === 'admin';
-        $attendanceStoreRoute = $role === 'guru' ? 'guru.academic.students.attendance.store' : 'admin.academic.students.attendance.store';
-        $goalStoreRoute = $role === 'guru' ? 'guru.academic.students.goals.store' : 'admin.academic.students.goals.store';
-        $outcomeStoreRoute = $role === 'guru' ? 'guru.academic.students.outcomes.store' : 'admin.academic.students.outcomes.store';
-        $noteStoreRoute = $role === 'guru' ? 'guru.academic.students.notes.store' : 'admin.academic.students.notes.store';
+        $attendanceStoreRoute =
+            $role === 'guru' ? 'guru.academic.students.attendance.store' : 'admin.academic.students.attendance.store';
+        $goalStoreRoute =
+            $role === 'guru' ? 'guru.academic.students.goals.store' : 'admin.academic.students.goals.store';
+        $outcomeStoreRoute =
+            $role === 'guru' ? 'guru.academic.students.outcomes.store' : 'admin.academic.students.outcomes.store';
+        $noteStoreRoute =
+            $role === 'guru' ? 'guru.academic.students.notes.store' : 'admin.academic.students.notes.store';
         $goalIconSet = ['functions', 'translate', 'science', 'history_edu'];
         $goalColorSet = [
             ['bg' => 'bg-purple-500/10', 'text' => 'text-purple-500'],
@@ -71,8 +75,7 @@
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">Rekap Absen</h3>
                     <button
                         class="flex h-7 w-7 items-center justify-center rounded-lg bg-admin-primary/10 text-admin-primary transition hover:bg-admin-primary hover:text-white"
-                        data-modal-target="attendance-modal"
-                        type="button">
+                        data-modal-target="attendance-modal" type="button">
                         <span class="material-symbols-outlined text-sm">add</span>
                     </button>
                 </div>
@@ -104,8 +107,7 @@
                 </div>
                 <button
                     class="mt-4 flex items-center text-[10px] font-bold uppercase text-slate-400 transition hover:text-admin-primary"
-                    data-modal-target="attendance-modal"
-                    type="button">
+                    data-modal-target="attendance-modal" type="button">
                     <span class="material-symbols-outlined text-xs mr-1">edit_note</span>
                     Update Absensi
                 </button>
@@ -120,8 +122,7 @@
                     </div>
                     <button
                         class="flex h-8 w-8 items-center justify-center rounded-lg bg-admin-primary/10 text-admin-primary transition hover:bg-admin-primary hover:text-white"
-                        data-modal-target="goal-modal"
-                        type="button">
+                        data-modal-target="goal-modal" type="button">
                         <span class="material-symbols-outlined text-lg">add</span>
                     </button>
                 </div>
@@ -137,7 +138,7 @@
                         <div
                             class="flex items-center gap-4 rounded-2xl border border-transparent bg-slate-50 p-4 transition hover:border-slate-200 dark:bg-slate-800/30 dark:hover:border-slate-700">
                             <div
-                                class="flex h-10 w-10 items-center justify-center rounded-xl {{ $palette['bg'] }} {{ $palette['text'] }} flex-shrink-0">
+                                class="flex h-10 w-10 items-center justify-center rounded-xl {{ $palette['bg'] }} {{ $palette['text'] }} shrink-0">
                                 <span class="material-symbols-outlined">{{ $icon }}</span>
                             </div>
                             <div class="min-w-0 flex-1">
@@ -145,7 +146,7 @@
                                     <h4 class="truncate text-sm font-bold text-slate-900 dark:text-white">
                                         {{ $goal['title'] }}
                                     </h4>
-                                    <span class="text-[9px] font-bold uppercase {{ $statusClass }} flex-shrink-0">
+                                    <span class="text-[9px] font-bold uppercase {{ $statusClass }} shrink-0">
                                         {{ $goal['status'] }}
                                     </span>
                                 </div>
@@ -181,8 +182,7 @@
                         </button>
                         <button
                             class="flex h-8 w-8 items-center justify-center rounded-lg bg-admin-primary text-white transition hover:bg-admin-primary-hover"
-                            data-modal-target="outcome-modal"
-                            type="button">
+                            data-modal-target="outcome-modal" type="button">
                             <span class="material-symbols-outlined text-lg">add</span>
                         </button>
                     </div>
@@ -237,26 +237,30 @@
                                                 class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/10 text-[10px] font-bold text-indigo-500">
                                                 {{ $abbr }}
                                             </div>
-                                            <span class="text-sm font-bold text-slate-900 dark:text-white">{{ $subject }}</span>
+                                            <span
+                                                class="text-sm font-bold text-slate-900 dark:text-white">{{ $subject }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-5 text-xs text-slate-500 max-w-[200px] truncate">
+                                    <td class="py-5 text-xs text-slate-500 max-w-50 truncate">
                                         {{ $outcome->note ?: 'Belum ada catatan.' }}
                                     </td>
                                     <td class="py-5">
                                         <div class="h-1.5 w-32 rounded-full bg-slate-100 dark:bg-slate-800">
-                                            <div class="h-full rounded-full bg-indigo-500" style="width: {{ $progress }}%"></div>
+                                            <div class="h-full rounded-full bg-indigo-500"
+                                                style="width: {{ $progress }}%"></div>
                                         </div>
                                     </td>
                                     <td class="py-5 text-right">
-                                        <span class="inline-flex px-2 py-1 text-[9px] font-bold uppercase rounded {{ $labelClass }}">
+                                        <span
+                                            class="inline-flex px-2 py-1 text-[9px] font-bold uppercase rounded {{ $labelClass }}">
                                             {{ $label }}
                                         </span>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                                    <td colspan="4"
+                                        class="py-8 text-center text-sm text-slate-500 dark:text-slate-400">
                                         Belum ada capaian siswa.
                                     </td>
                                 </tr>
@@ -275,16 +279,15 @@
                     </div>
                     <button
                         class="flex h-8 w-8 items-center justify-center rounded-lg bg-admin-primary/10 text-admin-primary transition hover:bg-admin-primary hover:text-white"
-                        data-modal-target="note-modal"
-                        type="button">
+                        data-modal-target="note-modal" type="button">
                         <span class="material-symbols-outlined text-lg">add</span>
                     </button>
                 </div>
-                <div class="max-h-[380px] space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+                <div class="max-h-95 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
                     @forelse ($notes as $note)
                         <div class="relative border-l border-slate-200 pl-6 dark:border-slate-800">
                             <div
-                                class="absolute -left-[5px] top-0 h-2.5 w-2.5 rounded-full bg-admin-primary ring-4 ring-white dark:ring-slate-900/60">
+                                class="absolute -left-1.25 top-0 h-2.5 w-2.5 rounded-full bg-admin-primary ring-4 ring-white dark:ring-slate-900/60">
                             </div>
                             <div class="mb-1 flex items-center justify-between">
                                 <span class="text-xs font-bold text-slate-900 dark:text-white">
@@ -332,22 +335,26 @@
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Hadir</label>
-                        <input type="number" min="0" name="present" value="{{ old('present', $attendance['present']) }}"
+                        <input type="number" min="0" name="present"
+                            value="{{ old('present', $attendance['present']) }}"
                             class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
                     </div>
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Sakit</label>
-                        <input type="number" min="0" name="sick" value="{{ old('sick', $attendance['sick']) }}"
+                        <input type="number" min="0" name="sick"
+                            value="{{ old('sick', $attendance['sick']) }}"
                             class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
                     </div>
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Izin</label>
-                        <input type="number" min="0" name="permit" value="{{ old('permit', $attendance['permit']) }}"
+                        <input type="number" min="0" name="permit"
+                            value="{{ old('permit', $attendance['permit']) }}"
                             class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
                     </div>
                     <div>
                         <label class="text-xs font-semibold text-slate-500">Alpha</label>
-                        <input type="number" min="0" name="absent" value="{{ old('absent', $attendance['absent']) }}"
+                        <input type="number" min="0" name="absent"
+                            value="{{ old('absent', $attendance['absent']) }}"
                             class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
                     </div>
                 </div>
@@ -435,7 +442,8 @@
                             {{ $availableGoals->isEmpty() ? 'disabled' : '' }}>
                             <option value="">Pilih tujuan pembelajaran</option>
                             @foreach ($availableGoals as $goal)
-                                <option value="{{ $goal->id }}" {{ old('learning_goal_id') == $goal->id ? 'selected' : '' }}>
+                                <option value="{{ $goal->id }}"
+                                    {{ old('learning_goal_id') == $goal->id ? 'selected' : '' }}>
                                     {{ $goal->title }}
                                 </option>
                             @endforeach
@@ -546,5 +554,3 @@
         })();
     </script>
 </x-admin-layout>
-
-
