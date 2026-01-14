@@ -33,6 +33,7 @@
                                 <th class="px-4 py-3 text-left font-semibold">Judul</th>
                                 <th class="px-4 py-3 text-left font-semibold">Status & Tanggal</th>
                                 <th class="px-4 py-3 text-left font-semibold">Ringkasan Isi</th>
+                                <th class="px-4 py-3 text-left font-semibold">Gambar</th>
                                 <th class="px-4 py-3 text-right font-semibold">Aksi</th>
                             </tr>
                         </thead>
@@ -55,13 +56,28 @@
                                         {{-- Mengambil 80 karakter dari content karena field excerpt tidak ada --}}
                                         {{ \Illuminate\Support\Str::limit(strip_tags($article->content), 80) }}
                                     </td>
+
+                                    <td class="px-4 py-3">
+                                        @if ($article->image_path)
+                                            <img src="{{ asset('storage/' . $article->image_path) }}"
+                                                alt="{{ $article->title }}"
+                                                class="w-20 h-14 object-cover rounded-lg border border-gray-200 dark:border-gray-600">
+                                        @else
+                                            <div
+                                                class="w-20 h-14 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700 text-xs text-gray-400">
+                                                No Image
+                                            </div>
+                                        @endif
+                                    </td>
+
                                     <td class="px-4 py-3">
                                         <div class="flex items-center justify-end gap-2">
-                                            {{-- Asumsi route publik artikel ada --}}
-                                            {{-- <a href="{{ route('artikel.show', $article->slug) }}" target="_blank"
-                                                class="p-2 rounded-full text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition" title="Lihat">
+                                            {{-- {{-- Asumsi route publik artikel ada  --}}
+                                            <a href="{{ route($routePrefix . 'show', $article) }}"
+                                                class="p-2 rounded-full text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
+                                                title="Lihat">
                                                 <span class="material-icons text-sm">visibility</span>
-                                            </a> --}}
+                                            </a>
 
                                             <a href="{{ route($routePrefix . 'edit', $article) }}"
                                                 class="p-2 rounded-full text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 transition"

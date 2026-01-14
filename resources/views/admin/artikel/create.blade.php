@@ -42,11 +42,13 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Isi
-                            Artikel</label>
-                        <textarea name="content" rows="10"
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            Isi Artikel
+                        </label>
+                        {{-- Tambahkan id="editor" --}}
+                        <textarea name="content" id="editor"
                             class="w-full rounded-xl border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-green-500 focus:ring-green-500"
-                            placeholder="Tulis konten lengkap artikel di sini..." required>{{ old('content') }}</textarea>
+                            placeholder="Tulis konten lengkap artikel di sini...">{{ old('content') }}</textarea>
                     </div>
 
                     <div class="grid gap-6 md:grid-cols-2">
@@ -89,4 +91,75 @@
             </div>
         </div>
     </section>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'undo', 'redo'
+                ],
+                heading: {
+                    options: [{
+                            model: 'paragraph',
+                            title: 'Paragraph',
+                            class: 'ck-heading_paragraph'
+                        },
+                        {
+                            model: 'heading1',
+                            view: 'h1',
+                            title: 'Heading 1',
+                            class: 'ck-heading_heading1'
+                        },
+                        {
+                            model: 'heading2',
+                            view: 'h2',
+                            title: 'Heading 2',
+                            class: 'ck-heading_heading2'
+                        },
+                        {
+                            model: 'heading3',
+                            view: 'h3',
+                            title: 'Heading 3',
+                            class: 'ck-heading_heading3'
+                        }
+                    ]
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <style>
+        /* Menyesuaikan tinggi editor agar lebih lega */
+        .ck-editor__editable_inline {
+            font-family: 'Open Sans', sans-serif !important;
+            min-height: 400px;
+            color: black;
+            line-height: 1.8 !important;
+            /* Leading loose */
+            /* CKEditor default text color */
+        }
+
+        /* Agar editor terlihat bagus di dark mode */
+        .dark .ck-editor__main>div {
+            background-color: #1f2937 !important;
+            /* gray-800 */
+            color: white !important;
+            border-color: #374151 !important;
+            /* gray-700 */
+        }
+
+        .dark .ck-toolbar {
+            background-color: #374151 !important;
+            border-color: #4b5563 !important;
+        }
+
+        .ck-content h1,
+        .ck-content h2,
+        .ck-content h3 {
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
 </x-admin-layout>

@@ -6,10 +6,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{{ $title ?? 'EduAdmin Dashboard' }}</title>
     <link rel="website icon" type="img" href="{{ asset('img/title.webp') }}">
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block" rel="stylesheet">
 
@@ -142,18 +143,18 @@
                             <span class="text-sm font-medium">Article CMS</span>
                         </a>
 
-                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.academic.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
-                            href="{{ route('admin.academic.index') }}">
-                            <span
-                                class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">book_2</span>
-                            <span class="text-sm font-medium">Academic Management</span>
-                        </a>
-
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.teachers.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                             href="{{ route('admin.teachers.index') }}">
                             <span
                                 class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">person_add</span>
                             <span class="text-sm font-medium">Tambah Data Guru</span>
+                        </a>
+
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.teachers.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
+                            href="#">
+                            <span
+                                class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">chat</span>
+                            <span class="text-sm font-medium">Messages</span>
                         </a>
                     @endif
 

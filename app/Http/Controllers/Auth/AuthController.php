@@ -42,7 +42,7 @@ class AuthController extends Controller
         ]);
 
         // 2. Cek Logika Kecocokan Data Siswa (Security Check)
-        $student = Student::where('nis', $request->child_nis)
+        $student = Student::where('nisn', $request->child_nis)
             ->whereDate('birth_date', $request->child_birth_date)
             ->first();
 
@@ -75,7 +75,7 @@ class AuthController extends Controller
         ]);
 
         return redirect('/login')
-            ->with('success', 'Registrasi Berhasil! Data anak telah ditautkan. Mohon tunggu verifikasi Admin.');
+            ->with('success', 'Registrasi Berhasil! Mohon tunggu verifikasi Admin.');
     }
 
     // ... sisa method login, dashboard, logout tetap sama ...

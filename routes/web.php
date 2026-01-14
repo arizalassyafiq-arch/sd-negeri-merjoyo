@@ -72,22 +72,23 @@ Route::prefix('admin')
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('teachers', TeacherController::class);
-        // --- MANAJEMEN SISWA (Full Akses CRUD) ---
-        // URL: /admin/students
         Route::resource('students', StudentController::class);
+        Route::resource('artikel', ArticleController::class);
 
-        // --- AKADEMIK (Nilai, Absensi, dll) ---
-        // URL: /admin/academic/...
-        Route::prefix('academic')->name('academic.')->group(function () {
-            Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
-            Route::get('/students/{student}', [AcademicManagementController::class, 'show'])->name('students.show');
+        // --- AKADEMIK (HANYA GURU) ---
+        Route::prefix('academic')
+            ->name('academic.')
+            ->middleware('checkRole:guru') // ⬅️ KUNCI UTAMA
+            ->group(function () {
 
-            // Aksi-aksi Form
-            Route::post('/students/{student}/attendance', [AcademicManagementController::class, 'storeAttendance'])->name('students.attendance.store');
-            Route::post('/students/{student}/goals', [AcademicManagementController::class, 'storeGoal'])->name('students.goals.store');
-            Route::post('/students/{student}/outcomes', [AcademicManagementController::class, 'storeOutcome'])->name('students.outcomes.store');
-            Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])->name('students.notes.store');
-        });
+                Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
+                Route::get('/students/{student}', [AcademicManagementController::class, 'show'])->name('students.show');
+
+                Route::post('/students/{student}/attendance', [AcademicManagementController::class, 'storeAttendance'])->name('students.attendance.store');
+                Route::post('/students/{student}/goals', [AcademicManagementController::class, 'storeGoal'])->name('students.goals.store');
+                Route::post('/students/{student}/outcomes', [AcademicManagementController::class, 'storeOutcome'])->name('students.outcomes.store');
+                Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])->name('students.notes.store');
+            });
 
 
         // --- MANAJEMEN ARTIKEL ---

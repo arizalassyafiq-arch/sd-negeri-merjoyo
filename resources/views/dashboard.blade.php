@@ -41,7 +41,7 @@
                             <div
                                 class="bg-white dark:bg-surface-dark p-4 rounded-3xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
                                 <img alt="Kepala Sekolah" class="rounded-2xl w-full h-64 object-cover mb-4"
-                                    src="img/bg.webp" />
+                                    src="img/bgg.webp" />
                                 <div class="flex items-center gap-4">
                                     <div class="bg-primary/20 p-3 rounded-full text-primary">
                                         <span class="material-icons">school</span>

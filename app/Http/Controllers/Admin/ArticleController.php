@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Controller;
+// 1. IMPORT BARU UNTUK VERSI 3
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ArticleController extends Controller
 {
-    // Helper function untuk menentukan redirect ke mana
     private function getRedirectRoute()
     {
         return Auth::user()->role === 'guru' ? 'guru.artikel.index' : 'admin.artikel.index';
@@ -19,7 +21,6 @@ class ArticleController extends Controller
 
     public function index()
     {
-        // Pastikan view-nya bisa dipakai admin & guru
         $articles = Article::latest()->paginate(10);
         return view('admin.artikel.index', compact('articles'));
     }
@@ -31,16 +32,38 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Validasi
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'published_at' => 'nullable|date',
         ]);
 
         $imagePath = null;
+
+        // 2. Logika Draft vs Publish (Dari diskusi sebelumnya)
+        // Jika user klik tombol 'draft', kita set published_at jadi null
+        $publishedAt = $request->input('status') === 'draft' ? null : ($request->published_at ?? now());
+
+        // 3. Proses Upload & Convert WebP (VERSI 3)
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('articles', 'public');
+            $imageFile = $request->file('image');
+            $filename = time() . '-' . Str::random(10) . '.webp';
+
+            // Init Image Manager (V3)
+            $manager = new ImageManager(new Driver());
+
+            // Baca gambar
+            $image = $manager->read($imageFile);
+
+            // Convert ke WebP (quality 90)
+            $encoded = $image->toWebp(90);
+
+            // Simpan ke storage
+            Storage::disk('public')->put('articles/' . $filename, (string) $encoded);
+
+            $imagePath = 'articles/' . $filename;
         }
 
         $authorId = Auth::id() ?? 1;
@@ -50,13 +73,12 @@ class ArticleController extends Controller
             'slug' => Str::slug($request->title) . '-' . Str::random(5),
             'content' => $request->content,
             'image_path' => $imagePath,
-            'published_at' => $request->published_at,
+            'published_at' => $publishedAt, // Menggunakan logika draft
             'author_id' => $authorId,
         ]);
 
-        // GANTI REDIRECT DI SINI
         return redirect()->route($this->getRedirectRoute())
-            ->with('status', 'Artikel berhasil ditambahkan!');
+            ->with('status', 'Artikel berhasil disimpan!');
     }
 
     public function edit(Article $artikel)
@@ -69,29 +91,52 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'published_at' => 'nullable|date',
         ]);
+
+        // Logika Draft vs Publish saat Update
+        $publishedAt = $request->input('status') === 'draft' ? null : ($request->published_at ?? $artikel->published_at);
 
         $data = [
             'title' => $request->title,
             'content' => $request->content,
-            'published_at' => $request->published_at,
+            'published_at' => $publishedAt,
         ];
 
+        // Logika Update Gambar + Convert WebP (VERSI 3)
         if ($request->hasFile('image')) {
+            // Hapus gambar lama
             if ($artikel->image_path && Storage::disk('public')->exists($artikel->image_path)) {
                 Storage::disk('public')->delete($artikel->image_path);
             }
-            $path = $request->file('image')->store('articles', 'public');
-            $data['image_path'] = $path;
+
+            $imageFile = $request->file('image');
+            $filename = time() . '-' . Str::random(10) . '.webp';
+
+            // Init Image Manager (V3)
+            $manager = new ImageManager(new Driver());
+
+            // Baca & Convert
+            $image = $manager->read($imageFile);
+            $encoded = $image->toWebp(90);
+
+            Storage::disk('public')->put('articles/' . $filename, (string) $encoded);
+
+            $data['image_path'] = 'articles/' . $filename;
         }
 
         $artikel->update($data);
 
-        // GANTI REDIRECT DI SINI
         return redirect()->route($this->getRedirectRoute())
             ->with('status', 'Artikel berhasil diperbarui!');
+    }
+
+    public function show(Article $artikel)
+    {
+        return view('admin.artikel.show', [
+            'article' => $artikel
+        ]);
     }
 
     public function destroy(Article $artikel)
@@ -102,7 +147,6 @@ class ArticleController extends Controller
 
         $artikel->delete();
 
-        // GANTI REDIRECT DI SINI
         return redirect()->route($this->getRedirectRoute())
             ->with('status', 'Artikel berhasil dihapus.');
     }
