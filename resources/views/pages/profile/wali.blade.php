@@ -100,13 +100,6 @@
                                             <span class="text-red-500 text-xs">{{ $message }}</span>
                                         @enderror
                                     </div>
-
-                                    <div class="space-y-2">
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Role
-                                            Akun</label>
-                                        <input type="text" value="{{ ucfirst($user->role) }}" readonly
-                                            class="w-full bg-slate-100 dark:bg-slate-800 border-transparent rounded-xl px-4 py-3 text-slate-500 cursor-not-allowed font-medium">
-                                    </div>
                                 </div>
                             </div>
 
