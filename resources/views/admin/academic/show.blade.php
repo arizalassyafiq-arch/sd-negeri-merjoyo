@@ -271,45 +271,115 @@
             </div>
 
             <div
-                class="col-span-12 lg:col-span-4 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
-                <div class="mb-6 flex items-center justify-between">
+                class="col-span-12 lg:col-span-4 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 flex flex-col h-full">
+
+                {{-- Header Section --}}
+                <div class="mb-4 flex items-center justify-between shrink-0">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Catatan Guru</h3>
-                        <p class="text-xs text-slate-500">Masukan dan umpan balik</p>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Catatan & Diskusi</h3>
+                        <p class="text-xs text-slate-500">Komunikasi dengan Wali Murid</p>
                     </div>
+                    {{-- Tombol Tambah Catatan Baru (Hanya Admin/Guru) --}}
                     <button
-                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-admin-primary/10 text-admin-primary transition hover:bg-admin-primary hover:text-white"
-                        data-modal-target="note-modal" type="button">
+                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white transition hover:bg-blue-700 shadow-lg shadow-blue-500/30"
+                        data-modal-target="note-modal" type="button" title="Buat Catatan Baru">
                         <span class="material-symbols-outlined text-lg">add</span>
                     </button>
                 </div>
-                <div class="max-h-95 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+
+                {{-- List Diskusi (Scrollable) --}}
+                <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-[600px]">
                     @forelse ($notes as $note)
-                        <div class="relative border-l border-slate-200 pl-6 dark:border-slate-800">
-                            <div
-                                class="absolute -left-1.25 top-0 h-2.5 w-2.5 rounded-full bg-admin-primary ring-4 ring-white dark:ring-slate-900/60">
+                        <div class="flex flex-col gap-3" x-data="{ openReply: false }">
+
+                            {{-- 1. Catatan Utama (Sticky Note Style) --}}
+                            <div class="relative pl-4 border-l-2 border-blue-500 dark:border-blue-400">
+                                <div
+                                    class="bg-blue-50 dark:bg-blue-900/20 rounded-r-xl rounded-bl-xl p-4 border border-blue-100 dark:border-blue-800/30">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span
+                                            class="text-xs font-bold text-blue-700 dark:text-blue-300 flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-[14px]">person</span>
+                                            {{ $note->teacher->name ?? 'Anda/Guru' }}
+                                        </span>
+                                        <span class="text-[10px] text-slate-400">
+                                            {{ optional($note->created_at)->format('d M Y') }}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 italic">
+                                        "{{ $note->note }}"
+                                    </p>
+                                </div>
                             </div>
-                            <div class="mb-1 flex items-center justify-between">
-                                <span class="text-xs font-bold text-slate-900 dark:text-white">
-                                    {{ $note->teacher->name ?? 'Guru' }}
-                                </span>
-                                <span class="text-[10px] text-slate-400">
-                                    {{ optional($note->created_at)->format('d M Y') ?? '-' }}
-                                </span>
+
+                            {{-- 2. Thread Balasan (Chat Style) --}}
+                            @foreach ($note->replies as $reply)
+                                @php
+                                    // Cek apakah ini balasan Admin/Guru sendiri atau Wali
+                                    // Asumsi: auth()->id() adalah Admin/Guru yang sedang login
+                                    $isMe = $reply->user_id === auth()->id();
+                                @endphp
+                                <div class="flex w-full {{ $isMe ? 'justify-end' : 'justify-start' }}">
+                                    <div
+                                        class="max-w-[85%] {{ $isMe ? 'bg-blue-600 text-white rounded-l-xl rounded-tr-xl' : 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-r-xl rounded-tl-xl' }} p-3 shadow-sm text-sm">
+                                        <p>{{ $reply->reply_content }}</p>
+                                        <div
+                                            class="mt-1 text-[9px] opacity-70 text-right flex items-center justify-end gap-1">
+                                            <span>{{ $reply->created_at->format('H:i') }}</span>
+                                            <span>• {{ $reply->user->name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            {{-- 3. Form Balas (Untuk Admin membalas Wali) --}}
+                            <div class="ml-4 mt-1">
+                                <button @click="openReply = !openReply" x-show="!openReply"
+                                    class="text-xs font-semibold text-slate-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
+                                    <span class="material-symbols-outlined text-[14px]">reply</span>
+                                    Balas Wali
+                                </button>
+
+                                <form x-show="openReply"
+                                    action="{{ route('admin.academic.reply.store', $note->id) }}" method="POST"
+                                    class="flex items-end gap-2 mt-2" x-transition>
+                                    @csrf
+                                    <div class="flex-1 relative">
+                                        <textarea name="reply_content" rows="1" required
+                                            class="w-full rounded-xl border-slate-200 bg-slate-50 text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-700 dark:text-white px-3 py-2 resize-none custom-scrollbar"
+                                            placeholder="Tulis balasan..."></textarea>
+                                    </div>
+                                    <button type="submit"
+                                        class="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg shadow-blue-500/30 transition-all hover:scale-105">
+                                        <span class="material-symbols-outlined text-[18px]">send</span>
+                                    </button>
+                                    <button type="button" @click="openReply = false"
+                                        class="p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>
+                                    </button>
+                                </form>
                             </div>
-                            <p class="text-xs italic text-slate-500">
-                                "{{ $note->note }}"
-                            </p>
+
+                            {{-- Divider --}}
+                            <div class="border-b border-slate-100 dark:border-slate-800 pt-2"></div>
                         </div>
                     @empty
-                        <p class="text-sm text-slate-500 dark:text-slate-400">Belum ada catatan guru.</p>
+                        <div class="flex flex-col items-center justify-center h-48 text-center opacity-60">
+                            <span class="material-symbols-outlined text-4xl text-slate-300 mb-2">note_add</span>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Belum ada catatan.</p>
+                            <p class="text-xs text-slate-400">Klik tombol (+) di atas untuk membuat catatan baru.</p>
+                        </div>
                     @endforelse
                 </div>
-                <button
-                    class="mt-6 w-full rounded-xl border border-slate-100 bg-slate-50 py-2.5 text-[10px] font-bold uppercase text-slate-500 transition hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
-                    type="button">
-                    Lihat Semua Catatan
-                </button>
+
+                {{-- Footer Action (Optional) --}}
+                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0">
+                    <button
+                        class="w-full rounded-xl border border-slate-200 bg-white py-2.5 text-[10px] font-bold uppercase text-slate-500 transition hover:bg-slate-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
+                        type="button">
+                        Lihat Arsip Lengkap
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -478,42 +548,7 @@
         </div>
     </div>
 
-    <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="note-modal">
-        <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
-        <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
-            <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tambah Catatan Guru</h3>
-                <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-                    data-modal-close type="button">
-                    <span class="material-symbols-outlined text-lg">close</span>
-                </button>
-            </div>
-            @if (old('_modal') === 'note-modal' && $errors->any())
-                <div class="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs text-rose-200">
-                    Mohon periksa kembali input catatan guru.
-                </div>
-            @endif
-            <form method="POST" action="{{ route($noteStoreRoute, $student) }}">
-                @csrf
-                <input type="hidden" name="_modal" value="note-modal">
-                <div>
-                    <label class="text-xs font-semibold text-slate-500">Catatan</label>
-                    <textarea name="note" rows="4"
-                        class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">{{ old('note') }}</textarea>
-                </div>
-                <div class="mt-6 flex justify-end gap-2">
-                    <button type="button" data-modal-close
-                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-                        Batal
-                    </button>
-                    <button type="submit"
-                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 
     <script>
         (() => {

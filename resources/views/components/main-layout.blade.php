@@ -34,7 +34,7 @@
 
     <x-footer />
 
-    <script>
+    {{-- <script>
         function toggleChat() {
             const modal = document.getElementById('chatModal');
             const backdrop = document.getElementById('chatBackdrop');
@@ -58,7 +58,7 @@
                 }, 300); // Match transition duration
             }
         }
-    </script>
+    </script> --}}
 
 </body>
 

@@ -65,15 +65,6 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                         class="px-4 py-2 rounded-full text-sm transition-all">
                         Cari Siswa
                     </a>
-                    <button @click="toggleChat()"
-                        class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-gray-800 transition-all flex items-center gap-2">
-                        Diskusi
-                        <span class="relative flex h-2.5 w-2.5">
-                            <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-                        </span>
-                    </button>
                 </div>
 
                 <div class="hidden md:flex items-center gap-3">
@@ -174,15 +165,6 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                     class="block px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-gray-800 font-medium text-sm transition-colors">
                     Cari Siswa
                 </a>
-                <button @click="toggleChat()"
-                    class="w-full text-left px-4 py-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-gray-800 font-medium text-sm transition-colors flex items-center gap-2">
-                    Diskusi
-                    <span class="relative flex h-2 w-2">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                </button>
 
                 <div class="pt-2 mt-2 border-t border-gray-100 dark:border-gray-700">
                     @guest

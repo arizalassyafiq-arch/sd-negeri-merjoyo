@@ -9,6 +9,7 @@ use App\Models\StudentAttendanceSummary;
 use App\Models\TeacherNote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NoteReply; // <--- Tambahkan ini
 
 class AcademicManagementController extends Controller
 {
@@ -54,10 +55,10 @@ class AcademicManagementController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $notes = TeacherNote::with('teacher')
+        $notes = TeacherNote::with('teacher', 'replies.user')
             ->where('student_id', $student->id)
             ->orderByDesc('created_at')
-            ->limit(10)
+            // ->limit(10)
             ->get();
 
         $goalCards = $goals->map(function ($goal) use ($outcomes) {
@@ -209,5 +210,24 @@ class AcademicManagementController extends Controller
         ]);
 
         return back()->with('status', 'Catatan guru berhasil ditambahkan.');
+    }
+
+
+    public function storeReply(Request $request, $noteId)
+    {
+        $request->validate([
+            'reply_content' => 'required|string|max:1000',
+        ]);
+
+        // Pastikan note ID valid
+        $note = TeacherNote::findOrFail($noteId);
+
+        NoteReply::create([
+            'teacher_note_id' => $note->id,
+            'user_id' => Auth::id(), // ID Admin/Guru yang sedang login
+            'reply_content' => $request->reply_content,
+        ]);
+
+        return back()->with('status', 'Balasan berhasil dikirim.');
     }
 }

@@ -107,6 +107,9 @@ Route::prefix('admin')
         });
     });
 
+
+Route::post('/academic/notes/{note}/reply', [AcademicManagementController::class, 'storeReply'])
+    ->name('admin.academic.reply.store');
 /*
 |--------------------------------------------------------------------------
 | 5. GURU ROUTES
@@ -123,6 +126,7 @@ Route::prefix('guru')
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('artikel', ArticleController::class);
+
         // --- AKADEMIK GURU ---
         // Kita tulis ulang disini agar jelas. 
         // URL: /guru/academic/...
@@ -149,3 +153,5 @@ Route::middleware(['auth', 'role:wali'])->prefix('wali')->name('wali.')->group(f
     // Halaman Detail (Hasil)
     Route::get('/rapor/{student}', [GuardianAcademicController::class, 'show'])->name('academic.show');
 });
+Route::post('/rapor/reply/{noteId}', [GuardianAcademicController::class, 'storeReply'])
+    ->name('wali.academic.reply.store');

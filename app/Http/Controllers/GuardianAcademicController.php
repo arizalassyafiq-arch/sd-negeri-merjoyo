@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Models\LearningGoal;
+use App\Models\NoteReply;
 use App\Models\TeacherNote;
-use App\Models\LearningOutcome; // Pastikan ini di-import
-use App\Models\StudentAttendanceSummary;
+use App\Models\LearningGoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\StudentAttendanceSummary;
+use App\Models\LearningOutcome; // Pastikan ini di-import
 
 class GuardianAcademicController extends Controller
 {
@@ -110,11 +111,30 @@ class GuardianAcademicController extends Controller
             ->get();
 
         // 4. Data Notes (Catatan Guru)
-        $notes = TeacherNote::with('teacher')
+        $notes = TeacherNote::with('teacher', 'replies.user')
             ->where('student_id', $student->id)
             ->latest()
             ->get();
 
         return view('pages.search.show', compact('student', 'attendance', 'goalCards', 'outcomes', 'notes'));
+    }
+
+    public function storeReply(Request $request, $noteId)
+    {
+        $request->validate([
+            'reply_content' => 'required|string|max:500',
+        ]);
+
+        // Pastikan Note tersebut milik anak dari wali yang sedang login (Security)
+        $note = TeacherNote::findOrFail($noteId);
+        // Tambahkan logika security check di sini jika perlu
+
+        NoteReply::create([
+            'teacher_note_id' => $note->id,
+            'user_id' => Auth::id(),
+            'reply_content' => $request->reply_content,
+        ]);
+
+        return back()->with('success', 'Balasan terkirim!');
     }
 }

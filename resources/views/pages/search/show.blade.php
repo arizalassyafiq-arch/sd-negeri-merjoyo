@@ -330,51 +330,107 @@
                 </div>
 
                 {{-- Right: Teacher Notes --}}
+                {{-- Right: Teacher Notes & Discussion --}}
                 <div class="col-span-12 lg:col-span-4">
                     <div
-                        class="bg-white dark:bg-gray-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none p-6 md:p-8 h-full flex flex-col">
-                        <div class="mb-6 flex items-center gap-2">
-                            <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-500">
-                                <span class="material-symbols-outlined">forum</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Catatan Guru</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Pesan dari wali kelas</p>
+                        class="bg-white dark:bg-gray-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-none p-6 h-full flex flex-col">
+                        <div class="mb-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-500">
+                                    <span class="material-symbols-outlined">forum</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Diskusi & Catatan</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Komunikasi dengan Guru</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 -mr-2 space-y-6 max-h-125">
+                        {{-- Container Scrollable --}}
+                        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-[600px]">
                             @forelse ($notes as $note)
-                                <div
-                                    class="relative pl-6 pb-2 border-l-2 border-slate-100 dark:border-slate-700 last:border-0 group">
-                                    <div
-                                        class="absolute -left-1.25 top-0 h-2.5 w-2.5 rounded-full bg-slate-300 group-hover:bg-amber-400 ring-4 ring-white dark:ring-gray-800 transition-colors">
+                                {{-- Item Diskusi (Satu Topik) --}}
+                                <div class="flex flex-col gap-3" x-data="{ openReply: false }">
+
+                                    {{-- 1. Catatan Utama Guru --}}
+                                    <div class="relative pl-4 border-l-2 border-amber-200 dark:border-amber-700">
+                                        <div
+                                            class="bg-amber-50 dark:bg-amber-900/10 rounded-r-xl rounded-bl-xl p-4 border border-amber-100 dark:border-amber-800/30">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span
+                                                    class="text-xs font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                                                    <span class="material-symbols-outlined text-[14px]">school</span>
+                                                    {{ $note->teacher->name ?? 'Guru Kelas' }}
+                                                </span>
+                                                <span class="text-[10px] text-slate-400">
+                                                    {{ optional($note->created_at)->diffForHumans() }}
+                                                </span>
+                                            </div>
+                                            <p class="text-sm text-slate-700 dark:text-slate-300">
+                                                "{{ $note->note }}"
+                                            </p>
+                                        </div>
                                     </div>
 
-                                    <div
-                                        class="bg-slate-50 dark:bg-slate-700/30 rounded-2xl p-4 rounded-tl-none border border-slate-100 dark:border-slate-700">
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span
-                                                class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1">
-                                                <span
-                                                    class="material-symbols-outlined text-[14px] text-slate-400">person</span>
-                                                {{ $note->teacher->name ?? 'Guru Kelas' }}
-                                            </span>
-                                            <span class="text-[10px] text-slate-400 font-medium">
-                                                {{ optional($note->created_at)->format('d M Y') ?? '-' }}
-                                            </span>
+                                    {{-- 2. List Balasan (Looping Chat) --}}
+                                    @foreach ($note->replies as $reply)
+                                        @php
+                                            // Cek apakah balasan ini dari user yang sedang login (Wali) atau Guru
+                                            $isMe = $reply->user_id === auth()->id();
+                                        @endphp
+                                        <div class="flex w-full {{ $isMe ? 'justify-end' : 'justify-start' }}">
+                                            <div
+                                                class="max-w-[85%] {{ $isMe ? 'bg-emerald-500 text-white rounded-l-xl rounded-tr-xl' : 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-r-xl rounded-tl-xl' }} p-3 shadow-sm text-sm">
+                                                <p>{{ $reply->reply_content }}</p>
+                                                <div class="mt-1 text-[9px] opacity-70 text-right">
+                                                    {{ $reply->created_at->format('H:i') }}
+                                                    @if (!$isMe)
+                                                        • {{ $reply->user->name }}
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="text-sm italic text-slate-600 dark:text-slate-300 leading-relaxed">
-                                            "{{ $note->note }}"
-                                        </p>
+                                    @endforeach
+
+                                    {{-- 3. Tombol & Form Balas (Menggunakan AlpineJS untuk toggle) --}}
+                                    <div class="ml-4 mt-1">
+                                        {{-- Tombol Buka Form --}}
+                                        <button @click="openReply = !openReply" x-show="!openReply"
+                                            class="text-xs font-semibold text-slate-400 hover:text-emerald-500 flex items-center gap-1 transition-colors">
+                                            <span class="material-symbols-outlined text-[14px]">reply</span>
+                                            Balas Pesan
+                                        </button>
+
+                                        {{-- Form Input --}}
+                                        <form x-show="openReply"
+                                            action="{{ route('wali.academic.reply.store', $note->id) }}"
+                                            method="POST" class="flex items-end gap-2 mt-2 animate-fade-in-down"
+                                            x-transition>
+                                            @csrf
+                                            <div class="flex-1 relative">
+                                                <textarea name="reply_content" rows="1" required
+                                                    class="w-full rounded-xl border-slate-200 bg-slate-50 text-sm focus:border-emerald-500 focus:ring-emerald-500 dark:bg-slate-900 dark:border-slate-700 dark:text-white px-3 py-2 resize-none custom-scrollbar"
+                                                    placeholder="Tulis balasan..."></textarea>
+                                            </div>
+                                            <button type="submit"
+                                                class="p-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30 transition-all hover:scale-105">
+                                                <span class="material-symbols-outlined text-[18px]">send</span>
+                                            </button>
+                                            <button type="button" @click="openReply = false"
+                                                class="p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                                                <span class="material-symbols-outlined text-[18px]">close</span>
+                                            </button>
+                                        </form>
                                     </div>
+
+                                    {{-- Divider antar topik --}}
+                                    <div class="border-b border-slate-100 dark:border-slate-700/50 pt-2"></div>
                                 </div>
                             @empty
-                                <div
-                                    class="flex flex-col items-center justify-center h-full py-8 text-center opacity-60">
+                                <div class="flex flex-col items-center justify-center h-40 text-center opacity-60">
                                     <span
                                         class="material-symbols-outlined text-4xl text-slate-300 mb-2">chat_bubble_outline</span>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400">Tidak ada catatan baru.</p>
+                                    <p class="text-sm text-slate-500">Belum ada catatan.</p>
                                 </div>
                             @endforelse
                         </div>
