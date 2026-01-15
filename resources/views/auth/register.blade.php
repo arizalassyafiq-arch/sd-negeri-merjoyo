@@ -144,8 +144,7 @@
             <div class="relative">
                 <img alt="3D Illustration"
                     class="w-full max-w-md lg:max-w-lg object-contain drop-shadow-2xl animate-float mask-gradient-b relative -bottom-10 lg:-bottom-16"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBndYhHu8ZBiCJn-tQ_tDshbbEmbjV75i_N2KbqeFJ_dN7l4eurpAvhxp0KDUKSaandPDE-8TGGx5mFk6Rfb4MIBmkJQtyALqVYZLx-6rZ8CZVvaq8bUz7NFidOHgcAWALzP7qhM2Q7LC-eMamKQZH-mBl4YRRZO6UllVStDT4Zrncz22SgE1cg5n7WjobPiigokghC6rE-PzESgxX490cOAiAQ2mJojpJBliD9gXXcvYmclNoOB-pUERteikA3Yg-ZVZinjrthWLh7" />
-
+                    src="img/register.jpeg" />
                 <div
                     class="absolute -left-4 top-1/4 bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce-slow max-w-45">
                     <div
