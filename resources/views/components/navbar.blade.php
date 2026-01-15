@@ -26,7 +26,7 @@ window.addEventListener('theme-changed', e => { isDark = e.detail.isDark; });
 if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full z-50 top-4 sm:top-6 px-4 sm:px-8">
 
     <div
-        class="max-w-7xl mx-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-md shadow-lg border border-white/20 dark:border-gray-700 transition-all duration-300">
+        class="max-w-7xl mx-auto bg-trans/90 dark:bg-gray-900/90 backdrop-blur-md rounded-md shadow-lg border border-white/20 dark:border-gray-700 transition-all duration-300">
 
         <div class="px-6 py-3 md:px-8 md:py-4">
             <div class="flex justify-between items-center">
@@ -193,13 +193,25 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                         <div
                             class="px-4 py-3 bg-emerald-50/50 dark:bg-gray-800 rounded-xl mb-2 border border-emerald-100 dark:border-gray-700">
                             <div class="flex items-center gap-3 mb-3">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-600 dark:text-emerald-300 font-bold">
-                                    {{ substr(Auth::user()->name, 0, 2) }}
+                                <div class="relative group">
+                                    @if (Auth::user()->avatar)
+                                        {{-- Jika User memiliki foto profil --}}
+                                        <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                            alt="{{ Auth::user()->name }}"
+                                            class="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+                                    @else
+                                        {{-- Jika tidak ada foto, tampilkan inisial (Fallback) --}}
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-admin-primary text-white flex items-center justify-center font-bold text-xs uppercase shadow-sm">
+                                            {{ substr(Auth::user()->name, 0, 1) }}
+                                        </div>
+                                    @endif
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-gray-800 dark:text-white">{{ Auth::user()->name }}</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">{{ Auth::user()->role }}
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">{{ Auth::user()->name }}
+                                    </p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">
+                                        {{ Auth::user()->role }}
                                     </p>
                                 </div>
                             </div>
