@@ -59,7 +59,10 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                         Artikel
                     </a>
                     <a href="/search"
-                        class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-gray-800 transition-all">
+                        :class="isActive('/search') ?
+                            'bg-emerald-50 text-emerald-600 dark:bg-gray-800 dark:text-emerald-400 font-semibold' :
+                            'text-gray-600 dark:text-gray-300 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-gray-800 font-medium'"
+                        class="px-4 py-2 rounded-full text-sm transition-all">
                         Cari Siswa
                     </a>
                     <button @click="toggleChat()"
