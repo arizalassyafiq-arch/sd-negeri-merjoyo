@@ -1,6 +1,6 @@
 <x-main-layout>
     <div
-        class="relative min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans">
+        class="relative min-h-screen flex flex-col items-center  justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans">
 
         <div class="absolute inset-0 w-full h-full overflow-hidden z-0">
 
@@ -10,18 +10,12 @@
 
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse">
             </div>
-            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
+            { <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
 
-            <svg class="absolute top-0 left-0 w-full h-32 text-white/10 fill-current transform rotate-180"
-                viewBox="0 0 1440 320">
-                <path fill-opacity="1"
-                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-                </path>
-            </svg>
         </div>
 
         <main
-            class="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-20">
+            class="relative z-10 w-full max-w-7xl mt-15 md:mt-25 px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-20">
 
             <div class="w-full md:w-1/2 text-white space-y-8 text-center md:text-left animate-fade-in-up">
                 <div
