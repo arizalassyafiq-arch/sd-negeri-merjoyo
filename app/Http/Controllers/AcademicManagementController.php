@@ -7,10 +7,10 @@ use App\Models\Classroom;
 use App\Models\TeacherNote;
 use App\Models\LearningGoal;
 use Illuminate\Http\Request;
-use App\Models\NoteReply; // <--- PENTING: Jangan lupa import ini
 use App\Models\LearningOutcome;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StudentAttendanceSummary;
+use App\Models\NoteReply;
 
 class AcademicManagementController extends Controller
 {
@@ -19,9 +19,10 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
-        // Eager load classroom untuk efisiensi
+        // Load relasi classroom
         $query = Student::with('guardian', 'classroom');
 
+        // PERBAIKAN 1: Filter menggunakan classroom_id, bukan class_name
         if ($request->has('class') && $request->class !== '') {
             $query->where('classroom_id', $request->class);
         }
@@ -43,12 +44,17 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
-        $goals = LearningGoal::where('class_name', $student->class_name)
+        // Ambil nama kelas dari relasi classroom
+        // Jika siswa belum masuk kelas, beri nilai default string kosong
+        $className = $student->classroom->name ?? '';
+
+        // PERBAIKAN 2: Menggunakan variable $className dari relasi
+        $goals = LearningGoal::where('class_name', $className)
             ->orderByDesc('created_at')
             ->limit(4)
             ->get();
 
-        $availableGoals = LearningGoal::where('class_name', $student->class_name)
+        $availableGoals = LearningGoal::where('class_name', $className)
             ->orderBy('title')
             ->get();
 
@@ -57,7 +63,6 @@ class AcademicManagementController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        // PENTING: Load 'replies.user' untuk fitur chat/diskusi
         $notes = TeacherNote::with(['teacher', 'replies.user'])
             ->where('student_id', $student->id)
             ->orderByDesc('created_at')
@@ -147,6 +152,11 @@ class AcademicManagementController extends Controller
 
     public function storeGoal(Request $request, Student $student)
     {
+        // Pastikan siswa sudah masuk kelas sebelum buat goal
+        if (!$student->classroom) {
+            return back()->withErrors(['msg' => 'Siswa ini belum dimasukkan ke dalam kelas. Silakan edit data siswa terlebih dahulu.']);
+        }
+
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -155,7 +165,8 @@ class AcademicManagementController extends Controller
         LearningGoal::create([
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
-            'class_name' => $student->class_name,
+            // PERBAIKAN 3: Ambil nama kelas dari relasi classroom, bukan column class_name
+            'class_name' => $student->classroom->name,
             'created_by' => Auth::id(),
         ]);
 
@@ -164,14 +175,20 @@ class AcademicManagementController extends Controller
 
     public function storeOutcome(Request $request, Student $student)
     {
+        // Pastikan siswa punya kelas
+        if (!$student->classroom) {
+            return back()->withErrors(['msg' => 'Siswa belum memiliki kelas.']);
+        }
+
         $data = $request->validate([
             'learning_goal_id' => 'required|exists:learning_goals,id',
             'score' => 'required|string|max:50',
             'note' => 'nullable|string',
         ]);
 
+        // PERBAIKAN 4: Validasi goal harus sesuai dengan nama kelas dari relasi
         $goal = LearningGoal::where('id', $data['learning_goal_id'])
-            ->where('class_name', $student->class_name) // Pastikan goal sesuai kelas
+            ->where('class_name', $student->classroom->name)
             ->firstOrFail();
 
         LearningOutcome::create([

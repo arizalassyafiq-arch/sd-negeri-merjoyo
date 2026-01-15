@@ -62,7 +62,7 @@
                 <a href="{{ route('wali.academic.search') }}"
                     class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-emerald-300 hover:text-emerald-700 transition-all duration-200 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700">
                     <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-                    Cari Siswa Lain
+                    Kembali
                 </a>
             </div>
         </div>

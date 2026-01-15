@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Models\NoteReply;
 use App\Models\TeacherNote;
 use App\Models\LearningGoal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\LearningOutcome;
+use App\Models\NoteReply; // Tambahkan ini untuk fitur balas chat
 use App\Models\StudentAttendanceSummary;
-use App\Models\LearningOutcome; // Pastikan ini di-import
+use Illuminate\Support\Facades\Auth;
 
 class GuardianAcademicController extends Controller
 {
@@ -18,7 +18,6 @@ class GuardianAcademicController extends Controller
      */
     public function index()
     {
-        // Sesuaikan path view jika folder Anda berbeda
         return view('pages.search.index');
     }
 
@@ -45,7 +44,7 @@ class GuardianAcademicController extends Controller
     }
 
     /**
-     * Menampilkan Detail Akademik (Versi Read-Only)
+     * Menampilkan Detail Akademik (Versi Read-Only / Wali)
      */
     public function show(Student $student)
     {
@@ -54,10 +53,7 @@ class GuardianAcademicController extends Controller
             abort(403, 'Unauthorized access');
         }
 
-        // --- PERBAIKAN DI SINI ---
-        // Kita menghapus where('semester') dan where('academic_year')
-        // karena kolom tersebut tidak ada di Model StudentAttendanceSummary Anda.
-
+        // --- 1. DATA ABSENSI ---
         $attendanceRecord = StudentAttendanceSummary::where('student_id', $student->id)->first();
 
         $attendance = [
@@ -68,27 +64,29 @@ class GuardianAcademicController extends Controller
         ];
 
         $totalAttendance = array_sum($attendance);
-
-        // Menghindari division by zero
         $attendance['rate'] = $totalAttendance > 0
             ? round(($attendance['present'] / $totalAttendance) * 100)
             : 0;
 
-        // 2. Data Learning Goals (Tujuan Pembelajaran)
-        // Mengambil goal berdasarkan kelas siswa
-        $goals = LearningGoal::where('class_name', $student->class_name)->get();
+        // --- 2. DATA TUJUAN PEMBELAJARAN ---
+
+        // PERBAIKAN DISINI: Ambil nama kelas dari relasi classroom
+        // Karena di tabel students kolomnya 'classroom_id', kita akses via relationship
+        $className = $student->classroom->name ?? '';
+
+        // Ambil Learning Goal berdasarkan string nama kelas (karena tabel learning_goals masih pakai string)
+        $goals = LearningGoal::where('class_name', $className)->get();
 
         $goalCards = $goals->map(function ($goal) use ($student) {
-            // Logika hitung progres per goal berdasarkan outcome siswa
             $outcomes = LearningOutcome::where('student_id', $student->id)
                 ->where('learning_goal_id', $goal->id)
                 ->get();
 
-            // Rata-rata skor
+            // Logika hitung progress
             $avgScore = $outcomes->avg('score');
             $progress = is_numeric($avgScore) ? $avgScore : 0;
 
-            // Tentukan status visual
+            // Tentukan status
             $status = 'STARTED';
             if ($progress >= 100) $status = 'COMPLETED';
             elseif ($progress >= 80) $status = 'ON TRACK';
@@ -102,16 +100,15 @@ class GuardianAcademicController extends Controller
             ];
         });
 
-        // 3. Data Outcomes (Capaian Detail / Riwayat Nilai)
+        // --- 3. DATA CAPAIAN (OUTCOMES) ---
         $outcomes = LearningOutcome::with('goal')
             ->where('student_id', $student->id)
-            // Menggunakan latest() membutuhkan kolom created_at. 
-            // Jika error, hapus ->latest() atau pastikan tabel memiliki timestamps.
-            ->latest('id')
+            ->latest() // pastikan model punya timestamps atau hapus latest() jika error
             ->get();
 
-        // 4. Data Notes (Catatan Guru)
-        $notes = TeacherNote::with('teacher', 'replies.user')
+        // --- 4. DATA CATATAN GURU & CHAT ---
+        // Load replies.user agar fitur chat jalan
+        $notes = TeacherNote::with(['teacher', 'replies.user'])
             ->where('student_id', $student->id)
             ->latest()
             ->get();
@@ -119,19 +116,27 @@ class GuardianAcademicController extends Controller
         return view('pages.search.show', compact('student', 'attendance', 'goalCards', 'outcomes', 'notes'));
     }
 
+    /**
+     * Fitur Balas Pesan untuk Wali
+     */
     public function storeReply(Request $request, $noteId)
     {
         $request->validate([
-            'reply_content' => 'required|string|max:500',
+            'reply_content' => 'required|string|max:1000',
         ]);
 
-        // Pastikan Note tersebut milik anak dari wali yang sedang login (Security)
         $note = TeacherNote::findOrFail($noteId);
-        // Tambahkan logika security check di sini jika perlu
+
+        // Security check (opsional tapi disarankan):
+        // Pastikan student dari note ini benar-benar anak dari wali yang login
+        $student = Student::find($note->student_id);
+        if ($student->guardian_id !== Auth::id()) {
+            abort(403, 'Anda tidak berhak membalas catatan ini.');
+        }
 
         NoteReply::create([
             'teacher_note_id' => $note->id,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id(), // ID Wali yang sedang login
             'reply_content' => $request->reply_content,
         ]);
 
