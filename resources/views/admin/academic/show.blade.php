@@ -281,6 +281,16 @@
                     </div>
                 </div>
 
+                {{-- Header Section --}}
+                <div class="mb-4 flex items-center justify-between shrink-0">
+                    {{-- Tombol Tambah Catatan Baru (Hanya Admin/Guru) --}}
+                    <button
+                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white transition hover:bg-blue-700 shadow-lg shadow-blue-500/30"
+                        data-modal-target="note-modal" type="button" title="Buat Catatan Baru">
+                        <span class="material-symbols-outlined text-lg">add</span>
+                    </button>
+                </div>
+
                 {{-- List Diskusi (Scrollable) --}}
                 <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-[600px]">
                     @forelse ($notes as $note)
@@ -542,6 +552,45 @@
         </div>
     </div>
 
+    {{-- MODAL TAMBAH CATATAN (Paste kode ini sebelum tag <script>) --}}
+    <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="note-modal">
+        <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
+        <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
+            <div class="mb-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tambah Catatan Guru</h3>
+                <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    data-modal-close type="button">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+            @if (old('_modal') === 'note-modal' && $errors->any())
+                <div class="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs text-rose-200">
+                    Mohon periksa kembali input catatan.
+                </div>
+            @endif
+            <form method="POST" action="{{ route($noteStoreRoute, $student) }}">
+                @csrf
+                <input type="hidden" name="_modal" value="note-modal">
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-500">Isi Catatan</label>
+                        <textarea name="note" rows="4" required placeholder="Tulis catatan atau pesan untuk wali murid..."
+                            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-admin-primary focus:ring-admin-primary dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">{{ old('note') }}</textarea>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end gap-2">
+                    <button type="button" data-modal-close
+                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
     <script>
