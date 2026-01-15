@@ -1,128 +1,161 @@
 <x-main-layout>
     <div
-        class="relative min-h-screen flex flex-col justify-center overflow-hidden bg-background-light dark:bg-background-dark">
+        class="relative min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans">
 
-        <div class="absolute inset-0 bg-hero-gradient dark:bg-hero-gradient-dark z-0">
+        <div class="absolute inset-0 w-full h-full overflow-hidden z-0">
+
             <div
-                class="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl mix-blend-overlay animate-pulse">
+                class="absolute top-0 left-0 w-full h-full bg-linear-to-br from-emerald-500 via-teal-600 to-emerald-800 dark:from-gray-900 dark:via-emerald-900 dark:to-black">
             </div>
-            <div class="absolute bottom-1/4 left-1/4 w-72 h-72 bg-yellow-200/20 rounded-full blur-3xl mix-blend-overlay">
+
+            <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse">
             </div>
+            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
+
+            <svg class="absolute top-0 left-0 w-full h-32 text-white/10 fill-current transform rotate-180"
+                viewBox="0 0 1440 320">
+                <path fill-opacity="1"
+                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                </path>
+            </svg>
         </div>
 
-        <main class="relative z-10 w-full px-4 py-20 md:py-24 mt-10">
-            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <main
+            class="relative z-10 w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-20">
 
-                <div class="text-white space-y-6 animate-fade-in-up">
-                    <div
-                        class="inline-block bg-white/20 backdrop-blur-md border border-white/30 px-4 py-1 rounded-full text-sm font-medium">
-                        🔍 Pencarian Data Siswa
-                    </div>
-
-                    <h1 class="text-4xl md:text-5xl font-bold leading-tight drop-shadow-sm">
-                        Pantau Hasil <br />
-                        <span class="text-emerald-900 dark:text-emerald-200">Belajar Siswa</span>
-                    </h1>
-
-                    <p class="text-lg md:text-xl text-emerald-50 max-w-md font-light leading-relaxed">
-                        Masukkan Nomor Induk Kependudukan (NIK) siswa untuk mengakses rapor digital dan riwayat
-                        pencapaian akademik terkini.
-                    </p>
-
-                    <div
-                        class="mt-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg transform hover:-translate-y-1 transition-transform duration-300">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-emerald-500 p-2 rounded-full shrink-0 shadow-md">
-                                <span class="material-icons-round text-white">privacy_tip</span>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-lg mb-1">Keamanan Data</h3>
-                                <p class="text-sm text-emerald-50 opacity-90">
-                                    Pastikan NIK yang Anda masukkan benar. Data siswa dilindungi dan hanya dapat diakses
-                                    oleh wali murid yang sah.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="w-full md:w-1/2 text-white space-y-8 text-center md:text-left animate-fade-in-up">
+                <div
+                    class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full text-sm font-medium text-emerald-50 shadow-sm">
+                    <span class="material-icons-round text-base">search</span>
+                    <span>Pencarian Data Siswa</span>
                 </div>
 
-                <div
-                    class="bg-surface-light dark:bg-surface-dark rounded-3xl p-8 shadow-2xl w-full max-w-md mx-auto relative overflow-hidden group border border-white/50 dark:border-emerald-800">
-                    <div
-                        class="absolute top-0 right-0 w-24 h-24 bg-linear-to-bl from-primary/10 to-transparent rounded-bl-3xl">
-                    </div>
+                <h1 class="text-4xl lg:text-6xl font-extrabold tracking-tight leading-tight drop-shadow-md">
+                    Pantau Hasil <br class="hidden md:block" />
+                    <span class="text-transparent bg-clip-text bg-linear-to-r from-yellow-200 to-emerald-200">
+                        Belajar Siswa
+                    </span>
+                </h1>
 
-                    <div class="relative z-10">
-                        <div class="mb-8 text-center">
+                <p class="text-lg text-emerald-50/90 font-light leading-relaxed max-w-lg mx-auto md:mx-0">
+                    Akses rapor digital dan riwayat akademik putra-putri Anda dengan mudah. Cukup masukkan Nomor Induk
+                    Kependudukan (NIK) yang terdaftar.
+                </p>
+
+                <div
+                    class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 shadow-lg flex items-start gap-4 hover:bg-white/15 transition-colors duration-300 text-left">
+                    <div class="bg-emerald-500/80 p-2.5 rounded-xl shadow-inner shrink-0 text-white">
+                        <span class="material-icons-round">verified_user</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base mb-1">Privasi Terjamin</h3>
+                        <p class="text-sm text-emerald-100/80">
+                            Data siswa dilindungi enkripsi. Pastikan NIK sesuai dengan Kartu Keluarga (KK).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 max-w-md mx-auto">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700 relative">
+
+                    <div class="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-emerald-400 to-teal-500"></div>
+
+                    <div class="p-8 md:p-10">
+                        <div class="text-center mb-8">
                             <div
-                                class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary dark:text-emerald-400">
-                                <span class="material-icons-round text-3xl">person_search</span>
+                                class="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <span class="material-icons-round text-3xl">school</span>
                             </div>
-                            <h2 class="text-2xl font-bold text-text-main-light dark:text-text-main-dark mb-2">Cek Rapor
-                                Siswa</h2>
-                            <p class="text-text-muted-light dark:text-text-muted-dark text-sm">Silakan lengkapi formulir
-                                di bawah ini</p>
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Cek Rapor Digital</h2>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Lengkapi data berikut untuk masuk
+                            </p>
                         </div>
 
-                        <form action="#" method="POST" class="space-y-6">
+                        <form action="#" method="POST" class="space-y-5">
                             @csrf
-                            <div class="space-y-2">
-                                <label
-                                    class="block text-sm font-semibold text-text-main-light dark:text-text-main-dark ml-1"
-                                    for="nik">
+
+                            <div class="space-y-1.5">
+                                <label for="nik"
+                                    class="block text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">
                                     Nomor Induk Kependudukan (NIK)
                                 </label>
-                                <div class="relative">
+                                <div class="relative group">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <span class="material-icons-round text-gray-400 text-xl">badge</span>
+                                        <span
+                                            class="material-icons-round text-gray-400 group-focus-within:text-emerald-500 transition-colors">badge</span>
                                     </div>
                                     <input type="text" id="nik" name="nik" pattern="[0-9]{16}"
-                                        placeholder="Contoh: 3507..." required
+                                        placeholder="16 digit angka sesuai KK..." required
                                         title="Mohon masukkan 16 digit NIK yang valid"
-                                        class="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-emerald-900/30 border border-gray-200 dark:border-emerald-700 rounded-xl text-text-main-light dark:text-text-main-dark placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" />
+                                        class="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all outline-none text-sm shadow-sm" />
                                 </div>
-                                <p
-                                    class="text-xs text-text-muted-light dark:text-text-muted-dark ml-1 flex items-center gap-1">
-                                    <span class="material-icons-round text-xs">info</span>
-                                    Masukkan 16 digit angka sesuai Kartu Keluarga
+                                <p class="text-xs text-gray-400 ml-1 flex items-center gap-1">
+                                    <span class="material-icons-round text-[14px]">info</span>
+                                    Pastikan 16 digit angka benar
                                 </p>
                             </div>
 
                             <div
-                                class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-emerald-900/20 rounded-lg border border-gray-100 dark:border-emerald-800/50">
-                                <input type="checkbox" id="human"
-                                    class="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary" required />
+                                class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-600/50 hover:border-emerald-200 transition-colors">
+                                <div class="relative flex items-center">
+                                    <input type="checkbox" id="human" required
+                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-300 shadow-sm checked:border-emerald-500 checked:bg-emerald-500 focus:ring-emerald-500/30 transition-all" />
+                                    <span
+                                        class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none material-icons-round text-sm font-bold">check</span>
+                                </div>
                                 <label for="human"
-                                    class="text-sm text-text-muted-light dark:text-text-muted-dark select-none cursor-pointer">
+                                    class="text-sm text-gray-600 dark:text-gray-300 select-none cursor-pointer font-medium">
                                     Saya bukan robot
                                 </label>
                             </div>
 
                             <button type="submit"
-                                class="w-full bg-slate-800 hover:bg-slate-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2 group-invalid:opacity-50 group-invalid:pointer-events-none">
-                                <span class="material-icons-round">search</span>
-                                Lihat Hasil Belajar
+                                class="w-full relative overflow-hidden group bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg hover:shadow-emerald-500/30 transform hover:-translate-y-0.5 transition-all duration-200">
+                                <div
+                                    class="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer">
+                                </div>
+                                <span class="flex items-center justify-center gap-2 relative z-10">
+                                    <span class="material-icons-round">search</span>
+                                    Lihat Hasil Belajar
+                                </span>
                             </button>
                         </form>
 
-                        <div class="mt-6 text-center">
+                        <div class="mt-8 text-center">
                             <a href="#"
-                                class="text-xs font-medium text-primary hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors underline decoration-2 decoration-transparent hover:decoration-current">
-                                Lupa NIK? Hubungi Tata Usaha
+                                class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
+                                <span>Lupa NIK? Hubungi Tata Usaha</span>
+                                <span class="material-icons-round text-sm">arrow_forward</span>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+
         </main>
 
-        <div class="relative w-full h-24 z-10 mt-auto">
-            <svg class="absolute bottom-0 w-full h-full text-white dark:text-[#111827] fill-current"
-                preserveAspectRatio="none" viewBox="0 0 1440 320">
-                <path
-                    d="M0,224L80,213.3C160,203,320,181,480,181.3C640,181,800,203,960,202.7C1120,203,1280,181,1360,170.7L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-                    fill-opacity="1"></path>
+        <div class="absolute bottom-0 w-full z-10">
+            <svg class="w-full h-24 md:h-32 text-white dark:text-gray-900 fill-current" preserveAspectRatio="none"
+                viewBox="0 0 1440 320">
+                <path fill-opacity="1"
+                    d="M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,133.3C672,128,768,160,864,165.3C960,171,1056,149,1152,133.3C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                </path>
             </svg>
         </div>
+
     </div>
+
+    <style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .animate-shimmer {
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
 </x-main-layout>
