@@ -54,7 +54,7 @@
             </div>
             <div>
                 <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Siswa Diampu</p>
-                <h3 class="text-3xl font-bold text-slate-800">{{ $totalSiswa ?? 0 }} <span
+                <h3 class="text-3xl font-bold text-slate-800">{{ $totalSiswaKelolaan ?? 0 }} <span
                         class="text-sm font-normal text-slate-400">Anak</span></h3>
             </div>
         </div>
