@@ -3,10 +3,10 @@
     <div class="fixed top-0 left-0 h-1.5 bg-green-600 z-50 w-full origin-left transform scale-x-0"
         style="animation: scrollProgress auto linear; animation-timeline: scroll();"></div>
 
-    <div class="pt-28 pb-16 px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
+    <div class="pt-28 pb-16 px-4 md:px-8 max-w-7xl mx-auto min-h-screen mt-5">
 
         {{-- Breadcrumb --}}
-        <nav class="flex mb-8 text-sm font-medium text-gray-500 font-sans" aria-label="Breadcrumb">
+        <nav class="flex mb-8 text-sm font-medium text-gray-500 font-sans" aria-label="Breadcrumb ">
             <ol class="inline-flex items-center space-x-2 md:space-x-3">
                 <li class="inline-flex items-center">
                     <a href="{{ route('artikel.index') }}"
@@ -150,12 +150,12 @@
                     </div>
                 </div>
 
-                {{-- Widget: Info Sekolah / Promo --}}
+                {{-- Widget: Info Sekolah / Promo
                 <div class="relative rounded-2xl overflow-hidden shadow-lg group">
                     <div class="absolute inset-0 bg-linear-to-t from-black/80 to-transparent z-10"></div>
 
                     {{-- Pastikan gambar ini ada atau ganti dengan gambar statis sekolah --}}
-                    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&q=80"
+                {{-- <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&q=80"
                         class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
                         alt="Sekolah">
 
@@ -167,7 +167,7 @@
                             Info Pendaftaran
                         </a>
                     </div>
-                </div>
+                </div>  --}}
 
             </aside>
         </div>
