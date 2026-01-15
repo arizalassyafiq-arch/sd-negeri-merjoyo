@@ -5,6 +5,8 @@
         $role = auth()->user()->role;
         $indexRouteName = $role === 'guru' ? 'guru.academic.index' : 'admin.academic.index';
         $canEdit = $role === 'admin';
+
+        // Routing Dinamis untuk Guru vs Admin
         $attendanceStoreRoute =
             $role === 'guru' ? 'guru.academic.students.attendance.store' : 'admin.academic.students.attendance.store';
         $goalStoreRoute =
@@ -13,6 +15,11 @@
             $role === 'guru' ? 'guru.academic.students.outcomes.store' : 'admin.academic.students.outcomes.store';
         $noteStoreRoute =
             $role === 'guru' ? 'guru.academic.students.notes.store' : 'admin.academic.students.notes.store';
+
+        // Route untuk Reply (Asumsi menggunakan route admin jika guru belum punya route khusus di web.php)
+        // Jika route guru sudah dibuat, ganti 'admin.academic.reply.store' menjadi 'guru.academic.reply.store'
+        $replyRouteName = 'admin.academic.reply.store';
+
         $goalIconSet = ['functions', 'translate', 'science', 'history_edu'];
         $goalColorSet = [
             ['bg' => 'bg-purple-500/10', 'text' => 'text-purple-500'],
@@ -35,6 +42,7 @@
     @endphp
 
     <div class="flex flex-col gap-6">
+        {{-- Header & Breadcrumb --}}
         <div class="mb-2">
             <nav class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
                 <a href="{{ route($indexRouteName) }}" class="text-admin-primary hover:underline">
@@ -55,7 +63,7 @@
                         Detail Siswa: {{ $student->name }}
                     </h2>
                     <p class="mt-1 text-sm uppercase tracking-widest text-slate-500">
-                        NIS: {{ $student->nis }} - NIK: {{ $student->nik }}
+                        NISN: {{ $student->nisn }} - NIK: {{ $student->nik }}
                     </p>
                 </div>
                 @if ($canEdit)
@@ -69,6 +77,7 @@
         </div>
 
         <div class="grid grid-cols-12 gap-6">
+            {{-- Kartu Absensi --}}
             <div
                 class="col-span-12 lg:col-span-3 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
                 <div class="flex items-center justify-between mb-4">
@@ -113,6 +122,7 @@
                 </button>
             </div>
 
+            {{-- Kartu Tujuan Pembelajaran --}}
             <div
                 class="col-span-12 lg:col-span-9 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
                 <div class="mb-6 flex items-center justify-between">
@@ -168,6 +178,7 @@
         </div>
 
         <div class="grid grid-cols-12 gap-6">
+            {{-- Tabel Capaian Siswa --}}
             <div
                 class="col-span-12 lg:col-span-8 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
                 <div class="mb-6 flex items-center justify-between">
@@ -176,10 +187,6 @@
                         <p class="text-xs text-slate-500">Rincian nilai dan progres per mata pelajaran</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="p-2 text-slate-400 transition hover:text-slate-600 dark:hover:text-slate-200"
-                            type="button">
-                            <span class="material-symbols-outlined">filter_list</span>
-                        </button>
                         <button
                             class="flex h-8 w-8 items-center justify-center rounded-lg bg-admin-primary text-white transition hover:bg-admin-primary-hover"
                             data-modal-target="outcome-modal" type="button">
@@ -270,6 +277,7 @@
                 </div>
             </div>
 
+            {{-- Kolom Catatan Guru & Chat --}}
             <div
                 class="col-span-12 lg:col-span-4 rounded-3xl border border-slate-200/60 bg-white/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 flex flex-col h-full">
 
@@ -279,11 +287,7 @@
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white">Catatan & Diskusi</h3>
                         <p class="text-xs text-slate-500">Komunikasi dengan Wali Murid</p>
                     </div>
-                </div>
-
-                {{-- Header Section --}}
-                <div class="mb-4 flex items-center justify-between shrink-0">
-                    {{-- Tombol Tambah Catatan Baru (Hanya Admin/Guru) --}}
+                    {{-- Tombol Tambah Catatan Baru --}}
                     <button
                         class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white transition hover:bg-blue-700 shadow-lg shadow-blue-500/30"
                         data-modal-target="note-modal" type="button" title="Buat Catatan Baru">
@@ -319,8 +323,7 @@
                             {{-- 2. Thread Balasan (Chat Style) --}}
                             @foreach ($note->replies as $reply)
                                 @php
-                                    // Cek apakah ini balasan Admin/Guru sendiri atau Wali
-                                    // Asumsi: auth()->id() adalah Admin/Guru yang sedang login
+                                    // Cek apakah ini balasan User yang sedang login
                                     $isMe = $reply->user_id === auth()->id();
                                 @endphp
                                 <div class="flex w-full {{ $isMe ? 'justify-end' : 'justify-start' }}">
@@ -336,17 +339,16 @@
                                 </div>
                             @endforeach
 
-                            {{-- 3. Form Balas (Untuk Admin membalas Wali) --}}
+                            {{-- 3. Form Balas --}}
                             <div class="ml-4 mt-1">
                                 <button @click="openReply = !openReply" x-show="!openReply"
                                     class="text-xs font-semibold text-slate-400 hover:text-blue-600 flex items-center gap-1 transition-colors">
                                     <span class="material-symbols-outlined text-[14px]">reply</span>
-                                    Balas Wali
+                                    Balas Pesan
                                 </button>
 
-                                <form x-show="openReply"
-                                    action="{{ route('admin.academic.reply.store', $note->id) }}" method="POST"
-                                    class="flex items-end gap-2 mt-2" x-transition>
+                                <form x-show="openReply" action="{{ route($replyRouteName, $note->id) }}"
+                                    method="POST" class="flex items-end gap-2 mt-2" x-transition>
                                     @csrf
                                     <div class="flex-1 relative">
                                         <textarea name="reply_content" rows="1" required
@@ -364,7 +366,6 @@
                                 </form>
                             </div>
 
-                            {{-- Divider --}}
                             <div class="border-b border-slate-100 dark:border-slate-800 pt-2"></div>
                         </div>
                     @empty
@@ -376,7 +377,6 @@
                     @endforelse
                 </div>
 
-                {{-- Footer Action (Optional) --}}
                 <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0">
                     <button
                         class="w-full rounded-xl border border-slate-200 bg-white py-2.5 text-[10px] font-bold uppercase text-slate-500 transition hover:bg-slate-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
@@ -388,6 +388,9 @@
         </div>
     </div>
 
+    {{-- MODAL AREA --}}
+
+    {{-- Modal Attendance --}}
     <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="attendance-modal">
         <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
         <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
@@ -434,18 +437,15 @@
                 </div>
                 <div class="mt-6 flex justify-end gap-2">
                     <button type="button" data-modal-close
-                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-                        Batal
-                    </button>
+                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Batal</button>
                     <button type="submit"
-                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">
-                        Simpan
-                    </button>
+                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
+    {{-- Modal Goal --}}
     <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="goal-modal">
         <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
         <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
@@ -478,18 +478,15 @@
                 </div>
                 <div class="mt-6 flex justify-end gap-2">
                     <button type="button" data-modal-close
-                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-                        Batal
-                    </button>
+                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Batal</button>
                     <button type="submit"
-                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">
-                        Simpan
-                    </button>
+                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
+    {{-- Modal Outcome --}}
     <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="outcome-modal">
         <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
         <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
@@ -539,20 +536,16 @@
                 </div>
                 <div class="mt-6 flex justify-end gap-2">
                     <button type="button" data-modal-close
-                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-                        Batal
-                    </button>
+                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Batal</button>
                     <button type="submit"
                         class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover"
-                        {{ $availableGoals->isEmpty() ? 'disabled' : '' }}>
-                        Simpan
-                    </button>
+                        {{ $availableGoals->isEmpty() ? 'disabled' : '' }}>Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- MODAL TAMBAH CATATAN (Paste kode ini sebelum tag <script>) --}}
+    {{-- MODAL TAMBAH CATATAN --}}
     <div class="fixed inset-0 z-50 hidden items-center justify-center px-4" data-modal="note-modal">
         <div class="modal-backdrop absolute inset-0 bg-slate-900/70"></div>
         <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900">
@@ -580,13 +573,9 @@
                 </div>
                 <div class="mt-6 flex justify-end gap-2">
                     <button type="button" data-modal-close
-                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-                        Batal
-                    </button>
+                        class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">Batal</button>
                     <button type="submit"
-                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">
-                        Simpan
-                    </button>
+                        class="rounded-xl bg-admin-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-admin-primary-hover">Simpan</button>
                 </div>
             </form>
         </div>

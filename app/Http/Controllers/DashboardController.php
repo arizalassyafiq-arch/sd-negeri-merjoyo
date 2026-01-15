@@ -26,21 +26,28 @@ class DashboardController extends Controller
 
             // 2. Total Tujuan Pembelajaran yang dibuat Guru ini
             $totalMateri = LearningGoal::where('created_by', $user->id)->count();
+            $totalArtikel = Article::whereNotNull('published_at')->count();
+
 
             // 3. Siswa yang sakit/izin hari ini (Simulasi data)
             // Di real app, Anda butuh tabel daily_attendances, ini pakai summary dulu
             $siswaSakit = StudentAttendanceSummary::sum('sick');
             $siswaIzin = StudentAttendanceSummary::sum('permit');
+            $siswaAlpa = StudentAttendanceSummary::sum('absent');
+            $siswaHadir = StudentAttendanceSummary::sum('present');
 
             // 4. Siswa Terbaru (List ringkas)
-            $recentStudents = $querySiswa->latest()->limit(5)->get();
+            $recentStudents = $querySiswa->with('classroom')->latest()->limit(5)->get();
 
             return view('guru.dashboard.index', compact(
                 'totalSiswaKelolaan',
                 'totalMateri',
                 'siswaSakit',
                 'siswaIzin',
-                'recentStudents'
+                'recentStudents',
+                'totalArtikel',
+                'siswaAlpa',
+                'siswaHadir'
             ));
         }
 

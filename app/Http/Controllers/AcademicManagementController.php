@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LearningGoal;
-use App\Models\LearningOutcome;
 use App\Models\Student;
-use App\Models\StudentAttendanceSummary;
+use App\Models\Classroom;
 use App\Models\TeacherNote;
+use App\Models\LearningGoal;
 use Illuminate\Http\Request;
+use App\Models\NoteReply; // <--- PENTING: Jangan lupa import ini
+use App\Models\LearningOutcome;
 use Illuminate\Support\Facades\Auth;
-use App\Models\NoteReply; // <--- Tambahkan ini
+use App\Models\StudentAttendanceSummary;
 
 class AcademicManagementController extends Controller
 {
@@ -18,21 +19,22 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
-        $query = Student::with('guardian');
+        // Eager load classroom untuk efisiensi
+        $query = Student::with('guardian', 'classroom');
 
         if ($request->has('class') && $request->class !== '') {
-            $query->where('class_name', $request->class);
+            $query->where('classroom_id', $request->class);
         }
 
-        $students = $query->latest()->get();
+        $students = $query->latest()->paginate(10);
         $totalStudents = Student::count();
-        $classOptions = ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'];
+        $classrooms = Classroom::orderBy('name')->get();
 
         return view('admin.academic.index', [
             'isGuru' => $isGuru,
             'totalStudents' => $totalStudents,
             'students' => $students,
-            'classOptions' => $classOptions,
+            'classrooms' => $classrooms,
         ]);
     }
 
@@ -55,10 +57,10 @@ class AcademicManagementController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $notes = TeacherNote::with('teacher', 'replies.user')
+        // PENTING: Load 'replies.user' untuk fitur chat/diskusi
+        $notes = TeacherNote::with(['teacher', 'replies.user'])
             ->where('student_id', $student->id)
             ->orderByDesc('created_at')
-            // ->limit(10)
             ->get();
 
         $goalCards = $goals->map(function ($goal) use ($outcomes) {
@@ -100,39 +102,25 @@ class AcademicManagementController extends Controller
         ]);
     }
 
+    // --- Helper Methods ---
     private function scoreToProgress(?string $score): int
     {
-        if ($score === null) {
-            return 0;
-        }
-
+        if ($score === null) return 0;
         $raw = trim($score);
-
-        if (is_numeric($raw)) {
-            return max(0, min(100, (int) round((float) $raw)));
-        }
-
-        if (preg_match('/\d+/', $raw, $matches)) {
-            return max(0, min(100, (int) $matches[0]));
-        }
-
+        if (is_numeric($raw)) return max(0, min(100, (int) round((float) $raw)));
+        if (preg_match('/\d+/', $raw, $matches)) return max(0, min(100, (int) $matches[0]));
         return 0;
     }
 
     private function statusFromProgress(int $progress): string
     {
-        if ($progress >= 100) {
-            return 'COMPLETED';
-        }
-        if ($progress >= 70) {
-            return 'ON TRACK';
-        }
-        if ($progress >= 40) {
-            return 'IN REVIEW';
-        }
-
+        if ($progress >= 100) return 'COMPLETED';
+        if ($progress >= 70) return 'ON TRACK';
+        if ($progress >= 40) return 'IN REVIEW';
         return 'STARTED';
     }
+
+    // --- Store Methods ---
 
     public function storeAttendance(Request $request, Student $student)
     {
@@ -183,7 +171,7 @@ class AcademicManagementController extends Controller
         ]);
 
         $goal = LearningGoal::where('id', $data['learning_goal_id'])
-            ->where('class_name', $student->class_name)
+            ->where('class_name', $student->class_name) // Pastikan goal sesuai kelas
             ->firstOrFail();
 
         LearningOutcome::create([
@@ -212,19 +200,17 @@ class AcademicManagementController extends Controller
         return back()->with('status', 'Catatan guru berhasil ditambahkan.');
     }
 
-
     public function storeReply(Request $request, $noteId)
     {
         $request->validate([
             'reply_content' => 'required|string|max:1000',
         ]);
 
-        // Pastikan note ID valid
         $note = TeacherNote::findOrFail($noteId);
 
         NoteReply::create([
             'teacher_note_id' => $note->id,
-            'user_id' => Auth::id(), // ID Admin/Guru yang sedang login
+            'user_id' => Auth::id(),
             'reply_content' => $request->reply_content,
         ]);
 

@@ -14,7 +14,10 @@ return new class extends Migration
             $table->string('nik', 16)->unique();
             $table->string('name');
             $table->enum('gender', ['L', 'P']);
-            $table->string('class_name');
+            // $table->string('class_name');
+            $table->foreignId('classroom_id')
+                ->constrained('classrooms')
+                ->onDelete('restrict');
             $table->string('birth_place');
             $table->date('birth_date');
             $table->text('address');

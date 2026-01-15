@@ -11,6 +11,12 @@ class Teacher extends Model
 
     protected $guarded = ['id'];
 
+    public function classroom()
+    {
+        // Satu Guru mungkin menjadi Wali Kelas di satu kelas
+        return $this->hasOne(Classroom::class);
+    }
+
     // Relasi ke User (Milik User siapa?)
     public function user()
     {

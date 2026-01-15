@@ -70,15 +70,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="text-xs font-bold text-slate-400 uppercase mb-2 block">Kelas</label>
-                        <select name="class_name"
+                        <select name="classroom_id"
                             class="w-full bg-slate-950 border border-slate-800 text-white rounded-xl px-4 py-3 outline-none">
-                            @foreach (['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'] as $kls)
-                                <option value="{{ $kls }}"
-                                    {{ old('class_name', $student->class_name) == $kls ? 'selected' : '' }}>
-                                    {{ $kls }}</option>
+                            <option value="">Pilih Kelas</option>
+                            @foreach ($classrooms as $classroom)
+                                <option value="{{ $classroom->id }}" {{-- PERBAIKAN DISINI: Tambahkan parameter kedua pada old() --}}
+                                    {{ old('classroom_id', $student->classroom_id) == $classroom->id ? 'selected' : '' }}>
+
+                                    {{ $classroom->name }}
+                                    {{ $classroom->teacher ? '(' . $classroom->teacher->user->name . ')' : '(Belum ada Wali)' }}
+                                </option>
                             @endforeach
                         </select>
-                        @error('class_name')
+                        @error('classroom_id')
                             <span class="text-rose-400 text-xs">{{ $message }}</span>
                         @enderror
                     </div>

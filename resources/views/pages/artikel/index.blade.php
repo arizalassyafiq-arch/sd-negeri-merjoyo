@@ -227,7 +227,7 @@
                     Maaf, kami tidak dapat menemukan artikel yang Anda cari. Coba kata kunci lain atau kembali lagi
                     nanti.
                 </p>
-                <a href="{{ route('admin.artikel.index') }}"
+                <a href="{{ route('artikel.index') }}"
                     class="mt-6 inline-block bg-gray-900 text-white px-6 py-2.5 rounded-xl font-medium hover:bg-gray-800 transition font-sans">
                     Refresh Halaman
                 </a>

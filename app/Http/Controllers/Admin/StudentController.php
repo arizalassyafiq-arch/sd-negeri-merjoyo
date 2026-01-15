@@ -2,39 +2,42 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Student;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Classroom; // Import Model Classroom
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class StudentController extends Controller
 {
     // MENAMPILKAN DATA (READ)
     public function index(Request $request)
     {
-        $query = Student::with('guardian');
+        // Eager load guardian AND classroom to avoid N+1 problem
+        $query = Student::with(['guardian', 'classroom']);
 
+        // Filter based on classroom_id
         if ($request->has('class') && $request->class != '') {
-            $query->where('class_name', $request->class);
+            $query->where('classroom_id', $request->class);
         }
 
         $students = $query->latest()->paginate(10);
         $totalStudents = Student::count();
 
-        // Kita kirim filter kelas ke view untuk tombol navigasi
-        $classOptions = ['Kelas 1', 'Kelas 2', 'Kelas 3', 'Kelas 4', 'Kelas 5', 'Kelas 6'];
+        // Fetch classrooms from DB for the filter buttons
+        $classrooms = Classroom::orderBy('name')->get();
 
-        return view('admin.data_siswa.index', compact('students', 'totalStudents', 'classOptions'));
+        return view('admin.data_siswa.index', compact('students', 'totalStudents', 'classrooms'));
     }
 
     // FORM TAMBAH (CREATE)
     public function create()
     {
-        // Ambil data wali untuk dropdown (opsional, jika ingin menghubungkan manual)
+        $classrooms = Classroom::all();
         $guardians = User::where('role', 'wali')->where('status', 'active')->get();
 
-        return view('admin.data_siswa.create', compact('guardians'));
+        return view('admin.data_siswa.create', compact('guardians', 'classrooms'));
     }
 
     // PROSES SIMPAN (STORE)
@@ -43,9 +46,9 @@ class StudentController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'nik' => 'required|numeric|digits:16|unique:students,nik',
-            'nisn' => 'required|string|unique:students,nisn', // NISN Wajib untuk login Ortu
+            'nisn' => 'required|string|unique:students,nisn',
             'gender' => 'required|in:L,P',
-            'class_name' => 'required|string',
+            'classroom_id' => 'required|exists:classrooms,id', // Validasi ID Kelas
             'birth_place' => 'required|string',
             'birth_date' => 'required|date',
             'address' => 'required|string',
@@ -64,8 +67,9 @@ class StudentController extends Controller
     // FORM EDIT (EDIT)
     public function edit(Student $student)
     {
+        $classrooms = Classroom::all(); // Pass classrooms to edit view
         $guardians = User::where('role', 'wali')->where('status', 'active')->get();
-        return view('admin.data_siswa.edit', compact('student', 'guardians'));
+        return view('admin.data_siswa.edit', compact('student', 'guardians', 'classrooms'));
     }
 
     // PROSES UPDATE (UPDATE)
@@ -76,7 +80,7 @@ class StudentController extends Controller
             'nik' => ['required', 'numeric', 'digits:16', Rule::unique('students')->ignore($student->id)],
             'nisn' => ['required', 'string', Rule::unique('students')->ignore($student->id)],
             'gender' => 'required|in:L,P',
-            'class_name' => 'required|string',
+            'classroom_id' => 'required|exists:classrooms,id', // Update validation
             'birth_place' => 'required|string',
             'birth_date' => 'required|date',
             'address' => 'required|string',

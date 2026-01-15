@@ -11,7 +11,8 @@ class Student extends Model
         'nik',
         'name',
         'gender',
-        'class_name',
+        // 'class_name',
+        'classroom_id',
         'birth_place',
         'birth_date',
         'address',
@@ -24,7 +25,10 @@ class Student extends Model
     protected $casts = [
         'birth_date' => 'date',
     ];
-
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
     public function guardian()
     {
         return $this->belongsTo(User::class, 'guardian_id');

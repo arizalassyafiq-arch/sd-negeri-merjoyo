@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\PublicArticleController;
+use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\GuardianAcademicController;
 use App\Http\Controllers\AcademicManagementController;
 use App\Http\Controllers\Admin\UserApprovalController;
@@ -75,6 +76,8 @@ Route::prefix('admin')
         Route::resource('teachers', TeacherController::class);
         Route::resource('students', StudentController::class);
         Route::resource('artikel', ArticleController::class);
+        // Route Baru Manajemen Kelas
+        Route::resource('classrooms', ClassroomController::class);
 
         // --- AKADEMIK (HANYA GURU) ---
         Route::prefix('academic')
