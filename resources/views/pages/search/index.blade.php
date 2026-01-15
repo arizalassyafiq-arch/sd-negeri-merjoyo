@@ -10,7 +10,7 @@
 
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse">
             </div>
-            { <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
 
         </div>
 
