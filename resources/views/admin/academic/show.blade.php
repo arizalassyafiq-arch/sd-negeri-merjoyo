@@ -279,12 +279,6 @@
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white">Catatan & Diskusi</h3>
                         <p class="text-xs text-slate-500">Komunikasi dengan Wali Murid</p>
                     </div>
-                    {{-- Tombol Tambah Catatan Baru (Hanya Admin/Guru) --}}
-                    <button
-                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white transition hover:bg-blue-700 shadow-lg shadow-blue-500/30"
-                        data-modal-target="note-modal" type="button" title="Buat Catatan Baru">
-                        <span class="material-symbols-outlined text-lg">add</span>
-                    </button>
                 </div>
 
                 {{-- List Diskusi (Scrollable) --}}
