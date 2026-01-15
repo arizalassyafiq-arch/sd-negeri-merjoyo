@@ -1,22 +1,21 @@
 <x-main-layout>
     <div
-        class="relative min-h-screen flex flex-col items-center  justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans">
+        class="relative min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 overflow-hidden font-sans">
 
+        {{-- Background Effects --}}
         <div class="absolute inset-0 w-full h-full overflow-hidden z-0">
-
             <div
                 class="absolute top-0 left-0 w-full h-full bg-linear-to-br from-emerald-500 via-teal-600 to-emerald-800 dark:from-gray-900 dark:via-emerald-900 dark:to-black">
             </div>
-
             <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse">
             </div>
             <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-yellow-300/10 rounded-full blur-3xl"></div>
-
         </div>
 
         <main
             class="relative z-10 w-full max-w-7xl mt-15 md:mt-25 px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center gap-12 lg:gap-20 mb-20">
 
+            {{-- Left Content --}}
             <div class="w-full md:w-1/2 text-white space-y-8 text-center md:text-left animate-fade-in-up">
                 <div
                     class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full text-sm font-medium text-emerald-50 shadow-sm">
@@ -44,12 +43,13 @@
                     <div>
                         <h3 class="font-bold text-base mb-1">Privasi Terjamin</h3>
                         <p class="text-sm text-emerald-100/80">
-                            Data siswa dilindungi enkripsi. Pastikan NIK sesuai dengan Kartu Keluarga (KK).
+                            Data siswa hanya dapat diakses oleh Wali Murid yang akunnya telah terverifikasi.
                         </p>
                     </div>
                 </div>
             </div>
 
+            {{-- Right Content (Form) --}}
             <div class="w-full md:w-1/2 max-w-md mx-auto">
                 <div
                     class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700 relative">
@@ -67,7 +67,21 @@
                             </p>
                         </div>
 
-                        <form action="#" method="POST" class="space-y-5">
+                        {{-- Alert Error --}}
+                        @if ($errors->any())
+                            <div class="mb-6 rounded-xl border border-rose-500/20 bg-rose-500/10 p-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-icons-round text-rose-500">error</span>
+                                    <div class="text-sm text-rose-600 dark:text-rose-400">
+                                        @foreach ($errors->all() as $error)
+                                            <p>{{ $error }}</p>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('wali.academic.check') }}" method="POST" class="space-y-5">
                             @csrf
 
                             <div class="space-y-1.5">
@@ -81,7 +95,7 @@
                                             class="material-icons-round text-gray-400 group-focus-within:text-emerald-500 transition-colors">badge</span>
                                     </div>
                                     <input type="text" id="nik" name="nik" pattern="[0-9]{16}"
-                                        placeholder="16 digit angka sesuai KK..." required
+                                        placeholder="16 digit angka sesuai KK..." required value="{{ old('nik') }}"
                                         title="Mohon masukkan 16 digit NIK yang valid"
                                         class="block w-full pl-11 pr-4 py-3.5 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all outline-none text-sm shadow-sm" />
                                 </div>
@@ -89,20 +103,6 @@
                                     <span class="material-icons-round text-[14px]">info</span>
                                     Pastikan 16 digit angka benar
                                 </p>
-                            </div>
-
-                            <div
-                                class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-600/50 hover:border-emerald-200 transition-colors">
-                                <div class="relative flex items-center">
-                                    <input type="checkbox" id="human" required
-                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-300 shadow-sm checked:border-emerald-500 checked:bg-emerald-500 focus:ring-emerald-500/30 transition-all" />
-                                    <span
-                                        class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none material-icons-round text-sm font-bold">check</span>
-                                </div>
-                                <label for="human"
-                                    class="text-sm text-gray-600 dark:text-gray-300 select-none cursor-pointer font-medium">
-                                    Saya bukan robot
-                                </label>
                             </div>
 
                             <button type="submit"
@@ -130,6 +130,7 @@
 
         </main>
 
+        {{-- Wave SVG (Footer) --}}
         <div class="absolute bottom-0 w-full z-10">
             <svg class="w-full h-24 md:h-32 text-white dark:text-gray-900 fill-current" preserveAspectRatio="none"
                 viewBox="0 0 1440 320">
@@ -138,7 +139,6 @@
                 </path>
             </svg>
         </div>
-
     </div>
 
     <style>

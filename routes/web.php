@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\PublicArticleController;
+use App\Http\Controllers\GuardianAcademicController;
 use App\Http\Controllers\AcademicManagementController;
 use App\Http\Controllers\Admin\UserApprovalController;
 
@@ -138,3 +139,13 @@ Route::prefix('guru')
             Route::post('/students/{student}/notes', [AcademicManagementController::class, 'storeNote'])->name('students.notes.store');
         });
     });
+
+
+Route::middleware(['auth', 'role:wali'])->prefix('wali')->name('wali.')->group(function () {
+    // Halaman Pencarian
+    Route::get('/rapor', [GuardianAcademicController::class, 'index'])->name('academic.search');
+    // Proses Cek NIK
+    Route::post('/rapor/check', [GuardianAcademicController::class, 'check'])->name('academic.check');
+    // Halaman Detail (Hasil)
+    Route::get('/rapor/{student}', [GuardianAcademicController::class, 'show'])->name('academic.show');
+});

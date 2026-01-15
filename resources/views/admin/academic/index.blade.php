@@ -47,7 +47,7 @@
                             class="bg-slate-50/70 dark:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800">
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Nama Siswa
                             </th>
-                            <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">NIS / NIK
+                            <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">NISN / NIK
                             </th>
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Kelas</th>
                             <th class="px-6 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Gender</th>
@@ -92,7 +92,8 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col text-[11px] font-medium">
-                                        <span class="text-slate-600 dark:text-slate-300">NIS: {{ $student->nis }}</span>
+                                        <span class="text-slate-600 dark:text-slate-300">NISN:
+                                            {{ $student->nisn }}</span>
                                         <span class="text-slate-400">NIK: {{ $student->nik }}</span>
                                     </div>
                                 </td>
