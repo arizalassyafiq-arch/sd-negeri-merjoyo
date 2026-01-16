@@ -289,7 +289,7 @@
             {{-- ACTION BUTTON --}}
             <div class="flex items-center justify-end pt-6">
                 <button type="submit"
-                    class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl focus:outline-none hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-1">
+                    class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-linear-to-r from-blue-600 to-indigo-600 rounded-2xl focus:outline-none hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-1">
                     <span class="mr-2">Simpan Data Siswa</span>
                     <span
                         class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
