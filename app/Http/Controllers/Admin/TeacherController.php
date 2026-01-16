@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\Mail\NewTeacherWelcome;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class TeacherController extends Controller
 {
@@ -29,40 +32,45 @@ class TeacherController extends Controller
     // PROSES SIMPAN GURU (LOGIC UTAMA)
     public function store(Request $request)
     {
-        // 1. Validasi Input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email', // Cek unik di tabel users
-            // 'nip' => 'required|string|unique:teachers,nip', // Cek unik di tabel teachers
+            'email' => 'required|email|unique:users,email',
             'subject' => 'required|string',
-            // 'phone' => 'nullable|string',
         ]);
 
-        // 2. Gunakan DB Transaction (Agar data masuk ke 2 tabel sekaligus dengan aman)
-        DB::transaction(function () use ($request) {
+        $defaultPassword = 'guru123';
 
-            // A. Buat Akun Login di tabel 'users' (Sesuai migrasi Anda)
+        DB::transaction(function () use ($request, $defaultPassword) {
+
+            // A. Buat User
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                // Kita buatkan password default, nanti guru bisa ganti sendiri
-                'password' => Hash::make('guru123'),
-                'role' => 'guru',        // Sesuai enum Anda
-                'status' => 'active',    // Langsung aktif karena Admin yang input
-                'email_verified_at' => now(), // Opsional: anggap email sudah verifikasi
+                'password' => Hash::make($defaultPassword), // Hash untuk database
+                'role' => 'guru',
+                'status' => 'active',
+                'email_verified_at' => now(),
             ]);
 
-            // B. Buat Profil Detail di tabel 'teachers'
+            // B. Buat Profil Teacher
             Teacher::create([
-                'user_id' => $user->id, // Ambil ID dari user yang baru dibuat
-                // 'nip' => $request->nip,
+                'user_id' => $user->id,
                 'subject' => $request->subject,
-                // 'phone' => $request->phone,
             ]);
+
+            // C. Kirim Email Notifikasi
+            // Gunakan 'send' (langsung) atau 'queue' (antrian/background process)
+            // Untuk testing local, 'send' lebih mudah dilihat hasilnya langsung.
+            try {
+                Mail::to($user->email)->send(new NewTeacherWelcome($user, $defaultPassword));
+            } catch (\Exception $e) {
+                // Opsional: Log error jika email gagal, tapi jangan batalkan transaksi register
+                Log::error('Gagal kirim email welcome ke guru: ' . $e->getMessage());
+            }
         });
 
         return redirect()->route('admin.teachers.index')
-            ->with('status', 'Guru berhasil ditambahkan. Password default: guru123');
+            ->with('status', 'Guru berhasil ditambahkan & Email notifikasi telah dikirim.');
     }
 
     // FORM EDIT

@@ -6,15 +6,33 @@
         {{-- Header Section --}}
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Data Guru</h2>
-                <p class="text-slate-500 dark:text-slate-400 mt-1">Kelola data pengajar dan akun akses mereka.</p>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                    Data Guru
+                </h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">
+                    Kelola data pengajar dan akun akses mereka.
+                </p>
             </div>
-            <a href="{{ route('admin.teachers.create') }}"
-                class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5">
-                <span class="material-symbols-outlined text-[20px]">add</span>
-                Tambah Guru Baru
-            </a>
+
+            <!-- ACTION BAR -->
+            <div class="w-full md:w-auto flex justify-start md:justify-end">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md w-full">
+
+                    <!-- Search -->
+                    <input type="text" placeholder="Cari nama guru..."
+                        class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                    <!-- Button -->
+                    <a href="{{ route('admin.teachers.create') }}"
+                        class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        Tambah Guru Baru
+                    </a>
+
+                </div>
+            </div>
         </div>
+
 
         {{-- Alert Status --}}
         @if (session('status'))
@@ -25,14 +43,10 @@
             </div>
         @endif
 
+
         {{-- Content Card --}}
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-3xl border border-slate-200/60 dark:border-slate-800 overflow-hidden shadow-xl shadow-slate-900/5 backdrop-blur-sm">
-
-            {{-- Search & Filter Bar (Opsional, bisa dikembangkan) --}}
-            {{-- <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-end">
-                <input type="text" placeholder="Cari nama guru..." class="text-sm rounded-xl border-slate-200 bg-slate-50 ...">
-            </div> --}}
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
