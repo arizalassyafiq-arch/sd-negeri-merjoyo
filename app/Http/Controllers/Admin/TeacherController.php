@@ -77,7 +77,7 @@ class TeacherController extends Controller
             try {
                 Mail::to($user->email)->send(new NewTeacherWelcome($user, $defaultPassword));
             } catch (\Exception $e) {
-                \Log::error('Gagal kirim email welcome ke guru: ' . $e->getMessage());
+                Log::error('Gagal kirim email welcome ke guru: ' . $e->getMessage());
             }
         });
 
