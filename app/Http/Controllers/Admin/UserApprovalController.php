@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Student; // Pastikan Model Student diimport
 
 class UserApprovalController extends Controller
@@ -22,16 +23,27 @@ class UserApprovalController extends Controller
 
     // 2. LIST WALI AKTIF (Sudah diapprove)
     // Method ini yang menyebabkan error "undefined method active()" sebelumnya karena hilang
-    public function active()
+    public function active(Request $request)
     {
-        $wali = User::where('role', 'wali')
-            ->where('status', 'active')
-            ->with('students') // Load data siswa
-            ->latest()
-            ->paginate(10);
+        // 1. Query dasar: Role Wali & Status Active
+        $query = User::where('role', 'wali')
+            ->where('status', 'active');
 
-        // Pastikan Anda sudah membuat view: resources/views/admin/usermanage/active.blade.php
-        // Jika belum punya, bisa copy dari index.blade.php dan sesuaikan isinya
+        // 2. Logika Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // 3. Eager Load Siswa & Pagination
+        $wali = $query->with('students')
+            ->latest()
+            ->paginate(10)
+            ->withQueryString(); // Agar search tidak hilang saat klik halaman 2, 3, dst
+
         return view('admin.usermanage.active', compact('wali'));
     }
 
