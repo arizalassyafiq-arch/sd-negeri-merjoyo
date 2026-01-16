@@ -132,22 +132,53 @@
 
                                     <select name="subject"
                                         class="w-full pl-12 pr-10 py-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all shadow-sm appearance-none cursor-pointer group-hover:shadow-md">
+
                                         <option value="" disabled selected>Pilih Mata Pelajaran...</option>
-                                        <option value="Guru Kelas"
-                                            {{ old('subject') == 'Guru Kelas' ? 'selected' : '' }}>Guru Kelas (Tematik)
+
+                                        {{-- Daftar Mata Pelajaran Lengkap (Gabungan Kelas 1-6) --}}
+                                        <option value="Pendidikan Agama dan Budi Pekerti"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Pendidikan Agama dan Budi Pekerti' ? 'selected' : '' }}>
+                                            Pendidikan Agama dan Budi Pekerti
                                         </option>
-                                        <option value="Pendidikan Agama Islam"
-                                            {{ old('subject') == 'Pendidikan Agama Islam' ? 'selected' : '' }}>
-                                            Pendidikan Agama Islam</option>
-                                        <option value="PJOK" {{ old('subject') == 'PJOK' ? 'selected' : '' }}>PJOK
-                                            (Olahraga)</option>
+
+                                        <option value="Pendidikan Kewarganegaraan"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Pendidikan Kewarganegaraan' ? 'selected' : '' }}>
+                                            Pendidikan Kewarganegaraan
+                                        </option>
+
+                                        <option value="Bahasa Indonesia"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Bahasa Indonesia' ? 'selected' : '' }}>
+                                            Bahasa Indonesia
+                                        </option>
+
                                         <option value="Matematika"
-                                            {{ old('subject') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
-                                        <option value="Bahasa Inggris"
-                                            {{ old('subject') == 'Bahasa Inggris' ? 'selected' : '' }}>Bahasa Inggris
+                                            {{ old('subject', $teacher->subject ?? '') == 'Matematika' ? 'selected' : '' }}>
+                                            Matematika
                                         </option>
-                                        <option value="Seni Budaya"
-                                            {{ old('subject') == 'Seni Budaya' ? 'selected' : '' }}>Seni Budaya
+
+                                        <option value="IPAS"
+                                            {{ old('subject', $teacher->subject ?? '') == 'IPAS' ? 'selected' : '' }}>
+                                            IPAS (Ilmu Pengetahuan Alam dan Sosial)
+                                        </option>
+
+                                        <option value="PJOK"
+                                            {{ old('subject', $teacher->subject ?? '') == 'PJOK' ? 'selected' : '' }}>
+                                            PJOK (Olahraga)
+                                        </option>
+
+                                        <option value="Seni Rupa"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Seni Rupa' ? 'selected' : '' }}>
+                                            Seni Rupa
+                                        </option>
+
+                                        <option value="Bahasa Jawa"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Bahasa Jawa' ? 'selected' : '' }}>
+                                            Bahasa Jawa
+                                        </option>
+
+                                        <option value="Bahasa Inggris"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Bahasa Inggris' ? 'selected' : '' }}>
+                                            Bahasa Inggris
                                         </option>
                                     </select>
                                 </div>

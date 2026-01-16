@@ -65,7 +65,7 @@
                                                             </span>
                                                             <span
                                                                 class="text-[10px] text-indigo-500 dark:text-indigo-400 block leading-none">
-                                                                {{ $child->class_name }} | NIS: {{ $child->nis }}
+                                                                {{ $child->class_name }} | NISN: {{ $child->nisn }}
                                                             </span>
                                                         </div>
                                                     </div>

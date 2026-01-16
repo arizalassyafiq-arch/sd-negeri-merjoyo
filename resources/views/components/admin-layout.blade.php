@@ -196,17 +196,6 @@
                         class="p-2 -ml-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg lg:hidden transition-colors">
                         <span class="material-symbols-outlined">menu</span>
                     </button>
-
-                    {{-- Search Bar (Responsive Width) --}}
-                    <div class="hidden sm:flex relative group w-48 md:w-64">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span
-                                class="material-symbols-outlined text-slate-400 group-focus-within:text-admin-primary transition-colors text-xl">search</span>
-                        </div>
-                        <input
-                            class="block w-full pl-10 pr-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-admin-primary/50 transition-all"
-                            placeholder="Search..." type="text" />
-                    </div>
                 </div>
 
                 <div class="flex items-center gap-1 md:gap-2">
