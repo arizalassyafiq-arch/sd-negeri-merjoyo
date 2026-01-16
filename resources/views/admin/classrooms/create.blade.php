@@ -177,13 +177,11 @@
             search: '',
             selectedId: config.selectedId,
 
-            // Getter untuk mengambil nama guru yang sedang dipilih (untuk placeholder)
             get selectedName() {
                 const selected = this.data.find(i => i.id == this.selectedId);
                 return selected ? selected.name : null;
             },
 
-            // Filter logika pencarian
             get filteredOptions() {
                 if (this.search === '') {
                     return this.data;
@@ -193,10 +191,9 @@
                 });
             },
 
-            // Aksi saat memilih guru
             selectOption(item) {
                 this.selectedId = item.id;
-                this.search = ''; // Reset pencarian, tapi nama tetap muncul via placeholder logic
+                this.search = '';
                 this.open = false;
             },
 
