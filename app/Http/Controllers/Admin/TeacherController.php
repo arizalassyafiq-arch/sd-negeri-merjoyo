@@ -46,7 +46,7 @@ class TeacherController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($defaultPassword), // Hash untuk database
+                'password' => Hash::make($defaultPassword),
                 'role' => 'guru',
                 'status' => 'active',
                 'email_verified_at' => now(),
