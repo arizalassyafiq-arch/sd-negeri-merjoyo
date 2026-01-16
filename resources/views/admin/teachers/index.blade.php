@@ -18,15 +18,23 @@
             <div class="w-full md:w-auto flex justify-start md:justify-end">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md w-full">
 
-                    <!-- Search -->
-                    <input type="text" placeholder="Cari nama guru..."
-                        class="w-full text-sm px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <form id="searchForm" action="{{ route('admin.teachers.index') }}" method="GET" class="w-full">
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <span class="material-symbols-outlined text-[20px]">search</span>
+                            </span>
 
-                    <!-- Button -->
+                            <input type="text" name="search" id="searchInput" value="{{ request('search') }}"
+                                placeholder="Cari nama, email, atau mapel..."
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm transition-all"
+                                autocomplete="off">
+                        </div>
+                    </form>
+
                     <a href="{{ route('admin.teachers.create') }}"
                         class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 whitespace-nowrap">
                         <span class="material-symbols-outlined text-[20px]">add</span>
-                        Tambah Guru Baru
+                        Tambah Guru
                     </a>
 
                 </div>
@@ -83,21 +91,6 @@
                                         </div>
                                     </div>
                                 </td>
-                                {{-- <td class="px-6 py-4">
-                                    <div class="flex flex-col gap-1">
-                                        <div class="flex items-center gap-2">
-                                            <span
-                                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">NIP</span>
-                                            <span
-                                                class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ $teacher->nip }}</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <span
-                                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-200 dark:border-slate-700">HP</span>
-                                            <span class="text-xs text-slate-500">{{ $teacher->phone ?? '-' }}</span>
-                                        </div>
-                                    </div>
-                                </td> --}}
                                 <td class="px-6 py-4">
                                     <span
                                         class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800/30">
@@ -156,4 +149,21 @@
             @endif
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchForm = document.getElementById('searchForm');
+            let timeout = null;
+
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(timeout);
+
+                timeout = setTimeout(function() {
+                    searchForm.submit();
+                }, 500);
+            });
+        });
+    </script>
 </x-admin-layout>

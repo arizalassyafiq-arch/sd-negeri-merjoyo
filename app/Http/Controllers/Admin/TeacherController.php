@@ -16,10 +16,27 @@ use Illuminate\Support\Facades\Mail;
 class TeacherController extends Controller
 {
     // MENAMPILKAN DAFTAR GURU
-    public function index()
+    // MENAMPILKAN DAFTAR GURU
+    public function index(Request $request)
     {
-        // Ambil data guru beserta data user-nya
-        $teachers = Teacher::with('user')->latest()->paginate(10);
+        $query = Teacher::with('user');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+
+                $q->whereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                })
+
+                    ->orWhere('subject', 'like', "%{$search}%");
+            });
+        }
+
+        // 4. Pagination dengan 'withQueryString' agar parameter search tidak hilang saat pindah halaman
+        $teachers = $query->latest()->paginate(10)->withQueryString();
+
         return view('admin.teachers.index', compact('teachers'));
     }
 
