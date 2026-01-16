@@ -168,7 +168,6 @@
 
 </x-admin-layout>
 
-
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('teacherSelect', (config) => ({
