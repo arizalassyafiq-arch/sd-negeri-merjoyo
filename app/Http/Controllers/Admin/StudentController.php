@@ -12,20 +12,31 @@ use App\Http\Controllers\Controller;
 class StudentController extends Controller
 {
     // MENAMPILKAN DATA (READ)
+    // MENAMPILKAN DATA (READ)
     public function index(Request $request)
     {
-        // Eager load guardian AND classroom to avoid N+1 problem
+        // 1. Eager load
         $query = Student::with(['guardian', 'classroom']);
 
-        // Filter based on classroom_id
-        if ($request->has('class') && $request->class != '') {
+        // 2. Logika Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('nisn', 'like', "%{$search}%")
+                    ->orWhere('nik', 'like', "%{$search}%");
+            });
+        }
+
+        // 3. Filter Kelas (Tetap dipertahankan)
+        if ($request->filled('class')) {
             $query->where('classroom_id', $request->class);
         }
 
-        $students = $query->latest()->paginate(10);
-        $totalStudents = Student::count();
+        // 4. Pagination (Tambahkan withQueryString)
+        $students = $query->latest()->paginate(10)->withQueryString();
 
-        // Fetch classrooms from DB for the filter buttons
+        $totalStudents = Student::count();
         $classrooms = Classroom::orderBy('name')->get();
 
         return view('admin.data_siswa.index', compact('students', 'totalStudents', 'classrooms'));
