@@ -17,20 +17,41 @@
                     Total {{ number_format($totalStudents) }} Siswa Terdaftar
                 </p>
             </div>
+
+            {{-- SEARCH BAR (Alpine Debounce) --}}
+            <div class="w-full md:w-auto">
+                <form action="{{ route($indexRouteName) }}" method="GET" class="relative w-full sm:w-64">
+                    {{-- Pertahankan filter kelas jika ada --}}
+                    @if (request('class'))
+                        <input type="hidden" name="class" value="{{ request('class') }}">
+                    @endif
+
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <span class="material-symbols-outlined text-[20px]">search</span>
+                        </span>
+
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            @input.debounce.500ms="$el.form.submit()" placeholder="Cari Nama / NISN..."
+                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
+                            autocomplete="off">
+                    </div>
+                </form>
+            </div>
         </div>
 
-        {{-- Filter Kelas (Updated: Menggunakan Data Classroom dari DB) --}}
+        {{-- Filter Kelas --}}
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-2xl p-2 border border-slate-200/60 dark:border-slate-800 shadow-sm flex flex-wrap gap-2 w-fit">
-            {{-- Tombol Semua Kelas --}}
-            <a href="{{ route($indexRouteName) }}"
+            {{-- Tombol Semua Kelas (Reset filter kelas, pertahankan search) --}}
+            <a href="{{ route($indexRouteName, ['search' => request('search')]) }}"
                 class="px-5 py-2 rounded-xl text-xs font-bold transition-all {{ !request('class') ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' }}">
                 Semua Kelas
             </a>
 
-            {{-- Loop Kelas dari Database --}}
+            {{-- Loop Kelas --}}
             @foreach ($classrooms as $classroom)
-                <a href="{{ route($indexRouteName, ['class' => $classroom->id]) }}"
+                <a href="{{ route($indexRouteName, ['class' => $classroom->id, 'search' => request('search')]) }}"
                     class="px-5 py-2 rounded-xl text-xs font-bold transition-all {{ request('class') == $classroom->id ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' }}">
                     {{ $classroom->name }}
                 </a>
@@ -91,14 +112,12 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col text-[11px] font-medium">
-                                        {{-- Updated: Menggunakan NISN sesuai database --}}
                                         <span class="text-slate-600 dark:text-slate-300">NISN:
                                             {{ $student->nisn }}</span>
                                         <span class="text-slate-400">NIK: {{ $student->nik }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{-- Updated: Menggunakan Relasi Classroom --}}
                                     <span
                                         class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-bold text-slate-600 dark:text-slate-300">
                                         {{ $student->classroom->name ?? 'Belum ada kelas' }}
@@ -127,8 +146,8 @@
                                     class="px-6 py-12 text-center text-sm text-slate-500 dark:text-slate-400">
                                     <div class="flex flex-col items-center gap-2">
                                         <span
-                                            class="material-symbols-outlined text-4xl text-slate-300">folder_off</span>
-                                        <p>Belum ada data siswa.</p>
+                                            class="material-symbols-outlined text-4xl text-slate-300">search_off</span>
+                                        <p>Tidak ada data siswa ditemukan.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -139,7 +158,8 @@
 
             {{-- Pagination --}}
             @if (method_exists($students, 'links') && $students->hasPages())
-                <div class="px-6 py-4 border-t border-slate-100/80 dark:border-slate-800">
+                <div
+                    class="px-6 py-4 border-t border-slate-100/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
                     {{ $students->withQueryString()->links() }}
                 </div>
             @endif

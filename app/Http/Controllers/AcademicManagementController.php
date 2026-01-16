@@ -19,15 +19,22 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
-        // Load relasi classroom
         $query = Student::with('guardian', 'classroom');
 
-        // PERBAIKAN 1: Filter menggunakan classroom_id, bukan class_name
-        if ($request->has('class') && $request->class !== '') {
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('nisn', 'like', "%{$search}%")
+                    ->orWhere('nik', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('class')) {
             $query->where('classroom_id', $request->class);
         }
 
-        $students = $query->latest()->paginate(10);
+        $students = $query->latest()->paginate(10)->withQueryString();
         $totalStudents = Student::count();
         $classrooms = Classroom::orderBy('name')->get();
 
