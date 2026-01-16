@@ -53,7 +53,10 @@ class UserApprovalController extends Controller
     {
         if ($user->role !== 'wali') abort(403);
 
-        $user->update(['status' => 'active']);
+        $user->update([
+            'status' => 'active',
+            'email_verified_at' => now()
+        ]);
         return back()->with('status', 'Akun berhasil disetujui dan diaktifkan.');
     }
 

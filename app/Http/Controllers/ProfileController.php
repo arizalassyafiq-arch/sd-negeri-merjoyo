@@ -23,7 +23,6 @@ class ProfileController extends Controller
 
         // LOGIKA PEMISAH VIEW
         if ($user->role === 'admin') {
-            // Tampilan Layout Dashboard (Sidebar)
             return view('pages.profile.index', compact('user'));
         } else if ($user->role === 'guru') {
             return view('pages.profile.index', compact('user'));
@@ -93,10 +92,10 @@ class ProfileController extends Controller
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(8) // Minimal 8 karakter
-                    ->letters()      // Harus ada huruf
-                    ->mixedCase()    // Harus ada huruf besar & kecil
-                    ->numbers()      // Harus ada angka
+                Password::min(8)
+                // ->letters()      // Harus ada huruf
+                // ->mixedCase()    // Harus ada huruf besar & kecil
+                // ->numbers()      // Harus ada angka
                 // ->symbols()   // (Opsional) Jika ingin mewajibkan simbol
             ],
         ], [
