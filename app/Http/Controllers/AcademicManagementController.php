@@ -19,6 +19,7 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
+        // 1. Query Data (Sama seperti sebelumnya)
         $query = Student::with('guardian', 'classroom');
 
         if ($request->filled('search')) {
@@ -35,6 +36,14 @@ class AcademicManagementController extends Controller
         }
 
         $students = $query->latest()->paginate(10)->withQueryString();
+
+        // --- LOGIKA BARU UNTUK AJAX ---
+        // Jika request ini adalah AJAX (dari fetch javascript), kembalikan potongan HTML saja
+        if ($request->ajax()) {
+            return view('admin.academic.partials.table_rows', compact('students'))->render();
+        }
+        // ------------------------------
+
         $totalStudents = Student::count();
         $classrooms = Classroom::orderBy('name')->get();
 

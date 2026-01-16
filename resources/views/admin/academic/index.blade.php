@@ -4,10 +4,34 @@
     @php
         $role = auth()->user()->role;
         $indexRouteName = $role === 'guru' ? 'guru.academic.index' : 'admin.academic.index';
-        $detailRouteName = $role === 'guru' ? 'guru.academic.students.show' : 'admin.academic.students.show';
     @endphp
 
-    <div class="flex flex-col gap-6 font-sans">
+    {{-- 
+        x-data Logic:
+        1. search: menyimpan text inputan
+        2. performSearch(): fungsi untuk request ke server
+    --}}
+    <div class="flex flex-col gap-6 font-sans" x-data="{
+        search: '{{ request('search') }}',
+        async performSearch() {
+            // Buat URL dengan parameter search & class (jika ada)
+            let params = new URLSearchParams(window.location.search);
+            params.set('search', this.search);
+    
+            // Fetch ke server
+            // Header 'X-Requested-With': 'XMLHttpRequest' PENTING agar Controller tau ini AJAX
+            let response = await fetch('{{ route($indexRouteName) }}?' + params.toString(), {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+    
+            // Ambil HTML dari server dan pasang di tbody
+            let html = await response.text();
+            document.getElementById('students-table-body').innerHTML = html;
+    
+            // Update URL browser tanpa refresh (opsional, agar kalau direfresh search tidak hilang)
+            window.history.pushState({}, '', '?' + params.toString());
+        }
+    }">
 
         {{-- Header Section --}}
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -18,40 +42,30 @@
                 </p>
             </div>
 
-            {{-- SEARCH BAR (Alpine Debounce) --}}
+            {{-- SEARCH BAR (Live Search) --}}
             <div class="w-full md:w-auto">
-                <form action="{{ route($indexRouteName) }}" method="GET" class="relative w-full sm:w-64">
-                    {{-- Pertahankan filter kelas jika ada --}}
-                    @if (request('class'))
-                        <input type="hidden" name="class" value="{{ request('class') }}">
-                    @endif
+                <div class="relative w-full sm:w-64">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                        <span class="material-symbols-outlined text-[20px]">search</span>
+                    </span>
 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                            <span class="material-symbols-outlined text-[20px]">search</span>
-                        </span>
-
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            @input.debounce.500ms="$el.form.submit()" placeholder="Cari Nama / NISN..."
-                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
-                            autocomplete="off">
-                    </div>
-                </form>
+                    {{-- Input Alpine --}}
+                    <input type="text" x-model="search" @input.debounce.500ms="performSearch()"
+                        placeholder="Cari Nama / NISN..."
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow">
+                </div>
             </div>
         </div>
 
-        {{-- Filter Kelas --}}
+        {{-- Filter Kelas (Tetap menggunakan link biasa / refresh page agar logic sederhana) --}}
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-2xl p-2 border border-slate-200/60 dark:border-slate-800 shadow-sm flex flex-wrap gap-2 w-fit">
-            {{-- Tombol Semua Kelas (Reset filter kelas, pertahankan search) --}}
-            <a href="{{ route($indexRouteName, ['search' => request('search')]) }}"
+            <a href="{{ route($indexRouteName) }}"
                 class="px-5 py-2 rounded-xl text-xs font-bold transition-all {{ !request('class') ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' }}">
                 Semua Kelas
             </a>
-
-            {{-- Loop Kelas --}}
             @foreach ($classrooms as $classroom)
-                <a href="{{ route($indexRouteName, ['class' => $classroom->id, 'search' => request('search')]) }}"
+                <a href="{{ route($indexRouteName, ['class' => $classroom->id]) }}"
                     class="px-5 py-2 rounded-xl text-xs font-bold transition-all {{ request('class') == $classroom->id ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/70' }}">
                     {{ $classroom->name }}
                 </a>
@@ -62,7 +76,7 @@
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-3xl border border-slate-200/60 dark:border-slate-800 overflow-hidden shadow-xl shadow-slate-900/10">
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
+                <table class="w-full text-left whitespace-nowrap border-collapse">
                     <thead>
                         <tr
                             class="bg-slate-50/70 dark:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800">
@@ -78,88 +92,18 @@
                                 Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100/80 dark:divide-slate-800">
-                        @forelse ($students as $student)
-                            @php
-                                $badges = [
-                                    'active' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
-                                    'lulus' => 'bg-blue-500/15 text-blue-600 dark:text-blue-400',
-                                    'drop_out' => 'bg-rose-500/15 text-rose-600 dark:text-rose-400',
-                                    'pindah' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
-                                ];
-                                $labels = [
-                                    'active' => 'Aktif',
-                                    'lulus' => 'Lulus',
-                                    'drop_out' => 'Drop Out',
-                                    'pindah' => 'Pindah',
-                                ];
-                            @endphp
-                            <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="font-bold text-slate-900 dark:text-white text-sm">{{ $student->name }}</span>
-                                        @if ($student->guardian)
-                                            <span
-                                                class="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
-                                                <span class="material-symbols-outlined text-[12px]">link</span>
-                                                {{ $student->guardian->name }}
-                                            </span>
-                                        @else
-                                            <span class="text-[11px] text-slate-400 italic mt-0.5">Belum ada wali</span>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex flex-col text-[11px] font-medium">
-                                        <span class="text-slate-600 dark:text-slate-300">NISN:
-                                            {{ $student->nisn }}</span>
-                                        <span class="text-slate-400">NIK: {{ $student->nik }}</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                                        {{ $student->classroom->name ?? 'Belum ada kelas' }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-xs text-slate-600 dark:text-slate-300">
-                                    {{ $student->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold {{ $badges[$student->status] ?? 'bg-slate-500/15 text-slate-500' }}">
-                                        {{ $labels[$student->status] ?? ucfirst($student->status) }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <a href="{{ route($detailRouteName, $student) }}"
-                                        class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-xl text-[11px] font-bold transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5">
-                                        Masuk
-                                        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6"
-                                    class="px-6 py-12 text-center text-sm text-slate-500 dark:text-slate-400">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <span
-                                            class="material-symbols-outlined text-4xl text-slate-300">search_off</span>
-                                        <p>Tidak ada data siswa ditemukan.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
+
+                    {{-- Tambahkan ID disini untuk target replace AJAX --}}
+                    <tbody id="students-table-body" class="divide-y divide-slate-100/80 dark:divide-slate-800">
+                        {{-- Include Partial View --}}
+                        @include('admin.academic.partials.table_rows')
                     </tbody>
                 </table>
             </div>
 
-            {{-- Pagination --}}
+            {{-- Pagination (Perhatian: Link pagination ini masih akan me-refresh halaman jika diklik) --}}
             @if (method_exists($students, 'links') && $students->hasPages())
-                <div
-                    class="px-6 py-4 border-t border-slate-100/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                <div class="px-6 py-4 border-t border-slate-100/80 dark:border-slate-800">
                     {{ $students->withQueryString()->links() }}
                 </div>
             @endif
