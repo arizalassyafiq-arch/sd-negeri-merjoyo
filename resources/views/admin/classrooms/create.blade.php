@@ -55,7 +55,6 @@
                             </div>
                         </div>
 
-                        {{-- Input Wali Kelas --}}
                         {{-- Input Wali Kelas (Searchable Dropdown) --}}
                         <div class="space-y-4" x-data="teacherSelect({
                             data: {{ $teachers->map(fn($t) => ['id' => $t->id, 'name' => $t->user->name . ' (' . ($t->subject ?? '-') . ')']) }},
@@ -63,7 +62,7 @@
                         })" @click.outside="open = false">
 
                             <label
-                                class="block text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                                class=" text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
                                 <span
                                     class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-300">
                                     <span class="material-symbols-outlined text-lg">person_search</span>
