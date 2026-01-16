@@ -57,15 +57,10 @@ class TeacherController extends Controller
                 'user_id' => $user->id,
                 'subject' => $request->subject,
             ]);
-
-            // C. Kirim Email Notifikasi
-            // Gunakan 'send' (langsung) atau 'queue' (antrian/background process)
-            // Untuk testing local, 'send' lebih mudah dilihat hasilnya langsung.
             try {
                 Mail::to($user->email)->send(new NewTeacherWelcome($user, $defaultPassword));
             } catch (\Exception $e) {
-                // Opsional: Log error jika email gagal, tapi jangan batalkan transaksi register
-                Log::error('Gagal kirim email welcome ke guru: ' . $e->getMessage());
+                \Log::error('Gagal kirim email welcome ke guru: ' . $e->getMessage());
             }
         });
 

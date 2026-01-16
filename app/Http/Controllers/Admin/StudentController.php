@@ -43,12 +43,13 @@ class StudentController extends Controller
     // PROSES SIMPAN (STORE)
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Parameter 1: Rules Validasi
+        $rules = [
             'name' => 'required|string|max:255',
             'nik' => 'required|numeric|digits:16|unique:students,nik',
             'nisn' => 'required|string|unique:students,nisn',
             'gender' => 'required|in:L,P',
-            'classroom_id' => 'required|exists:classrooms,id', // Validasi ID Kelas
+            'classroom_id' => 'required|exists:classrooms,id',
             'birth_place' => 'required|string',
             'birth_date' => 'required|date',
             'address' => 'required|string',
@@ -56,7 +57,18 @@ class StudentController extends Controller
             'status' => 'required|in:active,lulus,drop_out,pindah',
             'father_name' => 'required|string|max:255',
             'mother_name' => 'required|string|max:255',
-        ]);
+        ];
+
+        // Parameter 2: Custom Messages (Pesan Error Bahasa Indonesia)
+        $messages = [
+            'nik.unique' => 'NIK ini sudah terdaftar di sistem. Mohon cek kembali.',
+            'nik.digits' => 'NIK harus berjumlah 16 digit.',
+            'nisn.unique' => 'NISN ini sudah digunakan oleh siswa lain.',
+            'name.required' => 'Nama siswa wajib diisi.',
+            'classroom_id.required' => 'Silakan pilih kelas terlebih dahulu.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
 
         Student::create($validated);
 
