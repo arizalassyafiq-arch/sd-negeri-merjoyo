@@ -92,7 +92,7 @@
                         {{ request()->routeIs($dashboardRouteName) ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                         href="{{ $dashboardRoute }}">
                         <span class="material-symbols-outlined text-[22px]">dashboard</span>
-                        <span class="text-sm font-medium">Dashboard</span>
+                        <span class="text-sm font-medium">Beranda</span>
                     </a>
 
                     @if ($role === 'admin')
@@ -103,7 +103,7 @@
                                 <div class="flex items-center gap-3">
                                     <span
                                         class="material-symbols-outlined text-[22px] group-hover:text-blue-600 transition-colors {{ request()->routeIs('admin.wali.*') ? 'text-blue-600' : '' }}">group</span>
-                                    <span class="text-sm font-medium">Manajemen Wali</span>
+                                    <span class="text-sm font-medium">Akun Wali Siswa</span>
                                 </div>
                                 <span
                                     class="material-symbols-outlined text-[18px] text-slate-400 transition-transform duration-200 cursor-pointer"
@@ -133,7 +133,7 @@
                             href="{{ route('admin.students.index') }}">
                             <span
                                 class="material-symbols-outlined text-[22px] group-hover:text-admin-primary transition-colors">school</span>
-                            <span class="text-sm font-medium">Student Directory</span>
+                            <span class="text-sm font-medium">Data Siswa</span>
                         </a>
 
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('admin.artikel.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
@@ -167,7 +167,7 @@
                         <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('guru.academic.*') ? 'bg-admin-primary/10 text-admin-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800' }} group"
                             href="{{ route('guru.academic.index') }}">
                             <span class="material-symbols-outlined text-[22px]">book_2</span>
-                            <span class="text-sm font-medium">Academic Management</span>
+                            <span class="text-sm font-medium">Hasil Belajar Siswa</span>
                         </a>
                     @endif
                 </div>

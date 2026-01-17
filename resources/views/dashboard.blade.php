@@ -47,9 +47,9 @@
                                         <span class="material-icons">school</span>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-text-primary-light dark:text-text-primary-dark">Walid
+                                        <h3 class="font-bold text-text-primary-light dark:text-white">Walid
                                             sukobakti S.Pd ., M.P</h3>
-                                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                                        <p class="text-sm text-text-secondary-light dark:text-white">
                                             Kepala Sekolah SDN Merjoyo</p>
                                     </div>
                                 </div>
@@ -61,10 +61,9 @@
                                     <span class="material-icons">star</span>
                                 </div>
                                 <div>
-                                    <p
-                                        class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-medium">
+                                    <p class="text-xs text-text-secondary-light dark:text-white font-medium">
                                         Akreditasi</p>
-                                    <p class="font-bold text-text-primary-light dark:text-text-primary-dark">B (Baik)
+                                    <p class="font-bold text-text-primary-light dark:text-white">B (Baik)
                                     </p>
                                 </div>
                             </div>
@@ -88,11 +87,11 @@
 
     <section class="relative z-20 bg-background-light dark:bg-background-dark pt-32 pb-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <h2 class="text-3xl font-bold text-text-primary-light dark:text-text-primary-dark mb-6">
+            <h2 class="text-3xl font-bold text-primary-dark dark:text-white mb-6">
                 SDN Merjoyo: Membentuk Karakter, <br /> Meraih Prestasi
             </h2>
             <p class="text-lg font-medium text-primary mb-8">Bergabunglah bersama kami!!</p>
-            <p class="text-text-secondary-light dark:text-text-secondary-dark leading-relaxed mb-12 max-w-2xl mx-auto">
+            <p class="text-text-secondary-light dark:text-white leading-relaxed mb-12 max-w-2xl mx-auto">
                 Pertama, kenali lingkungan sekolah kami yang asri dan kondusif. Mulai dari fasilitas perpustakaan
                 lengkap hingga laboratorium komputer modern.
             </p>
@@ -104,9 +103,9 @@
                         class="w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-300 mb-6 mx-auto group-hover:scale-110 transition-transform">
                         <span class="material-icons text-3xl">menu_book</span>
                     </div>
-                    <h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark mb-3">Kurikulum
+                    <h3 class="text-xl font-bold text-text-primary-light dark:text-white mb-3">Kurikulum
                         Merdeka</h3>
-                    <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm">
+                    <p class="text-text-secondary-light dark:text-white text-sm">
                         Menerapkan kurikulum terbaru yang berfokus pada pengembangan minat dan bakat siswa.
                     </p>
                 </div>
@@ -116,9 +115,9 @@
                         class="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center text-green-600 dark:text-green-300 mb-6 mx-auto group-hover:scale-110 transition-transform">
                         <span class="material-icons text-3xl">sports_soccer</span>
                     </div>
-                    <h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark mb-3">
+                    <h3 class="text-xl font-bold text-text-primary-light dark:text-white mb-3">
                         Ekstrakurikuler</h3>
-                    <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm">
+                    <p class="text-text-secondary-light dark:text-white text-sm">
                         Beragam kegiatan ekstrakurikuler untuk menyalurkan hobi dan kreativitas siswa.
                     </p>
                 </div>
@@ -128,9 +127,9 @@
                         class="w-14 h-14 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center text-purple-600 dark:text-purple-300 mb-6 mx-auto group-hover:scale-110 transition-transform">
                         <span class="material-icons text-3xl">emoji_events</span>
                     </div>
-                    <h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark mb-3">Prestasi
+                    <h3 class="text-xl font-bold text-text-primary-light dark:text-white mb-3">Prestasi
                         Sekolah</h3>
-                    <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm">
+                    <p class="text-text-secondary-light dark:text-white text-sm">
                         Mencetak siswa berprestasi di tingkat kecamatan, kota, hingga provinsi.
                     </p>
                 </div>
