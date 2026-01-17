@@ -47,8 +47,8 @@
                                         <span class="material-icons">school</span>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-text-primary-light dark:text-text-primary-dark">Rr.
-                                            Emi Nurjannah Prasetyaningsih</h3>
+                                        <h3 class="font-bold text-text-primary-light dark:text-text-primary-dark">Walid
+                                            sukobakti S.Pd ., M.P</h3>
                                         <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
                                             Kepala Sekolah SDN Merjoyo</p>
                                     </div>

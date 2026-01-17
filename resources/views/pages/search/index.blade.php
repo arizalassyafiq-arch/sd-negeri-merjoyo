@@ -131,8 +131,8 @@
         </main>
 
         {{-- Wave SVG (Footer) --}}
-        <div class="absolute bottom-0 w-full z-10">
-            <svg class="w-full h-24 md:h-32 text-white dark:text-gray-900 fill-current" preserveAspectRatio="none"
+        <div class="absolute -bottom-1 w-full z-10">
+            <svg class="w-full h-24 md:h-32 text-[#F8FAFC] dark:text-gray-900 fill-current" preserveAspectRatio="none"
                 viewBox="0 0 1440 320">
                 <path fill-opacity="1"
                     d="M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,133.3C672,128,768,160,864,165.3C960,171,1056,149,1152,133.3C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
