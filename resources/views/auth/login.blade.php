@@ -99,6 +99,10 @@
                         </div>
                     </div>
 
+                    <div class="flex justify-end hover:underline text-sm text-green-600 dark:text-green-400 mb-4">
+                        <a href="#">Lupa Password?</a>
+                    </div>
+
                     <button
                         class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-secondary hover:bg-gray-800 dark:bg-primary dark:text-gray-900 dark:hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all transform hover:-translate-y-0.5"
                         type="submit">
