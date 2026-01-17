@@ -34,7 +34,6 @@ class AuthController extends Controller
             'name'             => 'required|string|max:255',
             'email'            => 'required|email|unique:users,email',
             'password'         => 'required|min:6',
-            // Field Tambahan untuk Klaim Anak
             'child_nis'        => 'required|string|exists:students,nisn|numeric|digits:10', // Cek NISN ada di tabel students
             'child_birth_date' => 'required|date',
         ], [
@@ -86,7 +85,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $remember = $request->has('remember');
+        $remember = $request->boolean('remember');
+
+        // dd($remember);
 
         if (Auth::attempt($credentials, $remember)) {
 

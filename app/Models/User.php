@@ -24,7 +24,8 @@ class User extends Authenticatable
         'role',
         'avatar',
         'status',
-        'last_login_at', // Tambahkan ini
+        'last_login_at',
+
     ];
 
     /**

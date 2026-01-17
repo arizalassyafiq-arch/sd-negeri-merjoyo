@@ -108,12 +108,12 @@
                         type="submit">
                         Masuk Sekarang
                     </button>
+                    <div class="flex items-center gap-2 mt-3 ml-2">
+                        <input type="checkbox" name="remember" id="remember" class="rounded border-gray-300">
+                        <label for="remember" class="text-sm text-gray-600">Ingat Saya</label>
+                    </div>
                 </form>
 
-                <div class="flex items-center gap-2 mt-3 ml-2">
-                    <input type="checkbox" name="remember" id="remember" class="rounded border-gray-300">
-                    <label for="remember" class="text-sm text-gray-600">Ingat Saya</label>
-                </div>
                 <div class="mt-6 text-center">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         Belum punya akun?
