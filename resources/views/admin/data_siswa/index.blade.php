@@ -159,14 +159,23 @@
                                 </td>
                                 @if ($canManageStudents)
                                     <td class="px-6 py-5">
+                                        {{-- 
+            PERBAIKAN RESPONSIVE:
+            1. opacity-100 : Di HP tombol selalu terlihat (karena tidak ada mouse).
+            2. md:opacity-0 : Di Laptop (layar medium ke atas), tombol sembunyi dulu.
+            3. md:group-hover:opacity-100 : Di Laptop, tombol baru muncul saat baris disorot mouse.
+        --}}
                                         <div
-                                            class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+
+                                            {{-- Tombol Edit --}}
                                             <a href="{{ route('admin.students.edit', $student->id) }}"
                                                 class="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
                                                 title="Edit Siswa">
                                                 <span class="material-symbols-outlined text-[20px]">edit_square</span>
                                             </a>
 
+                                            {{-- Tombol Delete --}}
                                             <form method="POST"
                                                 action="{{ route('admin.students.destroy', $student) }}"
                                                 onsubmit="return confirm('Hapus data siswa ini? Data tidak dapat dikembalikan.');">

@@ -23,7 +23,7 @@
             <div
                 class="bg-white dark:bg-gray-800 rounded-2xl shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm">
+                    <table class="min-w-full text-sm whitespace-nowrap">
                         <thead class="bg-gray-50 dark:bg-gray-700/50">
                             <tr>
                                 <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">Nama Wali

@@ -4,13 +4,14 @@
     <div class="flex flex-col gap-6">
 
         {{-- Header Section --}}
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between ">
             <div>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Daftar Kelas</h2>
+                <h2 class="md:text-3xl text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Daftar Kelas
+                </h2>
                 <p class="text-slate-500 dark:text-slate-400 mt-1">Kelola data kelas dan wali kelas.</p>
             </div>
             <a href="{{ route('admin.classrooms.create') }}"
-                class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30">
+                class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-2 py-2 md:px-5 md:py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30">
                 <span class="material-symbols-outlined text-[20px]">add</span>
                 Buat Kelas Baru
             </a>
@@ -28,7 +29,7 @@
         {{-- Table Section --}}
         <div
             class="bg-white/70 dark:bg-slate-900/60 rounded-3xl border border-slate-200/60 dark:border-slate-800 overflow-hidden shadow-xl shadow-slate-900/10">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto whitespace-nowrap">
                 <table class="w-full text-left">
                     <thead>
                         <tr

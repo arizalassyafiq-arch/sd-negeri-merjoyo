@@ -26,7 +26,7 @@
 
             <div
                 class="bg-white dark:bg-gray-800 rounded-2xl shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto whitespace-nowrap">
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300">
                             <tr>

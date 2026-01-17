@@ -296,7 +296,7 @@
                 </div>
 
                 {{-- List Diskusi (Scrollable) --}}
-                <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-[600px]">
+                <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-150">
                     @forelse ($notes as $note)
                         <div class="flex flex-col gap-3" x-data="{ openReply: false }">
 
@@ -377,13 +377,7 @@
                     @endforelse
                 </div>
 
-                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 shrink-0">
-                    <button
-                        class="w-full rounded-xl border border-slate-200 bg-white py-2.5 text-[10px] font-bold uppercase text-slate-500 transition hover:bg-slate-50 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
-                        type="button">
-                        Lihat Arsip Lengkap
-                    </button>
-                </div>
+
             </div>
         </div>
     </div>

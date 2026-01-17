@@ -57,7 +57,7 @@
             class="bg-white/70 dark:bg-slate-900/60 rounded-3xl border border-slate-200/60 dark:border-slate-800 overflow-hidden shadow-xl shadow-slate-900/5 backdrop-blur-sm">
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse whitespace-nowrap">
                     <thead>
                         <tr
                             class="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-700">
@@ -98,8 +98,14 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
+                                    {{-- 
+        PERUBAHAN LOGIKA CSS:
+        1. Default (HP): opacity-100 (Selalu terlihat)
+        2. Layar md ke atas (Laptop): md:opacity-0 (Sembunyi) dan md:group-hover:opacity-100 (Muncul saat hover)
+    --}}
                                     <div
-                                        class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        class="flex items-center justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
+
                                         <a href="{{ route('admin.teachers.edit', $teacher) }}"
                                             class="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
                                             title="Edit Data">

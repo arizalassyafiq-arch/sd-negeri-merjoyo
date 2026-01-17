@@ -117,13 +117,13 @@
                             </button>
                         </form>
 
-                        <div class="mt-8 text-center">
+                        {{-- <div class="mt-8 text-center">
                             <a href="#"
                                 class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors">
                                 <span>Lupa NIK? Hubungi Tata Usaha</span>
                                 <span class="material-icons-round text-sm">arrow_forward</span>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

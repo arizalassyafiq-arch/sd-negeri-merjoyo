@@ -347,7 +347,7 @@
                         </div>
 
                         {{-- Container Scrollable --}}
-                        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-[600px]">
+                        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 max-h-150">
                             @forelse ($notes as $note)
                                 {{-- Item Diskusi (Satu Topik) --}}
                                 <div class="flex flex-col gap-3" x-data="{ openReply: false }">
