@@ -100,7 +100,7 @@
                     </div>
 
                     <div class="flex justify-end hover:underline text-sm text-green-600 dark:text-green-400 mb-4">
-                        <a href="#">Lupa Password?</a>
+                        <a href="{{ route('password.request') }}">Lupa Password?</a>
                     </div>
 
                     <button

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ClassroomController;
 use App\Http\Controllers\GuardianAcademicController;
 use App\Http\Controllers\AcademicManagementController;
 use App\Http\Controllers\Admin\UserApprovalController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,8 +63,6 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 | 4. ADMIN & SUPER ADMIN ROUTES
 |--------------------------------------------------------------------------
-| URL: localhost:8000/admin/....
-| Middleware: Mengecek apakah user adalah 'admin' ATAU 'super_admin'
 */
 Route::prefix('admin')
     ->name('admin.')
@@ -82,7 +81,7 @@ Route::prefix('admin')
         // --- AKADEMIK (HANYA GURU) ---
         Route::prefix('academic')
             ->name('academic.')
-            ->middleware('checkRole:guru') // ⬅️ KUNCI UTAMA
+            ->middleware('checkRole:guru')
             ->group(function () {
 
                 Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
@@ -130,9 +129,6 @@ Route::prefix('guru')
 
         Route::resource('artikel', ArticleController::class);
 
-        // --- AKADEMIK GURU ---
-        // Kita tulis ulang disini agar jelas. 
-        // URL: /guru/academic/...
         Route::prefix('academic')->name('academic.')->group(function () {
             Route::get('/', [AcademicManagementController::class, 'index'])->name('index');
 
@@ -158,3 +154,29 @@ Route::middleware(['auth', 'role:wali'])->prefix('wali')->name('wali.')->group(f
 });
 Route::post('/rapor/reply/{noteId}', [GuardianAcademicController::class, 'storeReply'])
     ->name('wali.academic.reply.store');
+
+
+// Forgot Password Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister']);
+    Route::post('/register', [AuthController::class, 'register']);
+
+    // --- TAMBAHAN FITUR LUPA PASSWORD ---
+    // 1. Form isi email
+    Route::get('/forgot-password', [PasswordResetController::class, 'create'])
+        ->name('password.request');
+
+    // 2. Proses kirim link ke email
+    Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+        ->name('password.email');
+
+    // 3. Form reset password (setelah klik link di email)
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])
+        ->name('password.reset');
+
+    // 4. Proses update password baru di database
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])
+        ->name('password.update');
+});

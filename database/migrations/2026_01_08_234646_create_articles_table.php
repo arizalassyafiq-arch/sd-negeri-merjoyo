@@ -16,14 +16,14 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->string('image_path')->nullable();
             $table->timestamp('published_at')->nullable();
-            
+
             // Foreign Key ke Users (Author)
             $table->foreignId('author_id')
-                  ->constrained('users')
-                  ->onDelete('cascade'); // Jika user dihapus, artikel ikut terhapus
+                ->constrained('users')
+                ->onDelete('cascade'); // Jika user dihapus, artikel ikut terhapus
 
             $table->timestamps();
-            
+
             // Index
             $table->index('published_at');
         });
