@@ -60,8 +60,6 @@ class AcademicManagementController extends Controller
         $user = Auth::user();
         $isGuru = $user && $user->role === 'guru';
 
-        // Ambil nama kelas dari relasi classroom
-        // Jika siswa belum masuk kelas, beri nilai default string kosong
         $className = $student->classroom->name ?? '';
 
         // PERBAIKAN 2: Menggunakan variable $className dari relasi

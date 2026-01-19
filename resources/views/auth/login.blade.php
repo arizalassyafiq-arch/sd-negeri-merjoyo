@@ -85,17 +85,31 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                            for="password">Kata Sandi</label>
+                    {{-- Ganti blok <div> Password Anda dengan ini --}}
+                    <div x-data="{ show: false }"> {{-- 1. Inisialisasi State Alpine --}}
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" for="password">
+                            Kata Sandi
+                        </label>
                         <div class="relative">
+                            {{-- Ikon Gembok (Kiri) --}}
                             <span
                                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                                 <span class="material-icons-round text-lg">lock</span>
                             </span>
+
                             <input
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
-                                id="password" placeholder="••••••••" type="password" name="password" />
+                                class="block w-full pl-10 pr-10 py-3 border border-gray-200 dark:border-gray-600 rounded-xl leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out sm:text-sm shadow-sm"
+                                id="password" placeholder="*******" :type="show ? 'text' : 'password'"
+                                name="password" />
+
+                            <button type="button" @click="show = !show"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors focus:outline-none">
+
+                                <span x-show="!show" class="material-icons-round text-lg">visibility</span>
+
+                                <span x-show="show" style="display: none;"
+                                    class="material-icons-round text-lg">visibility_off</span>
+                            </button>
                         </div>
                     </div>
 
