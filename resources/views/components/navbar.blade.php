@@ -170,7 +170,7 @@ if (isDark) document.documentElement.classList.add('dark');" class="fixed w-full
                     @guest
                         <a href="{{ route('login') }}"
                             class="block w-full text-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 py-3 rounded-xl font-bold shadow-md">
-                            Login Siswa / Wali
+                            Login
                         </a>
                     @endguest
 
