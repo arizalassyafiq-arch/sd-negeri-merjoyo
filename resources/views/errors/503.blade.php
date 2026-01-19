@@ -36,7 +36,6 @@
             <br>Silakan kembali lagi nanti.
         </p>
 
-        {{-- Menampilkan Pesan Khusus dari Command (Opsional) --}}
         @if ($exception->getMessage())
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-6">
                 <p class="text-yellow-800 text-sm font-semibold">
