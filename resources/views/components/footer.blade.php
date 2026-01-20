@@ -22,18 +22,17 @@
                     SDN Merjoyo
                 </div>
                 <p class="text-sm opacity-80 text-justify">
-                    Woromarto, Kec. <br>
-                    Purwoasri, Kabupaten <br>
-                    Kediri, Jawa Timur 64154
+                    Desa Merjoyo, <br>
+                    Kecamatan Purwoasri, <br>
+                    Kabupaten Kediri, 64154<br>
                 </p>
             </div>
             <div>
                 <h4 class="font-bold text-lg mb-4">Navigasi</h4>
                 <ul class="space-y-2 text-sm opacity-90">
-                    <li><a class="hover:underline" href="#">Beranda</a></li>
-                    <li><a class="hover:underline" href="#">Artikel</a></li>
-                    <li><a class="hover:underline" href="#">Cari Siswa</a></li>
-                    <li><a class="hover:underline" href="#">Diskusi</a></li>
+                    <li><a class="hover:underline" href="/">Beranda</a></li>
+                    <li><a class="hover:underline" href="/artikel">Artikel</a></li>
+                    <li><a class="hover:underline" href="/search">Cari Siswa</a></li>
                 </ul>
             </div>
             <div>
@@ -45,8 +44,8 @@
             <div>
                 <h4 class="font-bold text-lg mb-4">Hubungi Kami</h4>
                 <ul class="space-y-2 text-sm opacity-90">
-                    <li class="flex items-center gap-2"><span class="material-icons text-sm">phone</span> (0341)
-                        555-6789</li>
+                    <li class="flex items-center gap-2"><span class="material-icons text-sm">phone</span> (+62)
+                        852-3588-3616</li>
                     <li class="flex items-center gap-2"><span class="material-icons text-sm">email</span>
                         sdnmerjoyo@gmail.com</li>
                     <div class="flex gap-4 mt-4">

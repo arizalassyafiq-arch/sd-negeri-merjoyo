@@ -47,8 +47,8 @@
                                         <span class="material-icons">school</span>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-text-primary-light dark:text-white">Walid
-                                            sukobakti S.Pd ., M.P</h3>
+                                        <h3 class="font-bold text-text-primary-light dark:text-white">WALID SUKO BAKTI,
+                                            S.Pd., M.Pd.</h3>
                                         <p class="text-sm text-text-secondary-light dark:text-white">
                                             Kepala Sekolah SDN Merjoyo</p>
                                     </div>
