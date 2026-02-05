@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Mail;
 class TeacherController extends Controller
 {
     // MENAMPILKAN DAFTAR GURU
-    // MENAMPILKAN DAFTAR GURU
     public function index(Request $request)
     {
         $query = Teacher::with('user');
@@ -51,7 +50,7 @@ class TeacherController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:rfc,dns|unique:users,email',
             'subject' => 'required|string',
         ]);
 
@@ -96,9 +95,11 @@ class TeacherController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('users')->ignore($teacher->user_id)],
+            // 'email' => ['required', 'email', Rule::unique('users')->ignore($teacher->user_id)],
             // 'nip' => ['required', Rule::unique('teachers')->ignore($teacher->id)],
-            'subject' => 'required',
+            'email' => 'required|email:rfc,dns|unique:users,email',
+
+            'subject' => 'required|string',
         ]);
 
         DB::transaction(function () use ($request, $teacher) {

@@ -180,6 +180,16 @@
                                             {{ old('subject', $teacher->subject ?? '') == 'Bahasa Inggris' ? 'selected' : '' }}>
                                             Bahasa Inggris
                                         </option>
+
+                                        <option value="Guru Kelas"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Guru Kelas' ? 'selected' : '' }}>
+                                            Guru Kelas
+                                        </option>
+
+                                        <option value="Tenaga OPS"
+                                            {{ old('subject', $teacher->subject ?? '') == 'Tenaga OPS' ? 'selected' : '' }}>
+                                            Tenaga OPS
+                                        </option>
                                     </select>
                                 </div>
                                 @error('subject')
